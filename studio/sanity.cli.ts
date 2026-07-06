@@ -5,6 +5,7 @@ export default defineCliConfig({
     projectId: 'zsdw057t',
     dataset: 'production',
   },
+  studioHost: 'ab-aluminum',
   /**
    * Enable auto-updates for studios.
    * Learn more at https://www.sanity.io/docs/cli#auto-updates
