@@ -1,0 +1,94 @@
+---
+import Icon from './Icon.astro';
+import type { Lang } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+
+const stats: {
+  icon: string;
+  count: number;
+  prefix?: string;
+  suffix?: string;
+  label: { en: string; es: string };
+}[] = [
+  { icon: 'award', count: 15, suffix: '+', label: { en: 'Years of Experience', es: 'Años de Experiencia' } },
+  { icon: 'home', count: 500, suffix: '+', label: { en: 'Projects Completed', es: 'Proyectos Completados' } },
+  { icon: 'map-pin', count: 3, suffix: '', label: { en: 'Counties Served', es: 'Condados Atendidos' } },
+  { icon: 'shield-check', count: 100, suffix: '%', label: { en: 'Licensed & Insured', es: 'Licencia y Seguro' } },
+];
+---
+<section class="stats">
+  <div class="container stats__grid">
+    {
+      stats.map((s, i) => (
+        <div class="stat" data-reveal style={`--reveal-delay:${i * 90}ms`}>
+          <Icon name={s.icon} size={28} class="stat__icon" />
+          <div class="stat__num">
+            <span data-count={s.count} data-count-suffix={s.suffix}>0{s.suffix}</span>
+          </div>
+          <div class="stat__label">{s.label[lang]}</div>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .stats {
+    background: linear-gradient(120deg, var(--blue), var(--blue-dark));
+    color: #fff;
+    padding-block: clamp(2.25rem, 5vw, 3.25rem);
+  }
+  .stats__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(1rem, 3vw, 2rem);
+  }
+  .stat {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    position: relative;
+  }
+  .stat:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: calc(-1 * clamp(0.5rem, 1.5vw, 1rem));
+    top: 12%;
+    height: 76%;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.18);
+  }
+  .stat__icon {
+    color: var(--peach-2);
+    margin-bottom: 0.15rem;
+  }
+  .stat__num {
+    font-size: clamp(2rem, 5vw, 2.85rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .stat__label {
+    font-size: 0.9375rem;
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 600;
+  }
+  @media (max-width: 640px) {
+    .stats__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.75rem 1rem;
+    }
+    .stat:nth-child(2)::after {
+      display: none;
+    }
+    .stat::after {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,79 @@
+:root {
+  /* Brand palette */
+  --red: #ec3c3d;
+  --red-dark: #cf2c2d;
+  --red-ink: #c62828; /* accessible red for small text on light backgrounds (WCAG AA) */
+  --blue: #001994;
+  --blue-dark: #00136f;
+  --charcoal: #303030;
+  --white: #ffffff;
+  --light-gray: #f8f8f8;
+  --peach: #ffe4dd;
+  --peach-2: #ffd2cd; /* soft peach accent for eyebrow text / icons on dark or photo backgrounds */
+  --border: #e4e4e4;
+  --muted: #6a6566; /* darkened from #7d797a → 5.7:1 on white (WCAG AA for secondary text) */
+  --dark-bg: #1c1c1f;
+  --dark-bg-2: #141416;
+  --on-dark: #cfcfd4; /* primary text / links on dark surfaces (footer) */
+  --on-dark-muted: #aeaeb6; /* secondary / muted text on dark surfaces */
+  --success: #1c7a3f; /* success state text / icon */
+  --success-bg: #e7f6ec; /* success message background */
+
+  /* Semantic */
+  --text: var(--charcoal);
+  --text-muted: var(--muted);
+  --bg: var(--white);
+  --bg-alt: var(--light-gray);
+  --accent: var(--red);
+
+  /* Type */
+  --font: 'Lato', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  --h1: clamp(2.25rem, 5vw, 3.75rem); /* ~36–60px */
+  --h2: clamp(1.75rem, 3.5vw, 2.1875rem); /* ~28–35px */
+  --h3: 1.25rem; /* 20px */
+  --body: 1rem; /* 16px */
+
+  /* Spacing / layout */
+  --container: 1240px;
+  --container-narrow: 760px;
+  --gutter: clamp(1rem, 4vw, 2rem);
+  --section-y: clamp(2.5rem, 4vw, 4rem);
+  --radius: 5px;
+  --radius-lg: 12px;
+  --radius-card: 14px;
+  --radius-xl: 16px;
+
+  /* Effects */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow: 0 10px 30px rgba(16, 18, 42, 0.08);
+  --shadow-lg: 0 24px 60px rgba(16, 18, 42, 0.16);
+  --shadow-up: 0 -10px 34px rgba(16, 18, 42, 0.14); /* upward elevation for bottom-fixed bars / sheets */
+  --shadow-glass: 0 24px 60px rgba(0, 0, 0, 0.22);
+  --ring: 0 0 0 3px rgba(236, 60, 61, 0.35);
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  /* Glass / overlay treatments */
+  --glass-bg: rgba(255, 255, 255, 0.86);
+  --glass-bg-dark: rgba(20, 20, 22, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.55);
+  --glass-blur: 16px;
+  --scrim: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.82) 0%,
+    rgba(0, 0, 0, 0.35) 45%,
+    rgba(0, 0, 0, 0) 78%
+  );
+  --hero-scrim: linear-gradient(
+    100deg,
+    rgba(8, 8, 20, 0.86) 0%,
+    rgba(8, 8, 20, 0.62) 42%,
+    rgba(8, 8, 20, 0.3) 100%
+  );
+
+  /* Chrome */
+  --header-h: 76px;
+  --header-h-mobile: 64px;
+  --z-header: 100;
+  --z-drawer: 200;
+  --z-bottombar: 150;
+}

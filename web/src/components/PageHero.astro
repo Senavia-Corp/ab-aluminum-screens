@@ -1,0 +1,184 @@
+---
+import { type Lang } from '../lib/i18n';
+import TrustBadges from './TrustBadges.astro';
+import Icon from './Icon.astro';
+
+interface Cta {
+  label: string;
+  href: string;
+  variant?: 'primary' | 'secondary' | 'ghost';
+}
+interface Props {
+  lang: Lang;
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  image?: string; // public path
+  tag?: string;
+  ctas?: Cta[];
+  align?: 'left' | 'center';
+  badges?: boolean;
+}
+const { lang, eyebrow, title, subtitle, image, tag, ctas = [], align = 'left', badges = false } =
+  Astro.props;
+---
+
+<section class:list={['hero', { 'hero--center': align === 'center', 'hero--bg': !!image }]}>
+  {image && <img class="hero__bg" src={image} alt="" loading="eager" fetchpriority="high" />}
+  <div class="container hero__inner">
+    {tag && <span class="hero__tag">{tag}</span>}
+    {eyebrow && <span class="eyebrow eyebrow--line hero__eyebrow">{eyebrow}</span>}
+    <h1>{title}</h1>
+    {subtitle && <p class="hero__sub">{subtitle}</p>}
+    {
+      ctas.length > 0 && (
+        <div class="hero__ctas">
+          {ctas.map((c, i) => (
+            <a class:list={['btn', `btn--${c.variant || (i === 0 ? 'primary' : 'ghost')}`, 'btn--lg', { 'hero__ghost': (c.variant || (i === 0 ? 'primary' : 'ghost')) === 'ghost' && !!image }]} href={c.href}>
+              {c.label}
+              {i === 0 && <Icon name="arrow-right" size={18} class="btn__i" />}
+            </a>
+          ))}
+        </div>
+      )
+    }
+    {
+      badges && image && (
+        <div class="hero__badges">
+          <TrustBadges lang={lang} variant="hero" reveal={false} />
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    padding-block: clamp(2.75rem, 7vw, 5rem);
+    background: var(--light-gray);
+    overflow: hidden;
+  }
+  /* Subtle brand tint on the plain (no-image) hero */
+  .hero:not(.hero--bg)::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(120% 140% at 100% 0%, rgba(0, 25, 148, 0.06), transparent 55%),
+      radial-gradient(100% 120% at 0% 100%, rgba(236, 60, 61, 0.06), transparent 55%);
+    z-index: 0;
+  }
+  .hero--bg {
+    /* brand blue→red overlay shared by the default + centered scrims */
+    --hero-grad: linear-gradient(
+      118deg,
+      rgba(0, 16, 78, 0.9) 0%,
+      rgba(0, 25, 148, 0.8) 45%,
+      rgba(160, 35, 50, 0.68) 82%,
+      rgba(236, 60, 61, 0.6) 100%
+    );
+    color: #fff;
+    background: var(--charcoal);
+    min-height: clamp(340px, 46vh, 460px);
+    display: flex;
+    align-items: center;
+  }
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+  .hero--bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(110% 90% at 85% 12%, rgba(255, 255, 255, 0.12), transparent 55%),
+      var(--hero-grad);
+    z-index: 1;
+  }
+  .hero--bg.hero--center::after {
+    background:
+      radial-gradient(120% 100% at 50% 0%, rgba(255, 255, 255, 0.1), transparent 55%),
+      var(--hero-grad);
+  }
+  .hero__inner {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+  }
+  .hero--center .hero__inner {
+    margin-inline: auto;
+    text-align: center;
+  }
+  .hero--center .eyebrow--line {
+    justify-content: center;
+  }
+  .hero--bg h1 {
+    color: #fff;
+    text-shadow: 0 2px 22px rgba(0, 0, 0, 0.28);
+  }
+  .hero__tag {
+    display: inline-block;
+    background: var(--red);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.8125rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    margin-bottom: 1rem;
+  }
+  .hero__eyebrow {
+    margin-bottom: 0.5rem;
+  }
+  .hero--bg .hero__eyebrow {
+    color: var(--peach-2);
+  }
+  .hero--bg .hero__eyebrow::before {
+    background: var(--peach-2);
+  }
+  .hero__sub {
+    font-size: 1.125rem;
+    line-height: 1.65;
+    margin-top: 1rem;
+    color: inherit;
+    opacity: 0.95;
+  }
+  .hero--bg .hero__sub {
+    color: rgba(255, 255, 255, 0.92);
+    opacity: 1;
+  }
+  .hero__ctas {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+  .hero--center .hero__ctas {
+    justify-content: center;
+  }
+  .hero__ghost {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.6);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+  .hero__ghost:hover {
+    background: #fff;
+    color: var(--charcoal);
+    border-color: #fff;
+  }
+  /* Wrapper div (PageHero-scoped) owns the spacing — putting the margin on the TrustBadges <ul>
+     directly fails: the child's own scoped `.badges{margin:0}` outranks an unscoped selector. */
+  .hero__badges {
+    margin-top: 2.25rem;
+  }
+  /* Centre the badge pills on centered heroes (the child <ul> is flex-start by default). */
+  .hero--center :global(.badges) {
+    justify-content: center;
+  }
+</style>

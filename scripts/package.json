@@ -1,0 +1,16 @@
+{
+  "name": "ab-aluminum-import",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "import": "node import.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.40.1",
+    "@portabletext/block-tools": "^1",
+    "@sanity/client": "^6",
+    "@sanity/schema": "^3",
+    "jsdom": "^24"
+  }
+}

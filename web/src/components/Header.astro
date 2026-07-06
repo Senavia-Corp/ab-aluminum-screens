@@ -1,0 +1,741 @@
+---
+import { useT, localizedHref, barePath, type Lang } from '../lib/i18n';
+import { SERVICES, PHONE } from '../lib/nav';
+import LanguageToggle from './LanguageToggle.astro';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+const bare = barePath(Astro.url.pathname);
+const h = (p: string) => localizedHref(p, lang);
+const isActive = (p: string) => bare === p || (p !== '/' && bare.startsWith(p + '/'));
+const phone = PHONE[lang];
+
+const ourWork = [
+  { href: h('/our-work'), label: t('nav.gallery') },
+  { href: h('/project-videos'), label: t('nav.projectVideos') },
+];
+const about = [
+  { href: h('/about-us'), label: t('nav.aboutUs') },
+  { href: h('/service-areas'), label: t('nav.serviceAreas') },
+  { href: h('/reviews'), label: t('nav.reviews') },
+];
+---
+
+<header class="hdr" id="site-header" data-shrunk="false">
+  <div class="hdr__bar container">
+    <a class="hdr__logo" href={h('/')} aria-label="AB Aluminum & Screens — Home">
+      <img src="/images/Logo-Final.svg" alt="AB Aluminum & Screens" width="170" height="44" />
+    </a>
+
+    <!-- Desktop nav -->
+    <nav class="hdr__nav" aria-label="Primary">
+      <ul class="nav-list">
+        <li class="has-mega">
+          <button class="nav-link" aria-expanded="false" aria-haspopup="true" data-dd="services">
+            {t('nav.services')} <span class="caret" aria-hidden="true"></span>
+          </button>
+          <div class="mega" data-dd-panel="services" role="menu">
+            <div class="mega__grid">
+              {
+                SERVICES.map((s) => (
+                  <a class="mega__card" href={h('/' + s.route)} role="menuitem">
+                    <img class="mega__thumb" src={s.thumb} alt="" width="80" height="60" loading="lazy" />
+                    <span class="mega__body">
+                      <span class="mega__title">{s.label[lang]}</span>
+                      <span class="mega__blurb">{s.blurb[lang]}</span>
+                    </span>
+                  </a>
+                ))
+              }
+            </div>
+          </div>
+        </li>
+        <li><a class="nav-link" href={h('/project-estimator')} aria-current={isActive('/project-estimator') ? 'page' : undefined}>{t('nav.projectEstimator')}</a></li>
+        <li class="has-dd">
+          <button class="nav-link" aria-expanded="false" aria-haspopup="true" data-dd="work">
+            {t('nav.ourWork')} <span class="caret" aria-hidden="true"></span>
+          </button>
+          <ul class="dd" data-dd-panel="work" role="menu">
+            {ourWork.map((i) => <li role="none"><a role="menuitem" href={i.href}>{i.label}</a></li>)}
+          </ul>
+        </li>
+        <li><a class="nav-link" href={h('/financing')} aria-current={isActive('/financing') ? 'page' : undefined}>{t('nav.financing')}</a></li>
+        <li class="has-dd">
+          <button class="nav-link" aria-expanded="false" aria-haspopup="true" data-dd="about">
+            {t('nav.about')} <span class="caret" aria-hidden="true"></span>
+          </button>
+          <ul class="dd" data-dd-panel="about" role="menu">
+            {about.map((i) => <li role="none"><a role="menuitem" href={i.href}>{i.label}</a></li>)}
+          </ul>
+        </li>
+        <li><a class="nav-link" href={h('/blog')} aria-current={isActive('/blog') ? 'page' : undefined}>{t('nav.blog')}</a></li>
+      </ul>
+    </nav>
+
+    <!-- Right cluster -->
+    <div class="hdr__right">
+      <LanguageToggle lang={lang} />
+      <a class="hdr__call" href={`tel:${phone.tel}`} aria-label={`${t('cta.callUs')} ${phone.display}`}>
+        <span class="hdr__call__ic"><Icon name="phone" size={18} /></span>
+        <span class="hdr__call__txt">
+          <small>{t('cta.callUs')}</small>
+          <strong>{phone.display}</strong>
+        </span>
+      </a>
+      <a class="btn btn--primary hdr__cta" href={h('/contact-us')}>{t('cta.requestEstimate')}</a>
+    </div>
+
+    <!-- Mobile controls -->
+    <div class="hdr__mobile">
+      <a class="icon-btn" href={`tel:${phone.tel}`} aria-label={`Call ${phone.display}`}>
+        <img src="/images/Phone.svg" alt="" width="22" height="22" aria-hidden="true" />
+      </a>
+      <button class="icon-btn burger" id="burger" aria-expanded="false" aria-controls="drawer" aria-label={t('nav.menu')}>
+        <Icon name="menu" size={26} />
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Backdrop behind open desktop dropdowns (dims the page so the menu reads as a clear layer) -->
+<div class="nav-scrim" aria-hidden="true"></div>
+
+<!-- Mobile drawer -->
+<div class="drawer" id="drawer" hidden>
+  <div class="drawer__backdrop" data-close></div>
+  <div class="drawer__panel" role="dialog" aria-modal="true" aria-label={t('nav.menu')}>
+    <div class="drawer__top">
+      <a class="drawer__logo" href={h('/')} data-close aria-label="AB Aluminum & Screens — Home">
+        <img src="/images/Logo-Final.svg" alt="AB Aluminum & Screens" width="150" height="38" />
+      </a>
+      <button class="icon-btn" data-close aria-label={t('nav.close')}>
+        <Icon name="x" size={24} />
+      </button>
+    </div>
+    <LanguageToggle lang={lang} compact={true} />
+    <nav class="drawer__nav" aria-label="Mobile">
+      <details class="acc">
+        <summary>{t('nav.services')}</summary>
+        <div class="acc__body">
+          {SERVICES.map((s) => <a href={h('/' + s.route)}>{s.label[lang]}</a>)}
+        </div>
+      </details>
+      <a class="drawer__link" href={h('/project-estimator')}>{t('nav.projectEstimator')}</a>
+      <details class="acc">
+        <summary>{t('nav.ourWork')}</summary>
+        <div class="acc__body">
+          {ourWork.map((i) => <a href={i.href}>{i.label}</a>)}
+        </div>
+      </details>
+      <a class="drawer__link" href={h('/financing')}>{t('nav.financing')}</a>
+      <details class="acc">
+        <summary>{t('nav.about')}</summary>
+        <div class="acc__body">
+          {about.map((i) => <a href={i.href}>{i.label}</a>)}
+        </div>
+      </details>
+      <a class="drawer__link" href={h('/blog')}>{t('nav.blog')}</a>
+    </nav>
+    <a class="btn btn--primary btn--block drawer__cta" href={h('/contact-us')}>
+      {t('cta.requestEstimate')}
+      <Icon name="arrow-right" size={18} class="btn__i" />
+    </a>
+    <div class="drawer__calls">
+      <span class="drawer__calls-title">
+        <Icon name="phone" size={16} />
+        {t('cta.callUs')}
+      </span>
+      <a class="drawer__call" href={`tel:${PHONE.en.tel}`}>
+        <span class="drawer__call-lang">{t('common.phoneEnLabel')}</span>
+        <span class="drawer__call-num">{PHONE.en.display}</span>
+      </a>
+      <a class="drawer__call" href={`tel:${PHONE.es.tel}`}>
+        <span class="drawer__call-lang">{t('common.phoneEsLabel')}</span>
+        <span class="drawer__call-num">{PHONE.es.display}</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Mobile sticky bottom bar -->
+<div class="bottombar">
+  <a class="bottombar__btn" href={`tel:${phone.tel}`}>
+    <img src="/images/Phone.svg" alt="" width="18" height="18" aria-hidden="true" />
+    {t('cta.call')}
+  </a>
+  <a class="bottombar__btn bottombar__btn--cta" href={h('/contact-us')}>{t('cta.getFreeQuote')}</a>
+</div>
+
+<style>
+  .hdr {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-header);
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    transition: box-shadow 0.2s ease;
+  }
+  .hdr[data-shrunk='true'] {
+    box-shadow: var(--shadow);
+  }
+  .hdr .hdr__bar {
+    max-width: var(--container);
+  }
+  .hdr__bar {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    height: var(--header-h);
+    transition: height 0.2s ease;
+  }
+  .hdr[data-shrunk='true'] .hdr__bar {
+    height: 64px;
+  }
+  .hdr__logo {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+  }
+  .hdr__logo img {
+    height: 40px;
+    width: auto;
+    max-width: none;
+    transition: height 0.2s ease;
+  }
+  .hdr[data-shrunk='true'] .hdr__logo img {
+    height: 34px;
+  }
+  .hdr__nav {
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: center;
+    min-width: 0;
+  }
+  .nav-list {
+    display: flex;
+    align-items: center;
+    gap: 0.15rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: none;
+    border: none;
+    font-family: var(--font);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--charcoal);
+    padding: 0.5rem 0.5rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .nav-link:hover,
+  .nav-link[aria-expanded='true'] {
+    color: var(--red);
+  }
+  .nav-link[aria-current='page'] {
+    color: var(--red);
+  }
+  .caret {
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid currentColor;
+    margin-top: 2px;
+  }
+
+  /* Dropdowns */
+  .has-dd,
+  .has-mega {
+    position: relative;
+  }
+  .dd {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 220px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    padding: 0.5rem;
+    list-style: none;
+    margin: 0.4rem 0 0;
+    display: none;
+  }
+  .dd li a {
+    display: block;
+    padding: 0.6rem 0.75rem;
+    border-radius: var(--radius);
+    font-weight: 600;
+    font-size: 0.9375rem;
+  }
+  .dd li a:hover {
+    background: var(--light-gray);
+    color: var(--red);
+  }
+  .mega {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: min(720px, 86vw);
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    padding: 1rem;
+    margin-top: 0.4rem;
+    display: none;
+  }
+  .mega__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+  .mega__card {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    padding: 0.6rem;
+    border-radius: var(--radius-lg);
+  }
+  .mega__card:hover {
+    background: var(--light-gray);
+  }
+  .mega__thumb {
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex: none;
+  }
+  .mega__title {
+    display: block;
+    font-weight: 700;
+    color: var(--charcoal);
+  }
+  .mega__card:hover .mega__title {
+    color: var(--red);
+  }
+  .mega__blurb {
+    display: block;
+    font-size: 0.8125rem;
+    color: var(--muted);
+    line-height: 1.35;
+    margin-top: 0.15rem;
+  }
+  /* Invisible bridge across the trigger→panel gap so the pointer never lands in a
+     dead zone (which would drop :hover and close the menu before reaching the submenu). */
+  .dd::before,
+  .mega::before {
+    content: '';
+    position: absolute;
+    top: -0.6rem;
+    left: 0;
+    right: 0;
+    height: 0.6rem;
+  }
+
+  /* open states (hover + JS click) */
+  .has-dd:hover .dd,
+  .has-dd .dd.open,
+  .has-mega:hover .mega,
+  .has-mega .mega.open {
+    display: block;
+  }
+
+  /* Page backdrop while a desktop dropdown/mega is open, so the panel doesn't read
+     as if it's bleeding over the page content. Sits below the header (and its panels)
+     but above the page. Never intercepts clicks. */
+  .nav-scrim {
+    position: fixed;
+    inset: 0;
+    background: rgba(8, 8, 20, 0.42);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+    z-index: calc(var(--z-header) - 1);
+    pointer-events: none;
+  }
+  body:has(.has-dd:hover) .nav-scrim,
+  body:has(.has-mega:hover) .nav-scrim,
+  body:has(.dd.open) .nav-scrim,
+  body:has(.mega.open) .nav-scrim {
+    opacity: 1;
+    visibility: visible;
+  }
+  @media (max-width: 1199px) {
+    .nav-scrim {
+      display: none; /* desktop dropdowns only; mobile uses the drawer */
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-scrim {
+      transition: none;
+    }
+  }
+
+  .hdr__right {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .hdr__right > * {
+    flex: 0 0 auto;
+  }
+  .hdr__call {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--charcoal);
+    white-space: nowrap;
+  }
+  .hdr__call__ic {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--peach);
+    color: var(--red);
+    display: grid;
+    place-items: center;
+    flex: none;
+  }
+  .hdr__call__txt {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+  }
+  .hdr__call__txt small {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+  }
+  .hdr__call__txt strong {
+    font-size: 0.9375rem;
+    font-weight: 800;
+  }
+  .hdr__call:hover .hdr__call__txt strong {
+    color: var(--red);
+  }
+  .hdr__cta {
+    padding: 0.7rem 1rem;
+    min-height: 48px;
+    font-size: 0.875rem;
+    white-space: nowrap;
+  }
+  /* Show the "Call us" + number only on wider screens; icon-only when tighter. */
+  @media (max-width: 1320px) {
+    .hdr__call__txt {
+      display: none;
+    }
+  }
+
+  .hdr__mobile {
+    display: none;
+    align-items: center;
+    gap: 0.25rem;
+    margin-left: auto;
+  }
+  .icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border: none;
+    background: none;
+    color: var(--charcoal);
+    cursor: pointer;
+    border-radius: var(--radius);
+  }
+  /* Drawer */
+  .drawer {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-drawer);
+  }
+  .drawer__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+  }
+  .drawer__panel {
+    position: absolute;
+    inset: 0;
+    background: #fff;
+    padding: 1.25rem var(--gutter) 6rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .drawer__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .drawer__nav {
+    display: flex;
+    flex-direction: column;
+  }
+  .drawer__link,
+  .acc > summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 52px;
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--charcoal);
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    list-style: none;
+  }
+  .acc > summary::-webkit-details-marker {
+    display: none;
+  }
+  .acc > summary::after {
+    content: '+';
+    font-size: 1.25rem;
+    color: var(--red);
+    font-weight: 400;
+  }
+  .acc[open] > summary::after {
+    content: '–';
+  }
+  .acc__body {
+    display: flex;
+    flex-direction: column;
+    padding: 0.25rem 0 0.5rem 0.75rem;
+  }
+  .acc__body a {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    color: var(--charcoal);
+  }
+  .drawer__cta {
+    margin-top: 0.5rem;
+  }
+  .drawer__logo {
+    display: inline-flex;
+    align-items: center;
+  }
+  .drawer__logo img {
+    height: 34px;
+    width: auto;
+    max-width: none;
+  }
+
+  /* Language as a segmented EN | ES pill in the drawer (light background, no overflow) */
+  .drawer :global(.lang-inline) {
+    align-self: flex-start;
+    gap: 0;
+    padding: 4px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: #fff;
+  }
+  .drawer :global(.lang-inline .lang-inline__opt) {
+    color: var(--muted);
+    padding: 0.5rem 1.15rem;
+    border-radius: 999px;
+    min-height: 40px;
+    font-size: 0.9375rem;
+  }
+  .drawer :global(.lang-inline .lang-inline__opt.active) {
+    background: var(--red);
+    color: #fff;
+  }
+
+  .drawer__calls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .drawer__calls-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.8125rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+  }
+  .drawer__calls-title :global(svg) {
+    color: var(--red);
+  }
+  .drawer__call {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-lg);
+    background: var(--light-gray);
+    border: 1px solid var(--border);
+  }
+  .drawer__call-lang {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--muted);
+  }
+  .drawer__call-num {
+    font-size: 1.125rem;
+    font-weight: 800;
+    color: var(--charcoal);
+  }
+  .drawer__call:hover .drawer__call-num,
+  .drawer__call:active .drawer__call-num {
+    color: var(--red);
+  }
+
+  /* Sticky bottom bar */
+  .bottombar {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-bottombar);
+    background: #fff;
+    border-top: 1px solid var(--border);
+    padding: 0.5rem;
+    gap: 0.5rem;
+    box-shadow: var(--shadow-up);
+  }
+  .bottombar__btn {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    min-height: 48px;
+    border-radius: var(--radius);
+    font-weight: 700;
+    background: var(--light-gray);
+    color: var(--charcoal);
+  }
+  .bottombar__btn--cta {
+    background: var(--red-dark);
+    color: #fff;
+  }
+
+  @media (max-width: 1199px) {
+    .hdr__nav,
+    .hdr__right {
+      display: none;
+    }
+    .hdr__mobile {
+      display: flex;
+    }
+    .bottombar {
+      display: flex;
+    }
+  }
+  @media (min-width: 1200px) {
+    .drawer {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // ---- Shrink on scroll ----
+  const header = document.getElementById('site-header');
+  const onScroll = () => header?.setAttribute('data-shrunk', String(window.scrollY > 12));
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // ---- Desktop dropdowns (click + keyboard; hover handled by CSS) ----
+  const triggers = document.querySelectorAll<HTMLButtonElement>('[data-dd]');
+  const closeAll = () => {
+    triggers.forEach((b) => {
+      b.setAttribute('aria-expanded', 'false');
+      document.querySelector(`[data-dd-panel="${b.dataset.dd}"]`)?.classList.remove('open');
+    });
+  };
+  triggers.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const open = btn.getAttribute('aria-expanded') === 'true';
+      closeAll();
+      if (!open) {
+        btn.setAttribute('aria-expanded', 'true');
+        document.querySelector(`[data-dd-panel="${btn.dataset.dd}"]`)?.classList.add('open');
+      }
+    });
+  });
+  document.addEventListener('click', closeAll);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeAll();
+  });
+
+  // ---- Mobile drawer: open/close, scroll-lock, focus-trap ----
+  const burger = document.getElementById('burger');
+  const drawer = document.getElementById('drawer');
+  let lastFocused: HTMLElement | null = null;
+
+  const focusables = () =>
+    drawer
+      ? Array.from(
+          drawer.querySelectorAll<HTMLElement>(
+            'a[href], button:not([disabled]), summary, [tabindex]:not([tabindex="-1"])',
+          ),
+        ).filter((el) => el.offsetParent !== null)
+      : [];
+
+  function openDrawer() {
+    if (!drawer || !burger) return;
+    lastFocused = document.activeElement as HTMLElement;
+    drawer.hidden = false;
+    document.body.classList.add('scroll-lock');
+    burger.setAttribute('aria-expanded', 'true');
+    focusables()[0]?.focus();
+  }
+  function closeDrawer() {
+    if (!drawer || !burger) return;
+    drawer.hidden = true;
+    document.body.classList.remove('scroll-lock');
+    burger.setAttribute('aria-expanded', 'false');
+    lastFocused?.focus();
+  }
+
+  burger?.addEventListener('click', () =>
+    drawer?.hidden ? openDrawer() : closeDrawer(),
+  );
+  drawer?.querySelectorAll('[data-close]').forEach((el) => el.addEventListener('click', closeDrawer));
+  document.addEventListener('keydown', (e) => {
+    if (drawer?.hidden) return;
+    if (e.key === 'Escape') closeDrawer();
+    if (e.key === 'Tab') {
+      const f = focusables();
+      if (f.length === 0) return;
+      const first = f[0];
+      const last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  });
+</script>

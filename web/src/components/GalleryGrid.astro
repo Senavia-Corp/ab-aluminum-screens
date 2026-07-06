@@ -1,0 +1,182 @@
+---
+/**
+ * Simple photo grid + basic lightbox. Used for the small project-video photo
+ * sets (VideoPage). The 4 conversion galleries use GalleryLightbox instead.
+ */
+import { urlFor } from '../lib/sanity';
+
+interface Props {
+  images: any[];
+  initial?: number;
+}
+const { images = [], initial = 12 } = Astro.props;
+
+const items = images
+  .map((img) => {
+    const b = urlFor(img);
+    if (!b) return null;
+    return {
+      thumb: b.width(560).height(420).fit('crop').auto('format').quality(78).url(),
+      full: b.width(1600).fit('max').auto('format').quality(82).url(),
+      alt: img.alt || '',
+    };
+  })
+  .filter(Boolean) as { thumb: string; full: string; alt: string }[];
+---
+
+<div class="gallery" data-initial={initial}>
+  {
+    items.map((img, i) => (
+      <button
+        class="gallery__item"
+        type="button"
+        data-full={img.full}
+        data-alt={img.alt}
+        data-i={i}
+        hidden={i >= initial}
+        aria-label={img.alt || `Photo ${i + 1}`}
+      >
+        <img src={img.thumb} alt={img.alt} width="560" height="420" loading="lazy" decoding="async" />
+      </button>
+    ))
+  }
+</div>
+
+{
+  items.length > initial && (
+    <div class="text-center" style="margin-top:1.5rem;">
+      <button class="btn btn--ghost" type="button" data-load-more>
+        Load More
+      </button>
+    </div>
+  )
+}
+
+<dialog class="lightbox" aria-label="Image viewer">
+  <button class="lightbox__close" data-lb-close aria-label="Close">✕</button>
+  <button class="lightbox__nav lightbox__prev" data-lb-prev aria-label="Previous">‹</button>
+  <img class="lightbox__img" alt="" />
+  <button class="lightbox__nav lightbox__next" data-lb-next aria-label="Next">›</button>
+</dialog>
+
+<style>
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.75rem;
+  }
+  .gallery__item {
+    display: block;
+    padding: 0;
+    border: none;
+    background: var(--light-gray);
+    cursor: zoom-in;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+  }
+  .gallery__item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s var(--ease);
+  }
+  .gallery__item:hover img {
+    transform: scale(1.05);
+  }
+  .gallery__item:focus-visible {
+    outline: none;
+    box-shadow: var(--ring);
+  }
+  .lightbox {
+    border: none;
+    background: transparent;
+    max-width: 96vw;
+    max-height: 96vh;
+    padding: 0;
+  }
+  .lightbox::backdrop {
+    background: rgba(0, 0, 0, 0.9);
+  }
+  .lightbox__img {
+    max-width: 92vw;
+    max-height: 88vh;
+    object-fit: contain;
+    border-radius: 8px;
+    margin: auto;
+  }
+  .lightbox__close {
+    position: fixed;
+    top: 1rem;
+    right: 1.25rem;
+    font-size: 1.5rem;
+    color: #fff;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 2;
+  }
+  .lightbox__nav {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2.5rem;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.3);
+    border: none;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .lightbox__prev {
+    left: 1rem;
+  }
+  .lightbox__next {
+    right: 1rem;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.gallery').forEach((gallery) => {
+    const root = gallery.parentElement!;
+    const dialog = root.querySelector<HTMLDialogElement>('.lightbox')!;
+    if (!dialog) return;
+    const lbImg = dialog.querySelector<HTMLImageElement>('.lightbox__img')!;
+    const items = Array.from(gallery.querySelectorAll<HTMLButtonElement>('.gallery__item'));
+    let current = 0;
+
+    const show = (i: number) => {
+      current = (i + items.length) % items.length;
+      const el = items[current];
+      lbImg.src = el.dataset.full || '';
+      lbImg.alt = el.dataset.alt || '';
+    };
+
+    items.forEach((el, i) =>
+      el.addEventListener('click', () => {
+        show(i);
+        if (!dialog.open) dialog.showModal();
+      }),
+    );
+
+    dialog.querySelector('[data-lb-close]')?.addEventListener('click', () => dialog.close());
+    dialog.querySelector('[data-lb-prev]')?.addEventListener('click', () => show(current - 1));
+    dialog.querySelector('[data-lb-next]')?.addEventListener('click', () => show(current + 1));
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog) dialog.close();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (!dialog.open) return;
+      if (e.key === 'ArrowLeft') show(current - 1);
+      if (e.key === 'ArrowRight') show(current + 1);
+    });
+
+    const loadMore = root.querySelector<HTMLButtonElement>('[data-load-more]');
+    loadMore?.addEventListener('click', () => {
+      const hidden = items.filter((el) => el.hidden);
+      hidden.slice(0, 12).forEach((el) => (el.hidden = false));
+      if (items.every((el) => !el.hidden)) loadMore.hidden = true;
+    });
+  });
+</script>

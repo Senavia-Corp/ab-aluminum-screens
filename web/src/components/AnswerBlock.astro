@@ -1,0 +1,133 @@
+---
+/**
+ * GEO/AEO "direct answer" section — beautiful photo (left) + answer card (right).
+ * Question (H2) + 40–55 word answer + optional fact chips (value + label, with a Lucide icon).
+ * Server-rendered (Astro static), so answer engines read it directly. Use real numbers only.
+ * Reused on Home, Services, Service Areas, Our Work, Financing — every instance shows an image.
+ */
+import type { Lang } from '../lib/i18n';
+import Icon from './Icon.astro';
+
+interface Chip {
+  icon?: string;
+  value?: string;
+  label: string;
+}
+interface Props {
+  lang: Lang;
+  question: string;
+  answer: string;
+  chips?: Chip[];
+  alt?: boolean;
+  image?: string;
+  imageAlt?: string;
+}
+const {
+  question,
+  answer,
+  chips = [],
+  alt = false,
+  // Default keeps every instance image-backed even if a call site forgets to pass one.
+  image = '/images/black-aluminum-pergola-screens-pool-luxury-home-florida.avif',
+  imageAlt = 'Custom aluminum outdoor living structure by AB Aluminum & Screens in South Florida',
+} = Astro.props;
+---
+<section class:list={['section', { 'section--alt': alt }]}>
+  <div class="container answerb-grid">
+    <div class="answerb-media zoom framed" data-reveal>
+      <img class="answerb-img" src={image} alt={imageAlt} width="640" height="640" loading="lazy" />
+    </div>
+    <div class="answerb" data-reveal style="--reveal-delay:100ms">
+      <h2 class="answerb__q">{question}</h2>
+      <p class="answerb__a">{answer}</p>
+      {
+        chips.length > 0 && (
+          <ul class="answerb__chips">
+            {chips.map((c) => (
+              <li class="answerb__chip">
+                {c.icon && <Icon name={c.icon} size={16} class="answerb__chip-ic" />}
+                <span>
+                  {c.value && <strong>{c.value}</strong>}
+                  {c.label}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .answerb-grid {
+    display: grid;
+    grid-template-columns: 0.92fr 1.08fr;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: stretch;
+  }
+  .answerb-media {
+    min-height: 320px;
+  }
+  .answerb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .answerb {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--red);
+    border-radius: var(--radius-card);
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    box-shadow: var(--shadow-sm);
+    align-self: center;
+  }
+  .answerb__q {
+    font-size: clamp(1.35rem, 2.6vw, 1.75rem);
+    line-height: 1.2;
+  }
+  .answerb__a {
+    margin-top: 0.85rem;
+    font-size: 1.125rem;
+    line-height: 1.65;
+    color: var(--charcoal);
+  }
+  .answerb__chips {
+    list-style: none;
+    padding: 0;
+    margin: 1.35rem 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+  .answerb__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: 999px;
+    background: var(--light-gray);
+    border: 1px solid var(--border);
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  .answerb__chip strong {
+    color: var(--charcoal);
+    margin-right: 0.3rem;
+  }
+  .answerb__chip-ic {
+    color: var(--red);
+    flex: none;
+  }
+  /* On --alt (gray) sections the card needs no extra bg; on white sections it still reads as a panel. */
+  @media (max-width: 860px) {
+    .answerb-grid {
+      grid-template-columns: 1fr;
+    }
+    .answerb-media {
+      min-height: 0;
+      aspect-ratio: 16 / 10;
+    }
+  }
+</style>

@@ -1,0 +1,184 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { useT, localizedHref, type Lang } from '../../lib/i18n';
+import PageHero from '../PageHero.astro';
+import SectionHeading from '../SectionHeading.astro';
+import StatsBand from '../StatsBand.astro';
+import FeatureGrid from '../FeatureGrid.astro';
+import CtaStrip from '../CtaStrip.astro';
+import Reviews from '../Reviews.astro';
+import LeadSection from '../LeadSection.astro';
+import Icon from '../Icon.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+
+const copy = {
+  en: {
+    metaT: 'About Us | AB Aluminum & Screens — 15+ Years in South Florida',
+    metaD: 'Licensed and insured South Florida aluminum contractor with 15+ years building hurricane-resistant pergolas, pool enclosures and patio covers with an in-house crew.',
+    heroEyebrow: 'About AB Aluminum & Screens',
+    heroTitle: 'About Us',
+    heroSub:
+      'We build premium, hurricane-resistant aluminum pergolas, pool enclosures, and patio covers. Dedicated to transforming single-family home backyards across South Florida with unmatched craftsmanship.',
+    storyEyebrow: 'Learn more about us',
+    storyH2: '15+ Years of Expert Outdoor Living Transformations',
+    story:
+      'AB Aluminum & Screens started with a simple idea: South Florida homeowners deserve outdoor structures that are as durable as they are beautiful. Over 15+ years we have grown into a trusted, full-service aluminum contractor serving Miami-Dade, Broward and Palm Beach. We keep everything in-house — design, engineering, permitting and installation — so quality never gets lost between subcontractors. Every pergola, enclosure and louvered roof we build is engineered to the Florida Building Code and Miami-Dade HVHZ standards, then backed by a team that treats your home like its own.',
+    diffEyebrow: 'Why Choose Us',
+    diffH2: 'Why Homeowners Choose AB Aluminum & Screens',
+    diffs: [
+      { icon: 'award', t: 'Expertise', d: '15+ years designing and installing aluminum outdoor structures across South Florida.' },
+      { icon: 'badge-check', t: 'Quality Assurance', d: 'Engineered to Florida Building Code and Miami-Dade HVHZ — built to last.' },
+      { icon: 'shield-check', t: 'Licensed & Insured', d: 'Fully licensed and insured, with our own in-house crew on every job.' },
+      { icon: 'thumbs-up', t: 'Customer Satisfaction', d: 'Free 3D design, clear pricing and bilingual service from quote to install.' },
+    ],
+    missionEyebrow: 'Our Mission',
+    mission:
+      'To transform South Florida backyards into beautiful, functional outdoor living spaces with honest pricing, expert craftsmanship and structures engineered to last.',
+    visionEyebrow: 'Our Vision',
+    vision:
+      'To be South Florida’s most trusted aluminum outdoor living contractor — known for quality, integrity and bilingual service that puts homeowners first.',
+  },
+  es: {
+    metaT: 'Quiénes Somos | AB Aluminum & Screens — 15+ Años en el Sur de Florida',
+    metaD: 'Contratista de aluminio del sur de Florida con licencia y seguro y más de 15 años construyendo pérgolas, cerramientos de piscina y cubiertas resistentes a huracanes con equipo propio.',
+    heroEyebrow: 'Sobre AB Aluminum & Screens',
+    heroTitle: 'Quiénes Somos',
+    heroSub:
+      'Construimos pérgolas, cerramientos de piscina y cubiertas de aluminio premium y resistentes a huracanes. Dedicados a transformar los patios de casas unifamiliares en todo el sur de Florida con una calidad incomparable.',
+    storyEyebrow: 'Conoce más sobre nosotros',
+    storyH2: '15+ Años Transformando Espacios Exteriores',
+    story:
+      'AB Aluminum & Screens nació de una idea simple: los propietarios del sur de Florida merecen estructuras exteriores tan duraderas como hermosas. En más de 15 años nos hemos convertido en un contratista de aluminio de confianza y servicio completo en Miami-Dade, Broward y Palm Beach. Mantenemos todo internamente — diseño, ingeniería, permisos e instalación — para que la calidad nunca se pierda entre subcontratistas. Cada pérgola, cerramiento y techo de lamas se calcula según el código de construcción de Florida y los estándares HVHZ de Miami-Dade, respaldado por un equipo que trata tu hogar como propio.',
+    diffEyebrow: 'Por Qué Elegirnos',
+    diffH2: 'Por Qué los Propietarios Eligen AB Aluminum & Screens',
+    diffs: [
+      { icon: 'award', t: 'Experiencia', d: 'Más de 15 años diseñando e instalando estructuras de aluminio en el sur de Florida.' },
+      { icon: 'badge-check', t: 'Garantía de Calidad', d: 'Calculado según el código de Florida y HVHZ de Miami-Dade — hecho para durar.' },
+      { icon: 'shield-check', t: 'Con Licencia y Seguro', d: 'Totalmente con licencia y asegurados, con nuestro equipo propio en cada obra.' },
+      { icon: 'thumbs-up', t: 'Satisfacción del Cliente', d: 'Diseño 3D gratis, precios claros y servicio bilingüe del presupuesto a la instalación.' },
+    ],
+    missionEyebrow: 'Nuestra Misión',
+    mission:
+      'Transformar los patios del sur de Florida en espacios de vida al aire libre bellos y funcionales, con precios honestos, trabajo experto y estructuras hechas para durar.',
+    visionEyebrow: 'Nuestra Visión',
+    vision:
+      'Ser el contratista de aluminio para exteriores más confiable del sur de Florida — reconocido por su calidad, integridad y servicio bilingüe que pone al cliente primero.',
+  },
+};
+const c = copy[lang];
+const diffItems = c.diffs.map((d) => ({ icon: d.icon, title: d.t, text: d.d }));
+---
+
+<BaseLayout lang={lang} title={c.metaT} description={c.metaD}>
+  <PageHero
+    lang={lang}
+    eyebrow={c.heroEyebrow}
+    title={c.heroTitle}
+    subtitle={c.heroSub}
+    image="/images/team.avif"
+    badges={true}
+    ctas={[{ label: t('cta.requestEstimate'), href: localizedHref('/contact-us', lang) }]}
+  />
+
+  <StatsBand lang={lang} />
+
+  <section class="section">
+    <div class="container about-story">
+      <div data-reveal>
+        <span class="eyebrow eyebrow--line">{c.storyEyebrow}</span>
+        <h2 style="margin-top:0.25rem;">{c.storyH2}</h2>
+        <p class="lead" style="margin-top:1rem;">{c.story}</p>
+        <ul class="about-checklist">
+          <li><Icon name="check" size={18} /><span>{t('common.licensedInsured')}</span></li>
+          <li><Icon name="check" size={18} /><span>{t('common.freeDesign')}</span></li>
+          <li><Icon name="check" size={18} /><span>{t('common.yearsExp')}</span></li>
+        </ul>
+      </div>
+      <div class="zoom framed about-story__img" data-reveal style="--reveal-delay:120ms">
+        <img src="/images/truck.avif" alt="AB Aluminum & Screens service team" width="520" height="420" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <FeatureGrid lang={lang} alt={true} eyebrow={c.diffEyebrow} heading={c.diffH2} intro="" items={diffItems} />
+
+  <section class="section">
+    <div class="container mv">
+      <div class="zoom framed mv__img" data-reveal>
+        <img src="/images/cover.avif" alt="" width="520" height="420" loading="lazy" />
+      </div>
+      <div class="mv__text" data-reveal style="--reveal-delay:120ms">
+        <div class="mv__block">
+          <span class="eyebrow eyebrow--line">{c.missionEyebrow}</span>
+          <p class="lead">{c.mission}</p>
+        </div>
+        <div class="mv__block">
+          <span class="eyebrow eyebrow--line">{c.visionEyebrow}</span>
+          <p class="lead">{c.vision}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Reviews lang={lang} alt={true} limit={6} />
+  <CtaStrip lang={lang} />
+  <LeadSection lang={lang} source="about" alt={true} />
+</BaseLayout>
+
+<style>
+  .about-story,
+  .mv {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+    align-items: center;
+  }
+  .about-story__img,
+  .mv__img {
+    height: 100%;
+    min-height: 320px;
+  }
+  .about-story__img img,
+  .mv__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .about-checklist {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0;
+    display: grid;
+    gap: 0.6rem;
+  }
+  .about-checklist li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 600;
+  }
+  .about-checklist :global(.icon) {
+    color: var(--red);
+    flex: none;
+  }
+  .mv__text {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  @media (max-width: 860px) {
+    .about-story,
+    .mv {
+      grid-template-columns: 1fr;
+    }
+    .mv__img {
+      order: -1;
+      min-height: 240px;
+    }
+  }
+</style>

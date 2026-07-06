@@ -1,0 +1,237 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { useT, localizedHref, loc, type Lang } from '../../lib/i18n';
+import { getBlogPost, getRelatedPosts } from '../../lib/queries';
+import { ORG_ID, SITE_ORIGIN } from '../../lib/seo';
+import Breadcrumbs from '../Breadcrumbs.astro';
+import SanityImg from '../SanityImg.astro';
+import PortableText from '../PortableText.astro';
+
+interface Props {
+  lang: Lang;
+  slug: string;
+}
+const { lang, slug } = Astro.props;
+const post = await getBlogPost(slug);
+const t = useT(lang);
+
+const title = loc<string>(post, 'title', lang) || post?.title || '';
+const summary = loc<string>(post, 'summary', lang) || post?.summary;
+const body = loc<any[]>(post, 'body', lang) || post?.body;
+const cat = post?.category;
+const catTitle = cat ? loc<string>(cat, 'title', lang) || cat.title : '';
+const seo = (lang === 'es' && post?.seoEs) || post?.seo || {};
+const related = await getRelatedPosts(cat?.slug, slug, 3);
+
+const author = post?.author || 'AB Aluminum & Screens Team';
+
+// Article schema built in-code so datePublished + dateModified + publisher (@id graph) are always
+// present and correct — the CMS jsonLd field is unreliable for freshness signals.
+const articleUrl = `${SITE_ORIGIN}${localizedHref('/blog/' + slug, lang)}`;
+const articleJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description: summary,
+  ...(post?.mainImageUrl ? { image: post.mainImageUrl } : {}),
+  datePublished: post?.publishedAt,
+  dateModified: post?._updatedAt || post?.publishedAt,
+  author: { '@type': 'Organization', name: author },
+  publisher: { '@id': ORG_ID },
+  mainEntityOfPage: articleUrl,
+  inLanguage: lang === 'es' ? 'es-US' : 'en-US',
+};
+const fmtDate = (d: string) =>
+  d ? new Date(d).toLocaleDateString(lang === 'es' ? 'es-US' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : '';
+
+const midCta = lang === 'es' ? 'Obtén tu diseño 3D y presupuesto gratis' : 'Get a free 3D design & quote';
+const tocLabel = lang === 'es' ? 'En este artículo' : 'In this article';
+const relatedLabel = lang === 'es' ? 'Artículos relacionados' : 'Related articles';
+---
+
+<BaseLayout
+  lang={lang}
+  title={seo.metaTitle || `${title} | AB Aluminum & Screens`}
+  description={seo.metaDescription || summary}
+  image={post?.mainImageUrl || undefined}
+  jsonLd={articleJsonLd}
+  ogType="article"
+  publishedTime={post?.publishedAt}
+>
+  <Breadcrumbs
+    lang={lang}
+    items={[
+      { label: t('nav.blog'), href: localizedHref('/blog', lang) },
+      ...(catTitle ? [{ label: catTitle }] : []),
+      { label: title },
+    ]}
+  />
+
+  <article class="post">
+    <header class="post__head container narrow">
+      {catTitle && <span class="post__cat">{catTitle}</span>}
+      <h1>{title}</h1>
+      <p class="post__meta">{author} · {fmtDate(post?.publishedAt)}</p>
+    </header>
+
+    {post?.mainImage && (
+      <div class="container">
+        <SanityImg image={post.mainImage} width={1100} class="post__hero" loading="eager" fetchpriority="high" alt={post.mainImage.alt || title} />
+      </div>
+    )}
+
+    <div class="container post__layout">
+      <aside class="post__toc" aria-label={tocLabel}>
+        <div class="post__toc-inner">
+          <h2>{tocLabel}</h2>
+          <nav id="toc"></nav>
+        </div>
+      </aside>
+      <div class="post__body">
+        {summary && <p class="post__lede">{summary}</p>}
+        <PortableText value={body} />
+
+        <div class="post__cta">
+          <h3>{midCta}</h3>
+          <a class="btn btn--primary" href={localizedHref('/contact-us', lang)}>{t('cta.requestEstimate')}</a>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  {
+    related?.length > 0 && (
+      <section class="section section--alt">
+        <div class="container">
+          <h2>{relatedLabel}</h2>
+          <div class="grid cols-3" style="margin-top:1.5rem;">
+            {related.map((p: any) => (
+              <a class="card rel-card" href={localizedHref('/blog/' + p.slug, lang)}>
+                {p.mainImage && <SanityImg image={p.mainImage} width={380} class="rel-card__img" alt={p.mainImage.alt || p.title} />}
+                <div class="rel-card__body">
+                  <h3>{loc(p, 'title', lang) || p.title}</h3>
+                  <span class="rel-card__link">{t('cta.readMore')} →</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>
+
+<style>
+  .post__head {
+    padding-top: 2.5rem;
+    padding-bottom: 1.5rem;
+  }
+  .post__cat {
+    color: var(--red);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.8125rem;
+  }
+  .post__meta {
+    color: var(--muted);
+    margin-top: 0.75rem;
+  }
+  :global(.post__hero) {
+    width: 100%;
+    max-height: 460px;
+    object-fit: cover;
+    border-radius: var(--radius-card);
+    margin-bottom: 2rem;
+  }
+  .post__layout {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 720px);
+    gap: 2.5rem;
+    justify-content: center;
+    padding-bottom: 3rem;
+  }
+  .post__toc-inner {
+    position: sticky;
+    top: 90px;
+  }
+  .post__toc h2 {
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+  .post__toc :global(a) {
+    display: block;
+    padding: 0.35rem 0;
+    color: var(--charcoal);
+    font-size: 0.9375rem;
+    border-left: 2px solid var(--border);
+    padding-left: 0.75rem;
+  }
+  .post__toc :global(a:hover) {
+    color: var(--red);
+    border-color: var(--red);
+  }
+  .post__lede {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--charcoal);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+  }
+  .post__cta {
+    margin-top: 2.5rem;
+    padding: 1.75rem;
+    background: var(--peach);
+    border-radius: var(--radius-card);
+    text-align: center;
+  }
+  .post__cta h3 {
+    margin-bottom: 1rem;
+  }
+  .rel-card {
+    display: flex;
+    flex-direction: column;
+  }
+  :global(.rel-card__img) {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+  .rel-card__body {
+    padding: 1rem 1.25rem;
+  }
+  .rel-card__link {
+    color: var(--red);
+    font-weight: 700;
+    font-size: 0.875rem;
+  }
+  @media (max-width: 900px) {
+    .post__layout {
+      grid-template-columns: 1fr;
+    }
+    .post__toc {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Build a Table of Contents from rendered H2s.
+  const toc = document.getElementById('toc');
+  const heads = document.querySelectorAll<HTMLHeadingElement>('.post__body .prose h2');
+  if (toc && heads.length > 1) {
+    heads.forEach((h, i) => {
+      const id = 'sec-' + i + '-' + (h.textContent || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40);
+      h.id = id;
+      const a = document.createElement('a');
+      a.href = '#' + id;
+      a.textContent = h.textContent;
+      toc.appendChild(a);
+    });
+  } else if (toc) {
+    toc.closest('.post__toc')?.setAttribute('style', 'display:none');
+  }
+</script>

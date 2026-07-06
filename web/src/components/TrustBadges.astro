@@ -1,0 +1,80 @@
+---
+import Icon from './Icon.astro';
+import type { Lang } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+  variant?: 'hero' | 'light';
+  reveal?: boolean;
+  class?: string;
+}
+const { lang, variant = 'hero', reveal = true, class: cls = '' } = Astro.props;
+
+const badges: { icon: string; label: { en: string; es: string } }[] = [
+  { icon: 'shield-check', label: { en: 'Licensed & Insured', es: 'Con Licencia y Seguro' } },
+  { icon: 'credit-card', label: { en: 'Financing Available', es: 'Financiamiento Disponible' } },
+  { icon: 'award', label: { en: '15+ Years', es: '15+ Años' } },
+  { icon: 'box', label: { en: 'Free 3D Design', es: 'Diseño 3D Gratis' } },
+  { icon: 'badge-check', label: { en: 'Miami-Dade HVHZ Approved', es: 'Aprobado HVHZ Miami-Dade' } },
+];
+---
+<ul class:list={['badges', `badges--${variant}`, cls]} data-reveal={reveal ? true : undefined}>
+  {
+    badges.map((b) => (
+      <li class="badge">
+        <Icon name={b.icon} size={18} class="badge__icon" />
+        <span>{b.label[lang]}</span>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .badges {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 0.7rem;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 0.95rem;
+    border-radius: 999px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+  }
+  .badge__icon {
+    color: var(--red);
+    flex: none;
+  }
+  /* Hero (on dark photo) — frosted glass */
+  .badges--hero .badge {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+  .badges--hero .badge__icon {
+    color: var(--peach-2);
+  }
+  /* Light (on white/gray) */
+  .badges--light .badge {
+    color: var(--charcoal);
+    background: #fff;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+  }
+  @media (max-width: 560px) {
+    .badge {
+      font-size: 0.8125rem;
+      padding: 0.5rem 0.8rem;
+    }
+  }
+</style>

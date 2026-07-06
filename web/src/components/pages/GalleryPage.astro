@@ -1,0 +1,109 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { useT, localizedHref, loc, type Lang } from '../../lib/i18n';
+import { GALLERY_ROUTE_TO_SLUG, type GalleryRoute } from '../../lib/routes';
+import { SERVICES } from '../../lib/nav';
+import { getGallery } from '../../lib/queries';
+import Breadcrumbs from '../Breadcrumbs.astro';
+import GalleryLightbox from '../GalleryLightbox.astro';
+import CtaStrip from '../CtaStrip.astro';
+import LeadSection from '../LeadSection.astro';
+
+interface Props {
+  lang: Lang;
+  collection: GalleryRoute;
+}
+const { lang, collection } = Astro.props;
+const slug = GALLERY_ROUTE_TO_SLUG[collection];
+const gallery = await getGallery(slug);
+const t = useT(lang);
+const meta = SERVICES.find((s) => s.gallery === collection);
+const title = (loc<string>(gallery, 'title', lang) || meta?.label[lang] || gallery?.title || '').toString();
+
+const intro = {
+  en: `Browse our completed ${title.toLowerCase()} projects across Miami-Dade, Broward and Palm Beach. Click any photo to view it larger.`,
+  es: `Explora nuestros proyectos terminados de ${title.toLowerCase()} en Miami-Dade, Broward y Palm Beach. Haz clic en cualquier foto para verla más grande.`,
+}[lang];
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${title} ${lang === 'es' ? 'Galería' : 'Gallery'} | AB Aluminum & Screens`}
+  description={intro}
+>
+  <Breadcrumbs
+    lang={lang}
+    items={[{ label: t('nav.ourWork'), href: localizedHref('/our-work', lang) }, { label: title }]}
+  />
+  <section class="section">
+    <div class="container">
+      <div class="narrow" style="margin-bottom:1.5rem;">
+        <h1>{title}</h1>
+        <p class="lead" style="margin-top:1rem;">{intro}</p>
+      </div>
+      {
+        gallery?.images?.length ? (
+          <GalleryLightbox images={gallery.images} lang={lang} collection={collection} title={title} />
+        ) : (
+          <p>No images yet.</p>
+        )
+      }
+    </div>
+  </section>
+  <section class="section section--alt">
+    <div class="container narrow text-center">
+      <h2>{lang === 'es' ? 'Explora Más Servicios' : 'Explore More Services'}</h2>
+      <div class="gal-rel">
+        {
+          SERVICES.map((s) => (
+            <a
+              href={localizedHref('/gallery/' + s.gallery, lang)}
+              class:list={['gal-rel__pill', { 'is-active': s.gallery === collection }]}
+            >
+              {s.label[lang]}
+            </a>
+          ))
+        }
+      </div>
+      {
+        meta && (
+          <a class="btn btn--secondary" href={localizedHref('/' + meta.route, lang)} style="margin-top:1.5rem;">
+            {lang === 'es' ? `Ver servicio: ${meta.label[lang]}` : `View ${meta.label[lang]} service`}
+          </a>
+        )
+      }
+    </div>
+  </section>
+
+  <CtaStrip lang={lang} heading={lang === 'es' ? '¿Te gusta lo que ves?' : 'Like what you see?'} text={lang === 'es' ? 'Obtén tu diseño 3D gratis.' : 'Get a free 3D design.'} />
+  <LeadSection lang={lang} source={`gallery:${collection}`} alt={false} />
+</BaseLayout>
+
+<style>
+  .gal-rel {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-top: 1.5rem;
+  }
+  .gal-rel__pill {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    background: #fff;
+    border: 1px solid var(--border);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    transition: border-color 0.18s ease, color 0.18s ease;
+  }
+  .gal-rel__pill:hover {
+    border-color: var(--red);
+    color: var(--red);
+  }
+  .gal-rel__pill.is-active {
+    background: var(--red);
+    border-color: var(--red);
+    color: #fff;
+  }
+</style>

@@ -1,0 +1,119 @@
+---
+// Minimal Portable Text renderer — handles the block styles, lists, marks, links and
+// embedded images this CMS actually uses. ponytail: a small renderer, not a PT library.
+import { urlFor } from '../lib/sanity';
+
+interface Props {
+  value: any[] | undefined | null;
+}
+const { value } = Astro.props;
+const blocks = Array.isArray(value) ? value : [];
+
+// Group consecutive list items into <ul>/<ol>
+type Group = { type: 'list'; listItem: string; items: any[] } | { type: 'block'; block: any };
+const groups: Group[] = [];
+for (const block of blocks) {
+  if (block._type === 'block' && block.listItem) {
+    const last = groups[groups.length - 1];
+    if (last && last.type === 'list' && last.listItem === block.listItem) {
+      last.items.push(block);
+    } else {
+      groups.push({ type: 'list', listItem: block.listItem, items: [block] });
+    }
+  } else {
+    groups.push({ type: 'block', block });
+  }
+}
+
+function renderSpans(block: any): { html: string } {
+  const markDefs = block.markDefs || [];
+  const html = (block.children || [])
+    .map((span: any) => {
+      let text = (span.text || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const marks: string[] = span.marks || [];
+      for (const m of marks) {
+        if (m === 'strong') text = `<strong>${text}</strong>`;
+        else if (m === 'em') text = `<em>${text}</em>`;
+        else if (m === 'underline') text = `<u>${text}</u>`;
+        else {
+          const def = markDefs.find((d: any) => d._key === m);
+          if (def && def._type === 'link' && def.href) {
+            const ext = /^https?:\/\//.test(def.href);
+            text = `<a href="${def.href}"${ext ? ' target="_blank" rel="noopener"' : ''}>${text}</a>`;
+          }
+        }
+      }
+      return text;
+    })
+    .join('');
+  return { html };
+}
+---
+
+<div class="prose">
+  {
+    groups.map((g) => {
+      if (g.type === 'list') {
+        const Tag = g.listItem === 'number' ? 'ol' : 'ul';
+        return (
+          <Tag>
+            {g.items.map((b) => <li set:html={renderSpans(b).html} />)}
+          </Tag>
+        );
+      }
+      const block = g.block;
+      if (block._type === 'image' || block._type === 'pageImage') {
+        const u = urlFor(block);
+        return u ? <img class="prose__img" src={u.width(900).auto('format').url()} alt={block.alt || ''} loading="lazy" /> : null;
+      }
+      if (block._type !== 'block') return null;
+      const style = block.style || 'normal';
+      const { html } = renderSpans(block);
+      if (style === 'h2') return <h2 set:html={html} />;
+      if (style === 'h3') return <h3 set:html={html} />;
+      if (style === 'h4') return <h4 set:html={html} />;
+      if (style === 'blockquote') return <blockquote set:html={html} />;
+      return <p set:html={html} />;
+    })
+  }
+</div>
+
+<style>
+  .prose {
+    line-height: 1.7;
+    color: var(--charcoal);
+  }
+  .prose :global(h2) {
+    font-size: var(--h2);
+    margin: 2rem 0 0.75rem;
+  }
+  .prose :global(h3) {
+    font-size: var(--h3);
+    margin: 1.5rem 0 0.5rem;
+  }
+  .prose :global(p) {
+    margin: 0 0 1rem;
+  }
+  .prose :global(ul),
+  .prose :global(ol) {
+    margin: 0 0 1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .prose :global(a) {
+    color: var(--red);
+    text-decoration: underline;
+  }
+  .prose :global(blockquote) {
+    border-left: 4px solid var(--red);
+    padding: 0.5rem 0 0.5rem 1.25rem;
+    margin: 1.5rem 0;
+    color: var(--muted);
+    font-style: italic;
+  }
+  .prose__img {
+    border-radius: 8px;
+    margin: 1.5rem 0;
+  }
+</style>

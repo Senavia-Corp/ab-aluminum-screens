@@ -1,0 +1,874 @@
+---
+/**
+ * GalleryLightbox — ONE reusable component for all 4 gallery pages.
+ * Grid of crawlable <img> thumbnails + a split-screen conversion lightbox:
+ *  · Desktop (≥1024): photo viewer left (scroll-snap track), sticky lead form right.
+ *  · Mobile (<1024): full-bleed swipeable photos + a slide-up bottom-sheet form.
+ * Native platform: <dialog>, scroll-snap, View Transitions API, History API, form → /api/lead.
+ */
+import { urlFor } from '../lib/sanity';
+import { SERVICES } from '../lib/nav';
+import type { GalleryRoute } from '../lib/routes';
+import type { Lang } from '../lib/i18n';
+import Icon from './Icon.astro';
+import LeadForm from './LeadForm.astro';
+
+interface Props {
+  images: any[];
+  lang: Lang;
+  collection: GalleryRoute;
+  title: string;
+  initial?: number;
+}
+const { images = [], lang, collection, title, initial = 15 } = Astro.props;
+
+const service = SERVICES.find((s) => s.gallery === collection);
+const projectRoute = service?.route || collection;
+const projectLabel = service?.label[lang] || title;
+
+const slugify = (s: string) =>
+  (s || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '')
+    .slice(0, 60);
+
+const seen: Record<string, number> = {};
+const items = images
+  .map((img: any, i: number) => {
+    const b = urlFor(img);
+    if (!b) return null;
+    const alt = (img.alt || `${title} project ${i + 1} in South Florida`).toString();
+    let slug = slugify(alt) || `photo-${i + 1}`;
+    if (seen[slug] != null) slug = `${slug}-${i + 1}`;
+    seen[slug] = i;
+    const name = (alt.split(/—|,|\bin\b/i)[0] || alt).trim().slice(0, 90);
+    return {
+      thumb: b.width(560).height(420).fit('crop').auto('format').quality(78).url(),
+      full: b.width(1600).fit('max').auto('format').quality(82).url(),
+      lqip: (img.lqip as string) || '',
+      alt,
+      name,
+      slug,
+      i,
+    };
+  })
+  .filter(Boolean) as {
+  thumb: string;
+  full: string;
+  lqip: string;
+  alt: string;
+  name: string;
+  slug: string;
+  i: number;
+}[];
+
+const pageUrl = new URL(Astro.url.pathname, Astro.site ?? 'https://www.abaluminumandscreens.com').href;
+
+// Structured data — ImageGallery with the full ImageObject list (in addition to site LocalBusiness).
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ImageGallery',
+  name: `${title} — AB Aluminum & Screens`,
+  description: `Completed ${title.toLowerCase()} projects across Miami-Dade, Broward & Palm Beach, FL.`,
+  url: pageUrl,
+  image: items.map((it) => ({
+    '@type': 'ImageObject',
+    contentUrl: it.full,
+    name: it.name,
+    caption: it.alt,
+  })),
+};
+
+const c = {
+  en: {
+    formTitle: 'Get Your Free 3D Design & Quote',
+    micro: 'Free • No obligation • Response within 24h',
+    trust: 'Licensed & Insured',
+    name: 'Name',
+    phone: 'Phone',
+    email: 'Email',
+    send: 'Get My Free Quote',
+    sending: 'Sending…',
+    successTitle: 'Thank you!',
+    successMsg: 'We’ll contact you shortly about your project.',
+    privacy: 'We’ll only use your details to contact you about your project.',
+    openForm: 'Get Your Free 3D Design & Quote',
+    back: 'Back to photos',
+    prev: 'Previous photo',
+    next: 'Next photo',
+    close: 'Close',
+    loadMore: 'Load More',
+    required: 'Please complete all fields.',
+    invalidEmail: 'Please enter a valid email.',
+    of: 'of',
+  },
+  es: {
+    formTitle: 'Diseño 3D y Presupuesto Gratis',
+    micro: 'Gratis • Sin compromiso • Respuesta en 24h',
+    trust: 'Con Licencia y Seguro',
+    name: 'Nombre',
+    phone: 'Teléfono',
+    email: 'Correo',
+    send: 'Quiero mi Presupuesto',
+    sending: 'Enviando…',
+    successTitle: '¡Gracias!',
+    successMsg: 'Te contactaremos pronto sobre tu proyecto.',
+    privacy: 'Solo usaremos tus datos para contactarte sobre tu proyecto.',
+    openForm: 'Diseño 3D y Presupuesto Gratis',
+    back: 'Volver a las fotos',
+    prev: 'Foto anterior',
+    next: 'Foto siguiente',
+    close: 'Cerrar',
+    loadMore: 'Cargar más',
+    required: 'Por favor completa todos los campos.',
+    invalidEmail: 'Ingresa un correo válido.',
+    of: 'de',
+  },
+}[lang];
+---
+
+<!-- ===== Crawlable thumbnail grid (real <img>, alt, lazy, CLS-safe) ===== -->
+<div class="gallery" data-gallery data-initial={initial}>
+  {
+    items.map((img) => (
+      <button
+        class="gallery__item"
+        type="button"
+        data-i={img.i}
+        data-slug={img.slug}
+        hidden={img.i >= initial}
+        aria-label={img.alt}
+      >
+        <img
+          src={img.thumb}
+          alt={img.alt}
+          width="560"
+          height="420"
+          loading={img.i < 4 ? 'eager' : 'lazy'}
+          decoding="async"
+        />
+      </button>
+    ))
+  }
+</div>
+
+{
+  items.length > initial && (
+    <div class="text-center" style="margin-top:1.75rem;">
+      <button class="btn btn--ghost" type="button" data-load-more>
+        {c.loadMore}
+      </button>
+    </div>
+  )
+}
+
+<!-- ===== Split-screen conversion lightbox ===== -->
+<dialog
+  class="lb"
+  data-lb
+  data-project={projectRoute}
+  data-project-label={projectLabel}
+  data-locale={lang}
+  aria-label={`${title} gallery viewer`}
+>
+  <div class="lb__panel">
+    <!-- LEFT: photo viewer -->
+    <div class="lb__viewer">
+      <div class="lb__track" data-track tabindex="0" role="group" aria-roledescription="carousel" aria-label={title}>
+        {
+          items.map((img) => (
+            <figure
+              class="lb__slide"
+              data-slide
+              role="group"
+              aria-roledescription="slide"
+              aria-label={img.alt}
+              style={img.lqip ? `--lqip:url(${JSON.stringify(img.lqip)})` : ''}
+            >
+              <img
+                class="lb__img"
+                data-full={img.full}
+                alt={img.alt}
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
+          ))
+        }
+      </div>
+
+      <button class="lb__nav lb__prev" type="button" data-prev aria-label={c.prev}>
+        <Icon name="arrow-left" size={26} />
+      </button>
+      <button class="lb__nav lb__next" type="button" data-next aria-label={c.next}>
+        <Icon name="arrow-right" size={26} />
+      </button>
+
+      <div class="lb__counter" data-counter aria-live="polite" aria-atomic="true">
+        <span data-cur>1</span> {c.of} {items.length}
+      </div>
+
+      <!-- thumbnail strip (desktop jump-to) -->
+      <div class="lb__strip" data-strip aria-hidden="true">
+        {
+          items.map((img) => (
+            <button class="lb__striptn" type="button" data-strip-i={img.i} tabindex="-1">
+              <img src={img.thumb} alt="" width="80" height="60" loading="lazy" />
+            </button>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- RIGHT: sticky conversion form (desktop) / bottom-sheet (mobile) -->
+    <aside class="lb__form" data-sheet>
+      <button class="lb__sheet-handle" type="button" data-sheet-close aria-label={c.back}></button>
+      <div class="lb__form-inner">
+        <h2 class="lb__form-title">{c.formTitle}</h2>
+        <p class="lb__micro">{c.micro}</p>
+        <span class="lb__trust">
+          <Icon name="shield-check" size={16} />
+          {c.trust}
+        </span>
+
+        <LeadForm
+          lang={lang}
+          source={`gallery:${projectRoute}`}
+          defaultInterest={projectRoute}
+          compact={true}
+        />
+        <p class="lb__privacy">{c.privacy}</p>
+      </div>
+    </aside>
+  </div>
+
+  <!-- mobile persistent CTA (opens the bottom-sheet) -->
+  <button class="lb__cta" type="button" data-sheet-open>
+    <Icon name="pen-tool" size={18} />
+    {c.openForm}
+  </button>
+
+  <button class="lb__close" type="button" data-close aria-label={c.close}>
+    <Icon name="x" size={22} />
+  </button>
+</dialog>
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+<style>
+  /* ---------- Grid ---------- */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.75rem;
+  }
+  .gallery__item {
+    display: block;
+    padding: 0;
+    border: none;
+    background: var(--light-gray);
+    cursor: zoom-in;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    position: relative;
+  }
+  .gallery__item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.45s var(--ease);
+  }
+  .gallery__item:hover img {
+    transform: scale(1.06);
+  }
+  .gallery__item:focus-visible {
+    outline: none;
+    box-shadow: var(--ring);
+  }
+
+  /* ---------- Dialog shell ---------- */
+  .lb {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    overflow: hidden;
+  }
+  .lb::backdrop {
+    background: rgba(8, 8, 16, 0.82);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+  .lb__panel {
+    display: grid;
+    grid-template-columns: 62% 38%;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* ---------- Viewer (left) ---------- */
+  .lb__viewer {
+    position: relative;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .lb__track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    overscroll-behavior: contain;
+  }
+  .lb__track::-webkit-scrollbar {
+    display: none;
+  }
+  .lb__track:focus-visible {
+    outline: none;
+  }
+  .lb__slide {
+    position: relative;
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    display: grid;
+    place-items: center;
+    padding: clamp(1rem, 3vw, 2.5rem);
+    overflow: hidden;
+    /* blur-up placeholder */
+    background-image: var(--lqip);
+    background-size: cover;
+    background-position: center;
+  }
+  .lb__slide::before {
+    /* dim the blurry placeholder so it doesn't bleed at edges */
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(8, 8, 16, 0.55);
+  }
+  .lb__img {
+    position: relative;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 6px;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+  }
+  .lb__img.is-loaded {
+    opacity: 1;
+  }
+
+  .lb__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(0, 0, 0, 0.4);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    z-index: 3;
+    transition: background 0.18s ease;
+  }
+  .lb__nav:hover {
+    background: rgba(0, 0, 0, 0.7);
+  }
+  .lb__prev {
+    left: clamp(0.5rem, 1.5vw, 1.25rem);
+  }
+  .lb__next {
+    right: clamp(0.5rem, 1.5vw, 1.25rem);
+  }
+  .lb__counter {
+    position: absolute;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+  }
+  .lb__strip {
+    position: absolute;
+    bottom: 0.75rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    display: flex;
+    gap: 0.4rem;
+    max-width: 92%;
+    overflow-x: auto;
+    padding: 0.4rem;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 12px;
+    scrollbar-width: thin;
+  }
+  .lb__striptn {
+    flex: 0 0 auto;
+    width: 64px;
+    height: 48px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 2px solid transparent;
+    padding: 0;
+    background: none;
+    cursor: pointer;
+    opacity: 0.55;
+    transition: opacity 0.18s ease, border-color 0.18s ease;
+  }
+  .lb__striptn img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .lb__striptn.is-active {
+    opacity: 1;
+    border-color: var(--red);
+  }
+
+  /* ---------- Form (right) ---------- */
+  .lb__form {
+    background: #fff;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .lb__sheet-handle {
+    display: none;
+  }
+  .lb__form-inner {
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    position: sticky;
+    top: 0;
+  }
+  .lb__form-title {
+    font-size: var(--h2);
+  }
+  .lb__micro {
+    margin-top: 0.5rem;
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 0.9375rem;
+  }
+  .lb__trust {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.85rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+    background: var(--peach);
+    color: var(--red-ink);
+    font-weight: 700;
+    font-size: 0.8125rem;
+  }
+  .lb__form-inner :global(.lead-form) {
+    margin-top: 1.5rem;
+  }
+  .lb__privacy {
+    margin-top: 0.85rem;
+    font-size: 0.8125rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ---------- Close / mobile CTA ---------- */
+  .lb__close {
+    position: fixed;
+    top: 0.85rem;
+    right: 0.85rem;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    z-index: 10;
+  }
+  .lb__close:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+  .lb__cta {
+    display: none;
+  }
+
+  /* ====================== MOBILE (<1024px): full-bleed photos + bottom-sheet ====================== */
+  @media (max-width: 1023px) {
+    .lb__panel {
+      grid-template-columns: 1fr;
+      grid-template-rows: 100%;
+    }
+    .lb__strip {
+      display: none;
+    }
+    .lb__nav {
+      width: 44px;
+      height: 44px;
+      background: rgba(0, 0, 0, 0.35);
+    }
+    /* form becomes a slide-up bottom-sheet */
+    .lb__form {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      max-height: 88vh;
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      box-shadow: var(--shadow-up);
+      transform: translateY(100%);
+      transition: transform 0.32s var(--ease);
+      z-index: 8;
+    }
+    .lb[data-sheet-open] .lb__form {
+      transform: translateY(0);
+    }
+    .lb__sheet-handle {
+      display: block;
+      width: 44px;
+      height: 5px;
+      border-radius: 999px;
+      background: var(--border);
+      border: none;
+      margin: 0.75rem auto 0;
+      cursor: pointer;
+    }
+    .lb__form-inner {
+      position: static;
+      padding-top: 0.75rem;
+    }
+    /* persistent CTA pinned bottom, hidden once the sheet is open */
+    .lb__cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      position: fixed;
+      left: 1rem;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 7;
+      min-height: 52px;
+      border: none;
+      border-radius: 999px;
+      background: var(--red);
+      color: #fff;
+      font-weight: 800;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: opacity 0.2s ease;
+    }
+    .lb[data-sheet-open] .lb__cta {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .lb__counter {
+      top: auto;
+      bottom: 5rem;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .gallery {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 0.5rem;
+    }
+  }
+
+  /* shared-element morph names are toggled in JS */
+  @media (prefers-reduced-motion: reduce) {
+    .gallery__item img,
+    .lb__img,
+    .lb__form,
+    .lb__cta {
+      transition: none !important;
+    }
+    .lb__track {
+      scroll-behavior: auto;
+    }
+  }
+</style>
+
+<script>
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const canVT = 'startViewTransition' in document && !reduce;
+
+  document.querySelectorAll<HTMLElement>('[data-gallery]').forEach((gallery) => {
+    const root = gallery.parentElement!;
+    const dialog = root.querySelector<HTMLDialogElement>('[data-lb]')!;
+    if (!dialog) return;
+    const track = dialog.querySelector<HTMLElement>('[data-track]')!;
+    const slides = Array.from(dialog.querySelectorAll<HTMLElement>('[data-slide]'));
+    const slideImgs = slides.map((s) => s.querySelector<HTMLImageElement>('.lb__img')!);
+    const thumbs = Array.from(gallery.querySelectorAll<HTMLButtonElement>('.gallery__item'));
+    const stripBtns = Array.from(dialog.querySelectorAll<HTMLButtonElement>('[data-strip-i]'));
+    const curEl = dialog.querySelector<HTMLElement>('[data-cur]')!;
+    const counter = dialog.querySelector<HTMLElement>('[data-counter]')!;
+    const locale = dialog.dataset.locale === 'es' ? 'es' : 'en';
+    const total = slides.length;
+
+    const slugToIndex: Record<string, number> = {};
+    thumbs.forEach((t) => (slugToIndex[t.dataset.slug || ''] = Number(t.dataset.i)));
+    const indexToSlug = thumbs.reduce<Record<number, string>>((m, t) => {
+      m[Number(t.dataset.i)] = t.dataset.slug || '';
+      return m;
+    }, {});
+
+    let index = 0;
+    let isOpen = false;
+    let origin: HTMLElement | null = null;
+    let closingFromPop = false;
+
+    // Lazy-load a slide's full image (+ fade in). Idempotent.
+    const loadSlide = (i: number) => {
+      const img = slideImgs[i];
+      if (!img || img.src) return;
+      const full = img.dataset.full;
+      if (!full) return;
+      img.src = full;
+      if (img.complete) img.classList.add('is-loaded');
+      else img.addEventListener('load', () => img.classList.add('is-loaded'), { once: true });
+    };
+    const preload = (i: number) => {
+      loadSlide(i);
+      if (i > 0) loadSlide(i - 1);
+      if (i < total - 1) loadSlide(i + 1);
+    };
+
+    // Exact per-slide width (slides are equal: total content / count). Using clientWidth
+    // (an integer) drifts vs the fractional slide width and desyncs over many slides.
+    const slideWidth = () => track.scrollWidth / total;
+    // Navigation sets scrollLeft DIRECTLY to the exact slide (instant, snap-stable).
+    // scrollIntoView/smooth lagged behind the snap and the handler then "corrected" the
+    // index backwards — that was the desync/relayout bug. `programmatic` + a scroll-settle
+    // timer keep the swipe handler from reading mid-scroll positions.
+    let programmatic = false;
+    const scrollToSlide = (i: number) => {
+      // No CSS scroll-snap on the track (it fought rapid programmatic scrolls and desynced).
+      // A direct, exact scrollLeft is instant and sticks; swipes are snapped manually in the
+      // scroll-settle handler below.
+      programmatic = true;
+      track.scrollLeft = Math.round(i * slideWidth());
+    };
+
+    const setActive = (i: number) => {
+      index = i;
+      curEl.textContent = String(i + 1);
+      counter.setAttribute('aria-label', `${locale === 'es' ? 'Foto' : 'Photo'} ${i + 1} / ${total}`);
+      stripBtns.forEach((b, j) => b.classList.toggle('is-active', j === i));
+      // Keep the active thumb centered — scroll ONLY the strip horizontally
+      // (scrollIntoView could drag a vertical ancestor and break the split layout).
+      const active = stripBtns[i];
+      const sw = active?.parentElement;
+      if (active && sw) {
+        sw.scrollTo({
+          left: active.offsetLeft - sw.clientWidth / 2 + active.clientWidth / 2,
+          behavior: reduce ? 'auto' : 'smooth',
+        });
+      }
+      preload(i);
+    };
+
+    const setUrl = (i: number, push: boolean) => {
+      const url = location.pathname + '?photo=' + encodeURIComponent(indexToSlug[i] || String(i));
+      const state = { lb: true, i };
+      try {
+        push ? history.pushState(state, '', url) : history.replaceState(state, '', url);
+      } catch {}
+    };
+    const clearUrl = () => {
+      try {
+        history.replaceState({}, '', location.pathname);
+      } catch {}
+    };
+
+    const lockScroll = () => document.body.classList.add('scroll-lock');
+    const unlockScroll = () => document.body.classList.remove('scroll-lock');
+
+    function doOpen(i: number) {
+      dialog.showModal();
+      lockScroll();
+      setActive(i);
+      scrollToSlide(i);
+      // re-assert position after layout settles
+      requestAnimationFrame(() => scrollToSlide(i));
+      isOpen = true;
+    }
+
+    function open(i: number, push: boolean, originEl?: HTMLElement) {
+      origin = originEl || null;
+      preload(i);
+      const vtImg = slideImgs[i];
+      if (canVT && originEl) {
+        const originImg = originEl.querySelector<HTMLElement>('img');
+        if (originImg) originImg.style.viewTransitionName = 'lb-photo';
+        const t = (document as any).startViewTransition(() => {
+          if (originImg) originImg.style.viewTransitionName = '';
+          vtImg.style.viewTransitionName = 'lb-photo';
+          doOpen(i);
+        });
+        t.finished.finally(() => {
+          vtImg.style.viewTransitionName = '';
+        });
+      } else {
+        doOpen(i);
+      }
+      setUrl(i, push);
+    }
+
+    const goTo = (i: number) => {
+      const n = (i + total) % total;
+      setActive(n);
+      scrollToSlide(n); // instant + exact — bulletproof vs the snap/smooth race
+      setUrl(n, false); // replace — keep history clean, URL still shareable
+    };
+
+    function closeLb() {
+      if (!isOpen) return;
+      isOpen = false;
+      dialog.removeAttribute('data-sheet-open');
+      dialog.close();
+    }
+
+    // Thumb click → open (with shared-element morph)
+    thumbs.forEach((thumb) => {
+      thumb.addEventListener('click', () => open(Number(thumb.dataset.i), true, thumb));
+    });
+
+    // Controls
+    dialog.querySelector('[data-prev]')?.addEventListener('click', () => goTo(index - 1));
+    dialog.querySelector('[data-next]')?.addEventListener('click', () => goTo(index + 1));
+    dialog.querySelector('[data-close]')?.addEventListener('click', () => closeLb());
+    stripBtns.forEach((b) => b.addEventListener('click', () => goTo(Number(b.dataset.stripI))));
+
+    // Mobile bottom-sheet
+    dialog.querySelector('[data-sheet-open]')?.addEventListener('click', () =>
+      dialog.setAttribute('data-sheet-open', ''),
+    );
+    dialog.querySelector('[data-sheet-close]')?.addEventListener('click', () =>
+      dialog.removeAttribute('data-sheet-open'),
+    );
+
+    // Backdrop click closes (only when the click lands on the dialog/panel chrome, not the form)
+    dialog.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      if (target === dialog || target.hasAttribute('data-track') || target.hasAttribute('data-slide')) {
+        closeLb();
+      }
+    });
+
+    // Keyboard (dialog has focus while open)
+    dialog.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        goTo(index - 1);
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        goTo(index + 1);
+      }
+    });
+
+    // Update counter on swipe / manual scroll (mobile + trackpad)
+    // Update the index only once the track has SETTLED (90ms quiet), and never for a
+    // programmatic scroll — so a user swipe updates the counter/URL but navigation does not
+    // get "corrected" backwards by mid-scroll readings.
+    let settleTimer: ReturnType<typeof setTimeout>;
+    track.addEventListener('scroll', () => {
+      clearTimeout(settleTimer);
+      settleTimer = setTimeout(() => {
+        if (programmatic) {
+          programmatic = false; // our own scroll settled — don't move the index
+          return;
+        }
+        // user swipe settled → adopt the nearest slide and snap exactly onto it
+        const i = Math.round(track.scrollLeft / slideWidth());
+        if (i < 0 || i >= total) return;
+        if (i !== index) {
+          setActive(i);
+          setUrl(i, false);
+        }
+        const exact = Math.round(i * slideWidth());
+        if (Math.abs(track.scrollLeft - exact) > 1) {
+          programmatic = true;
+          track.scrollTo({ left: exact, behavior: reduce ? 'auto' : 'smooth' });
+        }
+      }, 110);
+    });
+
+    // Re-align to the current slide when the viewport resizes (slide widths change).
+    let resizeRaf = 0;
+    window.addEventListener('resize', () => {
+      if (!isOpen) return;
+      cancelAnimationFrame(resizeRaf);
+      resizeRaf = requestAnimationFrame(() => scrollToSlide(index));
+    });
+
+    // Native dialog close (Esc or .close()) → cleanup
+    dialog.addEventListener('close', () => {
+      isOpen = false;
+      unlockScroll();
+      if (!closingFromPop) clearUrl();
+      closingFromPop = false;
+      origin?.focus();
+    });
+
+    // ----- Deep-linking via History API -----
+    window.addEventListener('popstate', () => {
+      const slug = new URLSearchParams(location.search).get('photo');
+      if (slug && slugToIndex[slug] != null) {
+        const i = slugToIndex[slug];
+        if (!isOpen) open(i, false);
+        else {
+          setActive(i);
+          scrollToSlide(i);
+        }
+      } else if (isOpen) {
+        closingFromPop = true;
+        closeLb();
+      }
+    });
+
+    // Open on initial deep-link (?photo=slug)
+    const initSlug = new URLSearchParams(location.search).get('photo');
+    if (initSlug && slugToIndex[initSlug] != null) {
+      open(slugToIndex[initSlug], false);
+    }
+
+    // ----- Load More (grid) -----
+    const loadMore = root.querySelector<HTMLButtonElement>('[data-load-more]');
+    loadMore?.addEventListener('click', () => {
+      thumbs.filter((t) => t.hidden).slice(0, 15).forEach((t) => (t.hidden = false));
+      if (thumbs.every((t) => !t.hidden)) loadMore.hidden = true;
+    });
+
+    // The lead form inside the lightbox is the shared <LeadForm> component, which wires
+    // its own submit → /api/lead (tagged with source `gallery:<collection>`).
+  });
+</script>

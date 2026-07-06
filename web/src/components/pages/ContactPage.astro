@@ -1,0 +1,425 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { useT, type Lang } from '../../lib/i18n';
+import { PHONE, EMAIL } from '../../lib/nav';
+import LeadForm from '../LeadForm.astro';
+import Reviews from '../Reviews.astro';
+import TrustBadges from '../TrustBadges.astro';
+import StatsBand from '../StatsBand.astro';
+import ProcessSteps from '../ProcessSteps.astro';
+import FinancingTeaser from '../FinancingTeaser.astro';
+import FAQ from '../FAQ.astro';
+import MapEmbed from '../MapEmbed.astro';
+import Icon from '../Icon.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+
+const copy = {
+  en: {
+    metaT: 'Contact Us — Free 3D Design & Quote | AB Aluminum & Screens',
+    metaD:
+      'Get a free 3D design and no-obligation quote for aluminum pergolas, patios, louvered roofs and pool enclosures across Miami-Dade, Broward & Palm Beach. Reply usually within 24h. Call (786) 383-6066 (EN) or (786) 340-5157 (ES).',
+    eyebrow: 'Free 3D Design Consultation',
+    headline: 'Tell Us About Your Project — Get a Free 3D Design',
+    subhead:
+      'Aluminum pergolas, patios, louvered roofs, pool enclosures and screen rooms across Miami-Dade, Broward and Palm Beach. Send your details and our bilingual team gets back to you fast.',
+    promise: 'Free 3D design — we usually reply within 24 hours.',
+    risk: 'Free, no obligation · Licensed & Insured · No cost for your 3D design.',
+    callLabel: 'Call us',
+    info: 'Contact Information',
+    hoursLabel: 'Hours',
+    faqHeading: 'Frequently Asked Questions',
+    mapHeading: 'Visit or Reach Us',
+    faq: [
+      {
+        q: 'How much does an aluminum patio or pergola cost?',
+        a: 'Every project is custom, so price depends on size, materials and features like motorized louvers or screens. Most projects start in the low thousands. Send us your details and we’ll give you a clear, no-obligation quote with a free 3D design.',
+      },
+      {
+        q: 'What areas do you serve?',
+        a: 'We design and install across Miami-Dade, Broward and Palm Beach counties throughout South Florida. Not sure if you’re in our area? Just ask — we’ll let you know right away.',
+      },
+      {
+        q: 'Do you offer financing?',
+        a: 'Yes. We offer flexible monthly payment plans through Synchrony Bank with no upfront cost and fast approval, so you can build now and pay over time.',
+      },
+      {
+        q: 'How long does the process take?',
+        a: 'After your free consultation we deliver a 3D design and quote, then handle permits and installation. Most projects move from design to completed install within a few weeks, depending on permitting and scope.',
+      },
+    ],
+  },
+  es: {
+    metaT: 'Contáctanos — Diseño 3D y Cotización Gratis | AB Aluminum & Screens',
+    metaD:
+      'Recibe un diseño 3D y cotización sin compromiso para pérgolas, patios, techos de lamas y cerramientos de piscina en Miami-Dade, Broward y Palm Beach. Respondemos normalmente en 24h. Llama al (786) 340-5157 (ES) o (786) 383-6066 (EN).',
+    eyebrow: 'Consulta de Diseño 3D Gratis',
+    headline: 'Cuéntanos Sobre Tu Proyecto — Recibe un Diseño 3D Gratis',
+    subhead:
+      'Pérgolas, patios, techos de lamas, cerramientos de piscina y porches con malla en Miami-Dade, Broward y Palm Beach. Envía tus datos y nuestro equipo bilingüe te responde rápido.',
+    promise: 'Diseño 3D gratis — normalmente respondemos en 24 horas.',
+    risk: 'Gratis y sin compromiso · Con Licencia y Seguro · El diseño 3D no tiene costo.',
+    callLabel: 'Llámanos',
+    info: 'Información de Contacto',
+    hoursLabel: 'Horario',
+    faqHeading: 'Preguntas Frecuentes',
+    mapHeading: 'Visítanos o Contáctanos',
+    faq: [
+      {
+        q: '¿Cuánto cuesta un patio o pérgola de aluminio?',
+        a: 'Cada proyecto es a medida, así que el precio depende del tamaño, los materiales y extras como lamas motorizadas o malla. La mayoría de los proyectos comienza en pocos miles de dólares. Envíanos tus datos y te damos un presupuesto claro y sin compromiso, con diseño 3D gratis.',
+      },
+      {
+        q: '¿Qué áreas atienden?',
+        a: 'Diseñamos e instalamos en los condados de Miami-Dade, Broward y Palm Beach, en todo el sur de Florida. ¿No sabes si estás en nuestra zona? Pregúntanos y te confirmamos de inmediato.',
+      },
+      {
+        q: '¿Ofrecen financiamiento?',
+        a: 'Sí. Ofrecemos planes de pago mensual flexibles a través de Synchrony Bank, sin costo inicial y con aprobación rápida, para que construyas ahora y pagues a tu ritmo.',
+      },
+      {
+        q: '¿Cuánto tarda el proceso?',
+        a: 'Después de tu consulta gratis entregamos un diseño 3D y presupuesto, y luego gestionamos permisos e instalación. La mayoría de los proyectos pasa del diseño a la instalación terminada en pocas semanas, según los permisos y el alcance.',
+      },
+    ],
+  },
+};
+const c = copy[lang];
+---
+
+<BaseLayout lang={lang} title={c.metaT} description={c.metaD}>
+  {/* 1 — FORM-FIRST HERO: value prop + lead form side by side, above the fold */}
+  <section class="chero">
+    <div class="container chero__grid">
+      <div class="chero__pitch">
+        <span class="eyebrow">{c.eyebrow}</span>
+        <h1>{c.headline}</h1>
+        <p class="chero__sub">{c.subhead}</p>
+        <p class="chero__promise">
+          <Icon name="zap" size={18} />
+          <span>{c.promise}</span>
+        </p>
+        <div class="chero__badges">
+          <TrustBadges lang={lang} variant="hero" reveal={false} />
+        </div>
+        <div class="chero__methods">
+          <a class="cmethod" href={`tel:${PHONE[lang].tel}`}>
+            <span class="cmethod__ic"><Icon name="phone" size={20} /></span>
+            <span class="cmethod__tx"><small>{c.callLabel}</small><strong>{PHONE[lang].display}</strong></span>
+          </a>
+          <a class="cmethod" href={`mailto:${EMAIL}`}>
+            <span class="cmethod__ic"><Icon name="mail" size={20} /></span>
+            <span class="cmethod__tx"><small>{t('common.email')}</small><strong>{EMAIL}</strong></span>
+          </a>
+          {/* WhatsApp method (deferred — drop in when a WhatsApp-registered number is confirmed):
+          <a class="cmethod" href="https://wa.me/1XXXXXXXXXX" target="_blank" rel="noopener">
+            <span class="cmethod__ic"><Icon name="message-circle" size={20} /></span>
+            <span class="cmethod__tx"><small>WhatsApp</small><strong>Chat on WhatsApp</strong></span>
+          </a>
+          */}
+        </div>
+      </div>
+
+      <div class="card chero__form" id="lead-form">
+        <h2 class="chero__form-h">{t('form.heading')}</h2>
+        <p class="chero__form-sub">{t('form.subcopy')}</p>
+        <LeadForm lang={lang} source="contact" compact={true} />
+        <p class="chero__risk">
+          <Icon name="shield-check" size={15} />
+          <span>{c.risk}</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {/* 2 — Social proof band */}
+  <StatsBand lang={lang} />
+
+  {/* 3 — What happens next */}
+  <ProcessSteps lang={lang} alt={true} />
+
+  {/* 4 — Reviews */}
+  <Reviews lang={lang} limit={3} />
+
+  {/* 5 — FAQ (objection handling + SEO; FAQ.astro emits the single FAQPage schema) */}
+  <FAQ lang={lang} items={c.faq} heading={c.faqHeading} alt={true} />
+
+  {/* 6 — Financing close (reinforces FAQ #3) */}
+  <FinancingTeaser lang={lang} />
+
+  {/* 7 — Service-area map + contact details (last section, not competing with the form) */}
+  <section class="section">
+    <div class="container">
+      <h2 class="text-center">{c.mapHeading}</h2>
+      <div class="contact">
+        <div class="contact__info">
+          <ul class="contact__list">
+            <li>
+              <img src="/images/Phone.svg" alt="" width="22" height="22" />
+              <div>
+                <strong>{t('common.phoneEnLabel')}</strong>
+                <a href={`tel:${PHONE.en.tel}`}>{PHONE.en.display}</a>
+              </div>
+            </li>
+            <li>
+              <img src="/images/Phone.svg" alt="" width="22" height="22" />
+              <div>
+                <strong>{t('common.phoneEsLabel')}</strong>
+                <a href={`tel:${PHONE.es.tel}`}>{PHONE.es.display}</a>
+              </div>
+            </li>
+            <li>
+              <img src="/images/Email.svg" alt="" width="22" height="22" />
+              <div>
+                <strong>{t('common.email')}</strong>
+                <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+              </div>
+            </li>
+            <li>
+              <img src="/images/time.svg" alt="" width="22" height="22" />
+              <div>
+                <strong>{c.hoursLabel}</strong>
+                <span>{t('common.hours')}</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <MapEmbed lang={lang} query="Miami, FL" title={lang === 'es' ? 'Área de servicio del sur de Florida' : 'South Florida service area'} aspect="16 / 10" />
+      </div>
+    </div>
+  </section>
+
+  {/* Mobile quick-contact bar — replaces the global "Get Free Quote → /contact-us" bar (pointless here) */}
+  <div class="cbar" aria-label="Quick contact">
+    <a class="cbar__btn cbar__btn--call" href={`tel:${PHONE[lang].tel}`}>
+      <Icon name="phone" size={18} /> {t('cta.call')}
+    </a>
+    <a class="cbar__btn cbar__btn--cta" href="#lead-form">{t('cta.getFreeQuote')}</a>
+    {/* WhatsApp: swap the Free Quote button for <a href="https://wa.me/1XXXXXXXXXX"> when a number is confirmed */}
+  </div>
+</BaseLayout>
+
+<style>
+  /* ── Form-first hero ───────────────────────────────────────── */
+  .chero {
+    color: #fff;
+    padding-block: clamp(3rem, 7vw, 5rem);
+    background-image:
+      radial-gradient(115% 80% at 80% 22%, rgba(255, 255, 255, 0.15), transparent 58%),
+      linear-gradient(
+        118deg,
+        rgba(0, 16, 78, 0.96) 0%,
+        rgba(0, 25, 148, 0.9) 42%,
+        rgba(150, 33, 48, 0.74) 80%,
+        rgba(236, 60, 61, 0.68) 100%
+      ),
+      url('/images/aluminum-pergola-large-scale-louvers-luxury-patio-florida.avif');
+    background-size: cover;
+    background-position: center;
+  }
+  .chero__grid {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: start;
+  }
+  .chero__pitch .eyebrow {
+    display: block;
+    margin-bottom: 0.85rem;
+    color: var(--peach-2);
+  }
+  .chero__pitch h1 {
+    margin: 0;
+    line-height: 1.1;
+    color: #fff;
+    text-shadow: 0 1px 12px rgba(0, 8, 40, 0.35);
+  }
+  .chero__sub {
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    margin-top: 1.35rem;
+    max-width: 52ch;
+  }
+  .chero__promise {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.65rem;
+    font-weight: 700;
+    color: #fff;
+  }
+  .chero__promise :global(.icon) {
+    color: var(--peach-2);
+    flex: none;
+  }
+  .chero__badges {
+    margin-top: 1.85rem;
+  }
+  .chero__methods {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+  .cmethod {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: #fff;
+    color: var(--charcoal);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    padding: 0.65rem 0.9rem;
+    min-height: 56px;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+  }
+  .cmethod:hover {
+    border-color: var(--red);
+    box-shadow: var(--shadow-sm);
+  }
+  .cmethod__ic {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--light-gray);
+    color: var(--red);
+    flex: none;
+  }
+  .cmethod__tx {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+    line-height: 1.25;
+  }
+  .cmethod__tx small {
+    color: var(--muted);
+    font-size: 0.8125rem;
+  }
+  .cmethod__tx strong {
+    font-size: 1rem;
+    color: var(--charcoal);
+    word-break: break-word;
+  }
+  .chero__form {
+    padding: clamp(1.25rem, 3vw, 2rem);
+    scroll-margin-top: calc(var(--header-h) + 1rem);
+    box-shadow: var(--shadow-lg);
+    color: var(--charcoal);
+  }
+  .chero__form-h {
+    font-size: clamp(1.25rem, 2.5vw, 1.6rem);
+  }
+  .chero__form-sub {
+    color: var(--muted);
+    margin: 0.35rem 0 1.1rem;
+    font-size: 1rem;
+  }
+  .chero__risk {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.45rem;
+    margin-top: 0.9rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.8125rem;
+    line-height: 1.45;
+  }
+  .chero__risk :global(.icon) {
+    color: var(--success);
+    flex: none;
+    margin-top: 1px;
+  }
+
+  /* ── Map + contact details (reused from previous layout) ───── */
+  .contact {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: start;
+    margin-top: 1.5rem;
+  }
+  .contact__list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 0;
+  }
+  .contact__list li {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+  .contact__list div {
+    display: flex;
+    flex-direction: column;
+  }
+  .contact__list strong {
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  /* ── Mobile quick-contact bar ──────────────────────────────── */
+  .cbar {
+    display: none;
+  }
+
+  @media (max-width: 900px) {
+    .chero__grid {
+      grid-template-columns: 1fr;
+    }
+    .chero__form {
+      order: -1; /* form first on mobile */
+    }
+    .contact {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 1199px) {
+    /* Hide the global Header bottombar (its "Get Free Quote → /contact-us" is pointless here) */
+    :global(.bottombar) {
+      display: none !important;
+    }
+    .cbar {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      position: fixed;
+      inset: auto 0 0 0;
+      z-index: var(--z-bottombar);
+      background: #fff;
+      border-top: 1px solid var(--border);
+      box-shadow: var(--shadow-up);
+      padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
+    }
+    .cbar__btn {
+      flex: 1;
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      border-radius: var(--radius);
+      font-weight: 700;
+    }
+    .cbar__btn--call {
+      background: var(--light-gray);
+      color: var(--charcoal);
+    }
+    .cbar__btn--cta {
+      background: var(--red);
+      color: #fff;
+    }
+  }
+</style>

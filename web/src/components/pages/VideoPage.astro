@@ -1,0 +1,119 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { useT, localizedHref, loc, type Lang } from '../../lib/i18n';
+import { getProjectVideo } from '../../lib/queries';
+import Breadcrumbs from '../Breadcrumbs.astro';
+import SanityImg from '../SanityImg.astro';
+import GalleryGrid from '../GalleryGrid.astro';
+import CtaStrip from '../CtaStrip.astro';
+import LeadSection from '../LeadSection.astro';
+
+interface Props {
+  lang: Lang;
+  slug: string;
+}
+const { lang, slug } = Astro.props;
+const video = await getProjectVideo(slug);
+const t = useT(lang);
+const title = loc<string>(video, 'title', lang) || video?.title || '';
+const description = loc<string>(video, 'description', lang) || video?.description;
+const relatedLabel = lang === 'es' ? 'Más videos' : 'Related videos';
+const detailsLabel = lang === 'es' ? 'Detalles del proyecto' : 'Project details';
+---
+
+<BaseLayout lang={lang} title={`${title} | AB Aluminum & Screens`} description={description}>
+  <Breadcrumbs
+    lang={lang}
+    items={[{ label: t('nav.projectVideos'), href: localizedHref('/project-videos', lang) }, { label: title }]}
+  />
+
+  <section class="section">
+    <div class="container narrow">
+      <h1>{title}</h1>
+      <div class="vid-player">
+        {
+          video?.videoUrl ? (
+            <video controls preload="metadata" playsinline poster={video.posterImage ? undefined : '/videos/louvers-poster.jpg'}>
+              <source src={video.videoUrl} type="video/mp4" />
+            </video>
+          ) : (
+            <div class="vid-player__placeholder">Video unavailable</div>
+          )
+        }
+      </div>
+
+      <div class="vid-details">
+        <h2>{detailsLabel}</h2>
+        {description && <p class="lead">{description}</p>}
+        <ul class="vid-specs">
+          {video?.serviceType && <li><strong>{lang === 'es' ? 'Servicio' : 'Service'}:</strong> {video.serviceType}</li>}
+          {video?.city && <li><strong>{lang === 'es' ? 'Ciudad' : 'Location'}:</strong> {video.city}</li>}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  {
+    video?.gallery?.length > 0 && (
+      <section class="section section--alt">
+        <div class="container">
+          <GalleryGrid images={video.gallery} initial={8} />
+        </div>
+      </section>
+    )
+  }
+
+  {
+    video?.related?.length > 0 && (
+      <section class="section">
+        <div class="container">
+          <h2>{relatedLabel}</h2>
+          <div class="grid cols-3" style="margin-top:1.5rem;">
+            {video.related.map((r: any) => (
+              <a class="card" href={localizedHref('/project-videos/' + r.slug, lang)}>
+                {r.posterImage ? (
+                  <SanityImg image={r.posterImage} width={380} alt={r.posterImage.alt || r.title} />
+                ) : (
+                  <img src="/videos/louvers-poster.jpg" alt={r.title} width="380" height="220" loading="lazy" />
+                )}
+                <div style="padding:1rem 1.25rem;"><h3>{loc(r, 'title', lang) || r.title}</h3></div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <CtaStrip lang={lang} heading={lang === 'es' ? '¿Quieres un proyecto así?' : 'Want a project like this?'} />
+  <LeadSection lang={lang} source={`video:${slug}`} alt={true} />
+</BaseLayout>
+
+<style>
+  .vid-player {
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    background: #000;
+    margin: 1.5rem 0 2rem;
+    aspect-ratio: 16 / 9;
+  }
+  .vid-player video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .vid-player__placeholder {
+    display: grid;
+    place-items: center;
+    height: 100%;
+    color: #fff;
+  }
+  .vid-specs {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+</style>

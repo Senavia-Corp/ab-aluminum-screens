@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { type Lang } from '../../lib/i18n';
+import { EMAIL } from '../../lib/nav';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const updated = lang === 'es' ? 'Última actualización: junio de 2026' : 'Last updated: June 2026';
+const t = {
+  en: {
+    metaT: 'Privacy Policy | AB Aluminum & Screens',
+    title: 'Privacy Policy',
+    sections: [
+      ['Introduction', `This Privacy Policy explains how AB Aluminum & Screens ("we", "us") collects, uses and protects information when you use our website or request a quote.`],
+      ['Information We Collect', `We collect information you provide through our contact and estimate forms — such as your name, email, phone number, address/ZIP, project details and any photos you upload. We also collect standard analytics data (pages viewed, device and browser type) through cookies and similar technologies.`],
+      ['How We Use Information', `We use your information to respond to inquiries, prepare estimates and 3D designs, schedule consultations, and improve our website and services. We do not sell your personal information.`],
+      ['Cookies & Tracking', `We use Google Analytics, Google Tag Manager and Google Ads to understand site usage and measure marketing. You can control cookies through your browser settings.`],
+      ['Third-Party Services', `We may share limited information with service providers who help us operate (e.g., analytics, hosting, financing through Synchrony Bank) under appropriate confidentiality obligations.`],
+      ['Your Rights', `You may request access to, correction of, or deletion of your personal information by contacting us. We will respond in accordance with applicable law.`],
+      ['Data Retention & Security', `We retain information only as long as needed for the purposes described above and use reasonable safeguards to protect it.`],
+      ['How to Contact Us', `Questions about this policy? Email us at ${EMAIL}.`],
+    ],
+  },
+  es: {
+    metaT: 'Política de Privacidad | AB Aluminum & Screens',
+    title: 'Política de Privacidad',
+    sections: [
+      ['Introducción', `Esta Política de Privacidad explica cómo AB Aluminum & Screens ("nosotros") recopila, usa y protege la información cuando usas nuestro sitio web o solicitas un presupuesto.`],
+      ['Información que Recopilamos', `Recopilamos la información que proporcionas en nuestros formularios de contacto y presupuesto — como tu nombre, correo, teléfono, dirección/código postal, detalles del proyecto y fotos que subas. También recopilamos datos analíticos estándar (páginas vistas, tipo de dispositivo y navegador) mediante cookies y tecnologías similares.`],
+      ['Cómo Usamos la Información', `Usamos tu información para responder consultas, preparar presupuestos y diseños 3D, agendar consultas y mejorar nuestro sitio y servicios. No vendemos tu información personal.`],
+      ['Cookies y Rastreo', `Usamos Google Analytics, Google Tag Manager y Google Ads para entender el uso del sitio y medir el marketing. Puedes controlar las cookies desde la configuración de tu navegador.`],
+      ['Servicios de Terceros', `Podemos compartir información limitada con proveedores que nos ayudan a operar (por ejemplo, analítica, hosting, financiamiento a través de Synchrony Bank) bajo obligaciones de confidencialidad apropiadas.`],
+      ['Tus Derechos', `Puedes solicitar acceso, corrección o eliminación de tu información personal contactándonos. Responderemos conforme a la ley aplicable.`],
+      ['Retención y Seguridad de Datos', `Conservamos la información solo el tiempo necesario para los fines descritos y usamos medidas razonables para protegerla.`],
+      ['Cómo Contactarnos', `¿Preguntas sobre esta política? Escríbenos a ${EMAIL}.`],
+    ],
+  },
+}[lang];
+---
+
+<BaseLayout lang={lang} title={t.metaT} noindex={false}>
+  <section class="section">
+    <div class="container narrow">
+      <h1>{t.title}</h1>
+      <p class="updated">{updated}</p>
+      {
+        t.sections.map(([h, body]) => (
+          <div class="legal-block">
+            <h2>{h}</h2>
+            <p>{body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .updated {
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+  .legal-block {
+    margin-bottom: 1.75rem;
+  }
+  .legal-block h2 {
+    font-size: var(--h3);
+    margin-bottom: 0.5rem;
+  }
+  .legal-block p {
+    color: var(--charcoal);
+    line-height: 1.7;
+  }
+</style>

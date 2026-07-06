@@ -1,0 +1,47 @@
+---
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  intro?: string;
+  align?: 'center' | 'left';
+  light?: boolean; // for dark backgrounds
+  class?: string;
+}
+const { eyebrow, heading, intro, align = 'center', light = false, class: cls = '' } = Astro.props;
+---
+<div
+  class:list={['sh', `sh--${align}`, { 'sh--light': light }, cls]}
+  data-reveal
+>
+  {eyebrow && <span class="eyebrow eyebrow--line sh__eyebrow">{eyebrow}</span>}
+  <h2 class="sh__h2">{heading}</h2>
+  {intro && <p class="lead sh__intro">{intro}</p>}
+</div>
+
+<style>
+  .sh {
+    max-width: 760px;
+  }
+  .sh--center {
+    margin-inline: auto;
+    text-align: center;
+  }
+  .sh--center .eyebrow--line {
+    justify-content: center;
+  }
+  .sh--left {
+    max-width: 640px;
+  }
+  .sh__h2 {
+    margin-top: 0.25rem;
+  }
+  .sh__intro {
+    margin-top: 1rem;
+  }
+  .sh--light .sh__h2 {
+    color: #fff;
+  }
+  .sh--light .sh__intro {
+    color: rgba(255, 255, 255, 0.82);
+  }
+</style>

@@ -1,0 +1,241 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { useT, localizedHref, type Lang } from '../../lib/i18n';
+import { SYNCHRONY } from '../../lib/nav';
+import PageHero from '../PageHero.astro';
+import AnswerBlock from '../AnswerBlock.astro';
+import FAQ from '../FAQ.astro';
+import LeadSection from '../LeadSection.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+const copy = {
+  en: {
+    metaT: 'Financing | AB Aluminum & Screens — Synchrony Bank',
+    metaD: 'Finance your aluminum pergola, pool enclosure, screen room or louvered roof through Synchrony Bank — no upfront cost, flexible monthly payments and fast approval.',
+    title: 'Flexible Financing for Your Outdoor Project',
+    sub: 'Finance your custom aluminum pergola, pool enclosure, screen room or louvered roof through Synchrony Bank — with no upfront cost and flexible monthly payments.',
+    answerQ: 'How does financing an outdoor project work?',
+    answerA:
+      'Finance your aluminum pergola, pool enclosure, screen room or louvered roof through Synchrony Bank — with no upfront cost and flexible monthly payments. Apply online in minutes, get a fast decision, and our licensed crew builds your project while you pay over time. We design and quote it; Synchrony sets your rate and terms.',
+    answerChips: [
+      { icon: 'credit-card', value: '$0', label: 'upfront cost' },
+      { icon: 'zap', value: 'Minutes', label: 'to apply' },
+      { icon: 'shield-check', value: 'Synchrony', label: 'Bank-backed' },
+      { icon: 'clock', value: 'Fast', label: 'approval' },
+    ],
+    benefits: [
+      { t: 'No Upfront Costs', d: 'Start your project without paying everything at once.' },
+      { t: 'Flexible Monthly Payments', d: 'Choose a payment plan that fits your budget.' },
+      { t: 'Fast Approval', d: 'Quick, easy application with a fast decision.' },
+      { t: 'Trusted Synchrony Partner', d: 'Financing backed by Synchrony Bank.' },
+    ],
+    howH2: 'How Financing Works',
+    steps: [
+      { t: 'Choose your project', d: 'Tell us what you want to build — pergola, pool enclosure, screen room or louvered roof. We design it and send a clear, itemized estimate, so you know the exact amount to finance.' },
+      { t: 'Apply with Synchrony', d: 'Apply online through Synchrony Bank’s secure portal in just a few minutes. The short application asks for basic information — nothing to mail and no cost to apply.' },
+      { t: 'Get approved', d: 'Most applicants get a fast decision. Review your available terms and monthly payment options, then choose the plan that best fits your budget.' },
+      { t: 'We build it', d: 'After approval, our licensed in-house crew pulls the permits and installs your project to Florida Building Code — start enjoying your space while you pay over time.' },
+    ],
+    faqH2: 'Financing FAQ',
+    faqs: [
+      { q: 'Who qualifies?', a: 'Homeowners who apply and meet Synchrony Bank’s standard credit criteria. Applying is quick and online.' },
+      { q: 'Does applying affect my credit?', a: 'Synchrony determines the type of inquiry during application. We’ll point you to their secure portal so you can review terms before you commit.' },
+      { q: 'What terms are available?', a: 'Synchrony offers several promotional and standard term options depending on your project size. We’ll help you find the right fit.' },
+    ],
+  },
+  es: {
+    metaT: 'Financiamiento | AB Aluminum & Screens — Synchrony Bank',
+    metaD: 'Financia tu pérgola de aluminio, cerramiento de piscina, porche o techo de lamas con Synchrony Bank — sin costo inicial, pagos mensuales flexibles y aprobación rápida.',
+    title: 'Financiamiento Flexible para tu Proyecto',
+    sub: 'Financia tu pérgola de aluminio, cerramiento de piscina, porche con malla o techo de lamas a través de Synchrony Bank — sin costo inicial y con pagos mensuales flexibles.',
+    answerQ: '¿Cómo funciona el financiamiento de un proyecto?',
+    answerA:
+      'Financia tu pérgola, cerramiento de piscina, porche o techo de lamas a través de Synchrony Bank — sin costo inicial y con pagos mensuales flexibles. Aplica en línea en minutos, recibe una decisión rápida y nuestro equipo construye mientras pagas a tu ritmo. Nosotros diseñamos y cotizamos; Synchrony define tu tasa y plazos.',
+    answerChips: [
+      { icon: 'credit-card', value: '$0', label: 'costo inicial' },
+      { icon: 'zap', value: 'Minutos', label: 'para aplicar' },
+      { icon: 'shield-check', value: 'Synchrony', label: 'respaldado por el banco' },
+      { icon: 'clock', value: 'Rápida', label: 'aprobación' },
+    ],
+    benefits: [
+      { t: 'Sin Costo Inicial', d: 'Comienza tu proyecto sin pagar todo de una vez.' },
+      { t: 'Pagos Mensuales Flexibles', d: 'Elige un plan de pago que se ajuste a tu presupuesto.' },
+      { t: 'Aprobación Rápida', d: 'Solicitud rápida y sencilla con decisión inmediata.' },
+      { t: 'Socio Confiable Synchrony', d: 'Financiamiento respaldado por Synchrony Bank.' },
+    ],
+    howH2: 'Cómo Funciona el Financiamiento',
+    steps: [
+      { t: 'Elige tu proyecto', d: 'Cuéntanos qué quieres construir — pérgola, cerramiento de piscina, porche con malla o techo de lamas. Lo diseñamos y te enviamos un presupuesto claro y detallado, para que sepas el monto exacto a financiar.' },
+      { t: 'Solicita con Synchrony', d: 'Aplica en línea por el portal seguro de Synchrony Bank en pocos minutos. La solicitud es corta y pide datos básicos — sin papeleo por correo y sin costo por aplicar.' },
+      { t: 'Recibe la aprobación', d: 'La mayoría recibe una decisión rápida. Revisa los plazos y las opciones de pago mensual disponibles, y elige el plan que mejor se ajuste a tu presupuesto.' },
+      { t: 'Lo construimos', d: 'Tras la aprobación, nuestro equipo propio con licencia tramita los permisos e instala tu proyecto según el código de Florida — disfruta tu espacio mientras pagas a tu ritmo.' },
+    ],
+    faqH2: 'Preguntas Frecuentes',
+    faqs: [
+      { q: '¿Quién califica?', a: 'Propietarios que apliquen y cumplan los criterios crediticios estándar de Synchrony Bank. La solicitud es rápida y en línea.' },
+      { q: '¿La solicitud afecta mi crédito?', a: 'Synchrony determina el tipo de consulta durante la solicitud. Te dirigiremos a su portal seguro para que revises los términos antes de decidir.' },
+      { q: '¿Qué plazos hay disponibles?', a: 'Synchrony ofrece varias opciones de plazo promocionales y estándar según el tamaño de tu proyecto. Te ayudamos a encontrar la mejor opción.' },
+    ],
+  },
+};
+const c = copy[lang];
+const icons = ['/images/Icon-9.svg', '/images/Icon-10.svg', '/images/Icon-11.svg', '/images/Icon-12.svg'];
+// {{PENDIENTE: real Synchrony APR/term examples — needed before showing any monthly-payment figures}}
+---
+
+<BaseLayout lang={lang} title={c.metaT} description={c.metaD}>
+  <PageHero
+    lang={lang}
+    title={c.title}
+    subtitle={c.sub}
+    image="/images/aluminum-pergola-screen-enclosure-lake-view-dining-florida.avif"
+    ctas={[
+      { label: t('cta.applyFinancing'), href: SYNCHRONY },
+      { label: t('cta.requestEstimate'), href: localizedHref('/contact-us', lang), variant: 'ghost' },
+    ]}
+  />
+
+  <AnswerBlock
+    lang={lang}
+    question={c.answerQ}
+    answer={c.answerA}
+    chips={c.answerChips}
+    alt={true}
+    image="/images/aluminum-pergola-screen-enclosure-lake-view-dining-florida.avif"
+    imageAlt={lang === 'es'
+      ? 'Pérgola de aluminio con cerramiento de malla y vista al lago en el sur de Florida'
+      : 'Aluminum pergola with screen enclosure and lake view in South Florida'}
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="grid cols-4">
+        {
+          c.benefits.map((b, i) => (
+            <div class="card fin-benefit">
+              <img src={icons[i]} alt="" width="40" height="40" />
+              <h3>{b.t}</h3>
+              <p>{b.d}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <h2 class="text-center">{c.howH2}</h2>
+      <ol class="fin-steps">
+        {
+          c.steps.map((s, i) => (
+            <li>
+              <div class="fin-step__top"><span>{i + 1}</span></div>
+              <h3>{s.t}</h3>
+              <p>{s.d}</p>
+            </li>
+          ))
+        }
+      </ol>
+      <div class="text-center" style="margin-top:2rem;">
+        <a class="btn btn--primary btn--lg" href={SYNCHRONY} target="_blank" rel="noopener">{t('cta.applyFinancing')}</a>
+      </div>
+    </div>
+  </section>
+
+  <FAQ lang={lang} items={c.faqs} heading={c.faqH2} alt={false} />
+
+  <LeadSection lang={lang} source="financing" alt={true} />
+</BaseLayout>
+
+<style>
+  .fin-benefit {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .fin-benefit p {
+    color: var(--muted);
+    font-size: 0.9375rem;
+  }
+  .fin-steps {
+    list-style: none;
+    padding: 0;
+    margin: clamp(2rem, 5vw, 3rem) 0 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(1rem, 3vw, 2rem);
+  }
+  .fin-steps li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .fin-step__top {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.1rem;
+  }
+  /* Connector line through the numbered badges */
+  .fin-step__top::before,
+  .fin-step__top::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    height: 2px;
+    width: 50%;
+    background: var(--border);
+  }
+  .fin-step__top::before {
+    left: 0;
+  }
+  .fin-step__top::after {
+    right: 0;
+  }
+  .fin-steps li:first-child .fin-step__top::before,
+  .fin-steps li:last-child .fin-step__top::after {
+    display: none;
+  }
+  .fin-steps span {
+    position: relative;
+    z-index: 1;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--red);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    font-size: 1.0625rem;
+    box-shadow: 0 0 0 6px var(--bg-alt);
+  }
+  .fin-steps h3 {
+    font-size: var(--h3);
+    margin-bottom: 0.4rem;
+  }
+  .fin-steps p {
+    color: var(--muted);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    max-width: 30ch;
+  }
+  @media (max-width: 700px) {
+    .fin-steps {
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem 1rem;
+    }
+    .fin-step__top::before,
+    .fin-step__top::after {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,119 @@
+---
+import { localizedHref, useT, type Lang } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+  // kept for backwards-compat with existing call sites; the section is always red now.
+  alt?: boolean;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+const copy = {
+  en: {
+    eyebrow: 'Financing',
+    heading: 'Financing for your outdoor living project through Synchrony Bank',
+    body: 'Build now and pay over time with flexible monthly payments and no upfront cost. Fast approval through our trusted partner, Synchrony Bank.',
+  },
+  es: {
+    eyebrow: 'Financiamiento',
+    heading: 'Financiamiento para tu proyecto de exteriores con Synchrony Bank',
+    body: 'Construye ahora y paga a tu ritmo con pagos mensuales flexibles y sin costo inicial. Aprobación rápida con nuestro socio de confianza, Synchrony Bank.',
+  },
+};
+const c = copy[lang];
+---
+
+<section class="fin">
+  <div class="fin__band">
+    <div class="container fin__inner">
+      <div class="fin__media">
+        <img
+          class="fin__img"
+          src="/images/aluminum-patio-cover-pool-palm-trees-florida.avif"
+          alt={lang === 'es'
+            ? 'Cubierta de patio de aluminio junto a una piscina con palmeras en el sur de Florida'
+            : 'Aluminum patio cover beside a pool with palm trees in South Florida'}
+          width="560"
+          height="620"
+          loading="lazy"
+        />
+      </div>
+      <div class="fin__text">
+        <span class="fin__eyebrow">{c.eyebrow}</span>
+        <h2>{c.heading}</h2>
+        <p class="fin__body">{c.body}</p>
+        <a class="btn btn--secondary fin__btn" href={localizedHref('/financing', lang)}>
+          {t('cta.learnFinancing')}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .fin {
+    padding-block: clamp(3.5rem, 6vw, 5.5rem);
+  }
+  .fin__band {
+    /* --red-dark so white heading/body clear WCAG AA (plain --red is only 3.98:1). */
+    background: var(--red-dark);
+  }
+  .fin__inner {
+    display: grid;
+    grid-template-columns: 0.92fr 1.08fr;
+    gap: clamp(1.75rem, 4vw, 3.5rem);
+    align-items: center;
+    padding-block: clamp(2rem, 4vw, 3rem);
+  }
+  /* Image breaks out of the red band, top and bottom (premium overlap). */
+  .fin__media {
+    margin-block: clamp(-4.5rem, -6vw, -3rem);
+  }
+  .fin__img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: center;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+  }
+  .fin__eyebrow {
+    display: inline-block;
+    color: #fff; /* white clears AA on the red-dark band; --peach was 4.29:1 at 13px */
+    font-weight: 700;
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  .fin__text h2 {
+    color: #fff;
+  }
+  .fin__body {
+    margin-top: 1rem;
+    color: rgba(255, 255, 255, 0.94);
+    line-height: 1.65;
+    font-size: 1.125rem;
+    max-width: 54ch;
+  }
+  .fin__btn {
+    margin-top: 1.75rem;
+  }
+  /* Stack on smaller screens; drop the band overlap so nothing collides. */
+  @media (max-width: 860px) {
+    .fin {
+      padding-block: var(--section-y);
+    }
+    .fin__inner {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      padding-block: clamp(2rem, 6vw, 2.75rem);
+    }
+    .fin__media {
+      margin-block: 0;
+    }
+    .fin__img {
+      aspect-ratio: 16 / 10;
+    }
+  }
+</style>

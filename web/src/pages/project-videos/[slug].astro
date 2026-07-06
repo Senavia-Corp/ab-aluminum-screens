@@ -1,0 +1,9 @@
+---
+import VideoPage from '../../components/pages/VideoPage.astro';
+import { videoPaths } from '../../lib/routes';
+export async function getStaticPaths() {
+  return videoPaths();
+}
+const { slug } = Astro.params;
+---
+<VideoPage lang="en" slug={slug as string} />

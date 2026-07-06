@@ -1,0 +1,68 @@
+---
+import { useT, localizedHref, type Lang } from '../lib/i18n';
+
+interface Crumb {
+  label: string;
+  href?: string;
+}
+interface Props {
+  lang: Lang;
+  items: Crumb[];
+}
+const { lang, items } = Astro.props;
+const t = useT(lang);
+const home = { label: t('common.breadcrumbHome'), href: localizedHref('/', lang) };
+const all = [home, ...items];
+
+const origin = Astro.site?.href ?? 'https://www.abaluminumandscreens.com/';
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: all.map((c, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: c.label,
+    ...(c.href ? { item: new URL(c.href, origin).href.replace(/\/$/, '') } : {}),
+  })),
+};
+---
+
+<nav class="crumbs" aria-label="Breadcrumb">
+  <div class="container">
+    <ol>
+      {
+        all.map((c, i) => (
+          <li>
+            {c.href && i < all.length - 1 ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}
+            {i < all.length - 1 && <span class="sep" aria-hidden="true">›</span>}
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</nav>
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+<style>
+  .crumbs {
+    background: var(--light-gray);
+    border-bottom: 1px solid var(--border);
+    font-size: 0.875rem;
+  }
+  .crumbs ol {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.75rem 0;
+    margin: 0;
+    color: var(--muted);
+  }
+  .crumbs a:hover {
+    color: var(--red);
+  }
+  .sep {
+    color: var(--border);
+  }
+</style>

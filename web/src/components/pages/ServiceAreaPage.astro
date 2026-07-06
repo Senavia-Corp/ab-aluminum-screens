@@ -1,0 +1,229 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { useT, localizedHref, loc, type Lang } from '../../lib/i18n';
+import { SERVICES } from '../../lib/nav';
+import { getServiceArea, getServiceAreas } from '../../lib/queries';
+import { COUNTY_BY_SLUG } from '../../lib/areas';
+import { BUSINESS_ID, SITE_ORIGIN } from '../../lib/seo';
+import { DEFAULT_PRICING, estimateBreakdown, formatUSD } from '../../lib/pricing';
+import Breadcrumbs from '../Breadcrumbs.astro';
+import PageHero from '../PageHero.astro';
+import AnswerBlock from '../AnswerBlock.astro';
+import AboutIntro from '../AboutIntro.astro';
+import GalleryMosaic from '../GalleryMosaic.astro';
+import ProcessSteps from '../ProcessSteps.astro';
+import FinancingTeaser from '../FinancingTeaser.astro';
+import Reviews from '../Reviews.astro';
+import LeadSection from '../LeadSection.astro';
+
+interface Props {
+  lang: Lang;
+  slug: string;
+}
+const { lang, slug } = Astro.props;
+const area = await getServiceArea(slug);
+const t = useT(lang);
+
+const cityName = loc<string>(area, 'title', lang) || area?.title || slug;
+const titlePage = loc<string>(area, 'titlePage', lang) || area?.titlePage || `Contractors in ${cityName}`;
+const heading = loc<string>(area, 'heading', lang) || area?.heading;
+const p1 = loc<string>(area, 'paragraph1', lang) || area?.paragraph1;
+const p2 = loc<string>(area, 'paragraph2', lang) || area?.paragraph2;
+const services = loc<any[]>(area, 'services', lang) || area?.services || [];
+const galleryP = loc<string>(area, 'galleryParagraph', lang) || area?.galleryParagraph;
+const seo = (lang === 'es' && area?.seoEs) || area?.seo || {};
+const processLoc = loc<any>(area, 'process', lang) || area?.process || {};
+
+const servicesH2 = lang === 'es' ? 'Instalación de Estructuras de Exterior' : 'Outdoor Living Structures Installation';
+
+// County + nearby cities (same county) for internal linking — unique per city, so not a doorway pattern.
+const county = COUNTY_BY_SLUG[slug];
+const allAreas: { slug: string; title: string; titleEs?: string }[] = await getServiceAreas();
+const neighbors = allAreas
+  .filter((a) => a.slug !== slug && COUNTY_BY_SLUG[a.slug] === county)
+  .slice(0, 3);
+const countyLabel = county || 'South Florida';
+
+// Region-true price range from the estimator engine (a typical pergola), reused as GEO answer text.
+const typical = estimateBreakdown({
+  structure: 'pergola',
+  sqft: 200,
+  attachment: 'attached',
+  roofType: 'solid-insulated',
+  material: 'white',
+  addOns: [],
+});
+const rangeText = `${formatUSD(typical.total.low)}–${formatUSD(typical.total.high)}`;
+const fromSqft = DEFAULT_PRICING.structures.pergola.basePerSqft;
+
+// City-named GEO answer — distinct per page (city + county vary), alongside the unique CMS prose.
+const answerQ =
+  lang === 'es'
+    ? `¿Instalan pérgolas y cerramientos de aluminio en ${cityName}?`
+    : `Do you install aluminum pergolas and enclosures in ${cityName}?`;
+const answerA =
+  lang === 'es'
+    ? `Sí — AB Aluminum & Screens diseña, tramita permisos e instala pérgolas de aluminio, cerramientos de piscina, porches y techos de lamas en ${cityName} y en todo ${countyLabel}. Los proyectos cuestan normalmente ${rangeText}, calculados según el código HVHZ de Miami-Dade, con un diseño 3D gratis antes de decidir.`
+    : `Yes — AB Aluminum & Screens designs, permits and installs aluminum pergolas, pool enclosures, screen rooms and louvered roofs in ${cityName} and across ${countyLabel}. Projects typically run ${rangeText}, engineered to the Miami-Dade HVHZ wind-load code, with a free 3D design before you commit.`;
+const answerChips = [
+  { icon: 'ruler', value: `from $${fromSqft}/sq ft`, label: lang === 'es' ? 'instalado' : 'installed' },
+  { icon: 'wind', value: '175 mph', label: lang === 'es' ? 'resistencia HVHZ' : 'HVHZ wind-rated' },
+  { icon: 'box', value: lang === 'es' ? 'Gratis' : 'Free', label: lang === 'es' ? 'diseño 3D' : '3D design' },
+  { icon: 'award', value: lang === 'es' ? '15+ años' : '15+ yrs', label: lang === 'es' ? 'de experiencia' : 'in business' },
+];
+
+// Service schema — references the business by @id (declared once in BaseLayout), area = this city.
+const areaJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: `Outdoor living structure installation in ${cityName}`,
+  serviceType: 'Aluminum pergola, pool enclosure, screen room & louvered roof installation',
+  areaServed: { '@type': 'City', name: cityName },
+  provider: { '@id': BUSINESS_ID },
+  url: `${SITE_ORIGIN}${localizedHref('/service-areas/' + slug, lang)}`,
+};
+
+const nearbyH2 = lang === 'es' ? 'Áreas Cercanas que Atendemos' : 'Nearby Areas We Serve';
+---
+
+<BaseLayout
+  lang={lang}
+  title={seo.metaTitle || `${titlePage} | AB Aluminum & Screens`}
+  description={seo.metaDescription || loc<string>(area, 'descriptionPage', lang) || area?.descriptionPage}
+  jsonLd={areaJsonLd}
+>
+  <Breadcrumbs
+    lang={lang}
+    items={[{ label: t('nav.serviceAreas'), href: localizedHref('/service-areas', lang) }, { label: cityName }]}
+  />
+
+  <PageHero
+    lang={lang}
+    align="center"
+    badges={true}
+    title={titlePage}
+    subtitle={p1}
+    image="/images/service-area-hero-south-florida-pergola-pool.webp"
+    ctas={[{ label: t('cta.requestEstimate'), href: localizedHref('/contact-us', lang) }]}
+  />
+
+  <!-- GEO direct-answer (city-named, real pricing) -->
+  <AnswerBlock
+    lang={lang}
+    question={answerQ}
+    answer={answerA}
+    chips={answerChips}
+    alt={true}
+    image="/images/aluminum-pergola-louvers-patio-pool-tropical-plants-florida.avif"
+    imageAlt={lang === 'es'
+      ? `Pérgola de lamas de aluminio junto a una piscina con plantas tropicales en ${cityName}, sur de Florida`
+      : `Aluminum louvered pergola beside a pool with tropical plants in ${cityName}, South Florida`}
+  />
+
+  {/* {{PENDIENTE: city-specific FAQ from CMS — e.g. "Do I need a permit for a pergola in <city>?"}} */}
+
+  <!-- City-specific intro + the services we install here (elevated for local SEO) -->
+  <section class="section">
+    <div class="container">
+      <h2 class="text-center">{heading || servicesH2}</h2>
+      {p2 && <p class="lead text-center area-intro">{p2}</p>}
+      <div class="grid cols-4" style="margin-top:2rem;">
+        {
+          SERVICES.map((s, i) => (
+            <a class="card area-svc" href={localizedHref('/' + s.route, lang)}>
+              <img src={s.thumb} alt={s.label[lang]} width="320" height="200" loading="lazy" />
+              <div class="area-svc__body">
+                <h3>{s.label[lang]}</h3>
+                <p>{services[i]?.paragraph || s.blurb[lang]}</p>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <AboutIntro lang={lang} alt={true} />
+
+  <GalleryMosaic lang={lang} sub={galleryP || undefined} />
+  <Reviews lang={lang} limit={3} />
+  <FinancingTeaser lang={lang} alt={true} />
+  <ProcessSteps lang={lang} intro={processLoc?.intro} />
+
+  {
+    neighbors.length > 0 && (
+      <section class="section">
+        <div class="container narrow text-center">
+          <h2>{nearbyH2}</h2>
+          <ul class="nearby" data-reveal>
+            {neighbors.map((n) => (
+              <li>
+                <a href={localizedHref('/service-areas/' + n.slug, lang)}>
+                  {(lang === 'es' && n.titleEs) || n.title}
+                </a>
+              </li>
+            ))}
+            <li>
+              <a class="nearby__all" href={localizedHref('/service-areas', lang)}>
+                {lang === 'es' ? 'Todas las áreas →' : 'All service areas →'}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+    )
+  }
+
+  <LeadSection lang={lang} source={`area:${slug}`} alt={false} />
+</BaseLayout>
+
+<style>
+  .area-intro {
+    max-width: 640px;
+    margin: 0.75rem auto 0;
+  }
+  .area-svc {
+    display: flex;
+    flex-direction: column;
+  }
+  .area-svc img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+  .area-svc__body {
+    padding: 1rem 1.25rem;
+  }
+  .area-svc__body p {
+    color: var(--muted);
+    font-size: 0.9375rem;
+    margin-top: 0.5rem;
+  }
+  .nearby {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+  }
+  .nearby a {
+    display: inline-block;
+    padding: 0.5rem 0.95rem;
+    border-radius: 999px;
+    background: var(--light-gray);
+    border: 1px solid var(--border);
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: border-color 0.18s ease, color 0.18s ease;
+  }
+  .nearby a:hover {
+    border-color: var(--red);
+    color: var(--red);
+  }
+  .nearby__all {
+    background: #fff !important;
+    color: var(--red-ink);
+  }
+</style>

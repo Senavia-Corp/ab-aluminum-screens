@@ -1,0 +1,9 @@
+---
+import BlogPostPage from '../../components/pages/BlogPostPage.astro';
+import { blogPaths } from '../../lib/routes';
+export async function getStaticPaths() {
+  return blogPaths();
+}
+const { slug } = Astro.params;
+---
+<BlogPostPage lang="en" slug={slug as string} />

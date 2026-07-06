@@ -1,0 +1,362 @@
+---
+import { useT, type Lang } from '../lib/i18n';
+import { PHONE } from '../lib/nav';
+import LeadForm from './LeadForm.astro';
+
+type ServiceKey = 'pergola' | 'pool' | 'louvered' | 'screen';
+interface Props {
+  lang: Lang;
+  source?: string;
+  alt?: boolean; // kept for backward compat; section is always dark now
+  service?: ServiceKey; // when set, carousel + thumbs show ONLY this service's photos
+}
+const { lang, source = 'inline', service } = Astro.props;
+const t = useT(lang);
+const es = lang === 'es';
+
+// Per-service alt text (images are auto-selected img1–img9 in /lead/<service>/).
+const SERVICE_ALT: Record<ServiceKey, { en: string; es: string }> = {
+  pergola: { en: 'Custom aluminum pergola & patio cover in South Florida', es: 'Pérgola y cubierta de aluminio a medida en el sur de Florida' },
+  pool: { en: 'Aluminum pool screen enclosure in South Florida', es: 'Cerramiento de piscina de aluminio en el sur de Florida' },
+  louvered: { en: 'Motorized louvered roof system in South Florida', es: 'Techo de lamas motorizado en el sur de Florida' },
+  screen: { en: 'Screen room & patio enclosure in South Florida', es: 'Porche con malla y cerramiento de patio en el sur de Florida' },
+};
+
+let slides: { src: string; alt: string }[];
+let thumbs: { src: string; alt: string }[];
+if (service) {
+  const a = es ? SERVICE_ALT[service].es : SERVICE_ALT[service].en;
+  slides = [1, 2, 3, 4, 5, 6].map((i) => ({ src: `/lead/${service}/img${i}.webp`, alt: a }));
+  thumbs = [7, 8, 9].map((i) => ({ src: `/lead/${service}/img${i}.webp`, alt: a }));
+} else {
+  // Default (homepage, about, contact, …): a mixed 2-per-service set.
+  slides = [
+    { src: '/lead/carousel-pergola-1.avif', alt: es ? 'Pérgola de aluminio con vista al lago en Miami' : 'Aluminum pergola with lake-view lounge in Miami' },
+    { src: '/lead/carousel-pool-1.webp', alt: es ? 'Cerramiento de piscina de aluminio en el sur de Florida' : 'Aluminum pool screen enclosure in South Florida' },
+    { src: '/lead/carousel-louvered-1.webp', alt: es ? 'Techo de lamas blanco sobre patio de mármol' : 'White louvered roof over a marble patio' },
+    { src: '/lead/carousel-screen-1.webp', alt: es ? 'Patio cerrado con paneles transparentes junto a la piscina' : 'Screened patio with clear panels by the pool' },
+    { src: '/lead/carousel-pergola-2.avif', alt: es ? 'Cubierta de patio de aluminio sobre terraza de piscina' : 'Aluminum patio cover over a pool paver deck' },
+    { src: '/lead/carousel-pool-2.webp', alt: es ? 'Cerramiento de piscina con área de patio' : 'Pool enclosure with patio area' },
+    { src: '/lead/carousel-louvered-2.webp', alt: es ? 'Techo de lamas independiente sobre la piscina' : 'Freestanding louvered roof over a pool' },
+    { src: '/lead/carousel-screen-2.webp', alt: es ? 'Patio cerrado adosado con terraza de adoquines' : 'Attached screened patio with paver deck' },
+  ];
+  thumbs = [
+    { src: '/lead/thumb-pool.jpeg', alt: es ? 'Cerramiento de piscina de aluminio' : 'Aluminum screened pool enclosure' },
+    { src: '/lead/thumb-pergola.jpeg', alt: es ? 'Pérgola blanca independiente' : 'White freestanding pergola' },
+    { src: '/lead/thumb-louvered.jpeg', alt: es ? 'Techo de lamas color bronce' : 'Dark bronze louvered roof' },
+  ];
+}
+
+const badges = [
+  { label: t('common.licensedInsured') },
+  { label: t('common.yearsExp') },
+  { label: t('form.badgeProjects') },
+  { label: t('form.badgeReviews'), stars: true },
+];
+---
+
+<section class="section lead-sec" id="quote">
+  <div class="container lead-sec__wrap">
+    <!-- Visual column -->
+    <div class="lead-sec__visual">
+      <div class="lead-carousel" data-carousel>
+        <div class="lead-carousel__track">
+          {
+            slides.map((s, i) => (
+              <figure class="lead-carousel__slide" data-active={i === 0 ? '' : undefined}>
+                <img
+                  src={s.src}
+                  alt={s.alt}
+                  loading={i === 0 && service ? 'eager' : 'lazy'}
+                  fetchpriority={i === 0 && service ? 'high' : undefined}
+                  decoding="async"
+                  width="1200"
+                  height="750"
+                />
+              </figure>
+            ))
+          }
+        </div>
+        <div class="lead-carousel__dots">
+          {
+            slides.map((_, i) => (
+              <button
+                class="lead-carousel__dot"
+                type="button"
+                data-active={i === 0 ? '' : undefined}
+                aria-label={`${es ? 'Foto' : 'Slide'} ${i + 1}`}
+              />
+            ))
+          }
+        </div>
+      </div>
+
+      <h2 class="lead-sec__title">{t('form.heading')}</h2>
+      <p class="lead-sec__sub">{t('form.subcopy')}</p>
+
+      <ul class="lead-sec__badges">
+        {
+          badges.map((b) => (
+            <li class="lead-pill">
+              {b.stars && <span class="lead-pill__stars" aria-hidden="true">★★★★★</span>}
+              <span>{b.label}</span>
+            </li>
+          ))
+        }
+      </ul>
+
+      <ul class="lead-sec__thumbs">
+        {
+          thumbs.map((th) => (
+            <li>
+              <img src={th.src} alt={th.alt} loading="lazy" decoding="async" width="720" height="540" />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <!-- Form card -->
+    <div class="card lead-sec__card">
+      <span class="eyebrow">{t('cta.getFreeQuote')}</span>
+      <LeadForm lang={lang} source={source} />
+      <p class="lead-sec__assurance">{t('form.assurance')}</p>
+      <p class="lead-sec__phones">
+        <a href={`tel:${PHONE.en.tel}`}>{PHONE.en.display} <span>EN</span></a>
+        <span class="lead-sec__phsep">·</span>
+        <a href={`tel:${PHONE.es.tel}`}>{PHONE.es.display} <span>ES</span></a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .lead-sec {
+    background: linear-gradient(165deg, var(--blue-dark), var(--blue));
+    color: #fff;
+  }
+  .lead-sec__wrap {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+    align-items: center;
+  }
+
+  /* Visual column */
+  .lead-sec__visual {
+    min-width: 0;
+  }
+  .lead-carousel {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    border-radius: var(--radius-xl, 16px);
+    overflow: hidden;
+    box-shadow: 0 22px 55px rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.2);
+  }
+  .lead-carousel__track {
+    position: absolute;
+    inset: 0;
+  }
+  .lead-carousel__slide {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+  .lead-carousel__slide[data-active] {
+    opacity: 1;
+  }
+  .lead-carousel__slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .lead-carousel__dots {
+    position: absolute;
+    bottom: 0.85rem;
+    left: 0;
+    right: 0;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+  }
+  /* 24x24 tap target (WCAG 2.2 target-size) with a small visible dot inside. */
+  .lead-carousel__dot {
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .lead-carousel__dot::before {
+    content: '';
+    display: block;
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.5);
+    transition: width 0.3s ease, background 0.3s ease;
+  }
+  .lead-carousel__dot[data-active]::before {
+    width: 22px;
+    background: #fff;
+  }
+
+  .lead-sec__title {
+    color: #fff;
+    margin: 1.5rem 0 0.5rem;
+    font-size: clamp(1.6rem, 3vw, 2.25rem);
+    line-height: 1.15;
+  }
+  .lead-sec__sub {
+    color: rgba(255, 255, 255, 0.82);
+    margin: 0 0 1.25rem;
+  }
+
+  .lead-sec__badges {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+  .lead-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    line-height: 1;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    white-space: nowrap;
+  }
+  .lead-pill__stars {
+    color: #ffc83d;
+    letter-spacing: 1px;
+  }
+
+  .lead-sec__thumbs {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.6rem;
+  }
+  .lead-sec__thumbs img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius-lg, 12px);
+  }
+
+  /* Form card */
+  .lead-sec__card {
+    padding: clamp(1.25rem, 3vw, 2rem);
+    color: var(--charcoal);
+  }
+  .lead-sec__card .eyebrow {
+    display: block;
+    margin-bottom: 1rem;
+  }
+  .lead-sec__assurance {
+    margin: 0.9rem 0 0.5rem;
+    font-size: 0.8rem;
+    color: var(--muted, #6b7280);
+    text-align: center;
+  }
+  .lead-sec__phones {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    font-weight: 700;
+  }
+  .lead-sec__phones a {
+    color: var(--blue);
+    text-decoration: none;
+  }
+  .lead-sec__phones a span {
+    color: var(--muted, #6b7280);
+    font-weight: 600;
+    font-size: 0.82em;
+  }
+  .lead-sec__phsep {
+    color: var(--border, #d1d5db);
+  }
+
+  @media (max-width: 900px) {
+    .lead-sec__wrap {
+      grid-template-columns: 1fr;
+    }
+    /* shorten the visual block above the form on mobile */
+    .lead-sec__thumbs {
+      display: none;
+    }
+  }
+  @media (max-width: 560px) {
+    .lead-pill {
+      font-size: 0.8rem;
+      padding: 0.45rem 0.75rem;
+    }
+  }
+</style>
+
+<script>
+  const INTERVAL = 4500;
+  const FADE = 800;
+  document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((root) => {
+    const slides = [...root.querySelectorAll<HTMLElement>('.lead-carousel__slide')];
+    const dots = [...root.querySelectorAll<HTMLElement>('.lead-carousel__dot')];
+    if (slides.length < 2) return;
+    let cur = 0;
+    let z = 1;
+    // Flash-free crossfade: the incoming slide fades in stacked on top of the
+    // current one, which is only hidden once the fade finishes — no navy bleed.
+    const go = (n: number) => {
+      n = (n + slides.length) % slides.length;
+      if (n === cur) return;
+      const next = slides[n];
+      const prev = slides[cur];
+      next.style.zIndex = String(++z);
+      next.style.opacity = '1';
+      window.setTimeout(() => {
+        prev.style.opacity = '0';
+      }, FADE);
+      dots.forEach((d, k) => d.toggleAttribute('data-active', k === n));
+      cur = n;
+    };
+    let timer = window.setInterval(() => go(cur + 1), INTERVAL);
+    const restart = () => {
+      window.clearInterval(timer);
+      timer = window.setInterval(() => go(cur + 1), INTERVAL);
+    };
+    dots.forEach((d, k) =>
+      d.addEventListener('click', () => {
+        go(k);
+        restart();
+      })
+    );
+    root.addEventListener('mouseenter', () => window.clearInterval(timer));
+    root.addEventListener('mouseleave', restart);
+  });
+</script>

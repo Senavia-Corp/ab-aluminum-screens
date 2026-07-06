@@ -1,0 +1,9 @@
+---
+import ServiceAreaPage from '../../../components/pages/ServiceAreaPage.astro';
+import { areaPaths } from '../../../lib/routes';
+export async function getStaticPaths() {
+  return areaPaths();
+}
+const { city } = Astro.params;
+---
+<ServiceAreaPage lang="es" slug={city as string} />

@@ -1,0 +1,204 @@
+---
+import { toLocale, type Lang } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+  compact?: boolean;
+}
+const { lang, compact = false } = Astro.props;
+const path = Astro.url.pathname;
+
+const OPTIONS = [
+  { code: 'en', label: 'English', short: 'EN', flag: '/images/flag-us.svg' },
+  { code: 'es', label: 'Español', short: 'ES', flag: '/images/flag-es.svg' },
+] as const;
+
+const opts = OPTIONS.map((o) => ({ ...o, href: toLocale(path, o.code as Lang) }));
+const current = opts.find((o) => o.code === lang) ?? opts[0];
+---
+
+{
+  compact ? (
+    <div class="lang-inline" role="group" aria-label="Language">
+      {opts.map((o) => (
+        <a
+          href={o.href}
+          data-lang={o.code}
+          hreflang={o.code}
+          class:list={['lang-inline__opt', { active: o.code === lang }]}
+          aria-current={o.code === lang ? 'true' : undefined}
+        >
+          <img src={o.flag} alt="" width="20" height="14" class="lang-flag" />
+          <span>{o.short}</span>
+        </a>
+      ))}
+    </div>
+  ) : (
+    <div class="lang">
+      <button class="lang__btn" aria-haspopup="true" aria-expanded="false" aria-label={`Language: ${current.label}`}>
+        <img src={current.flag} alt="" width="22" height="15" class="lang-flag" />
+        <span class="lang__code">{current.short}</span>
+        <span class="lang__caret" aria-hidden="true" />
+      </button>
+      <ul class="lang__menu" role="menu">
+        {opts.map((o) => (
+          <li role="none">
+            <a
+              role="menuitem"
+              href={o.href}
+              data-lang={o.code}
+              hreflang={o.code}
+              class:list={['lang__opt', { active: o.code === lang }]}
+              aria-current={o.code === lang ? 'true' : undefined}
+            >
+              <img src={o.flag} alt="" width="22" height="15" class="lang-flag" />
+              <span>{o.label}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+<style>
+  .lang-flag {
+    border-radius: 2px;
+    object-fit: cover;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+    flex: none;
+  }
+
+  /* Dropdown */
+  .lang {
+    position: relative;
+  }
+  .lang__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.3rem 0.6rem;
+    font-weight: 700;
+    font-size: 0.875rem;
+    color: var(--charcoal);
+    cursor: pointer;
+    line-height: 1;
+  }
+  .lang__btn:hover {
+    border-color: var(--muted);
+  }
+  .lang__caret {
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid var(--muted);
+  }
+  .lang__btn[aria-expanded='true'] .lang__caret {
+    transform: rotate(180deg);
+  }
+  .lang__menu {
+    position: absolute;
+    top: calc(100% + 0.4rem);
+    right: 0;
+    min-width: 168px;
+    list-style: none;
+    margin: 0;
+    padding: 0.35rem;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    display: none;
+    z-index: calc(var(--z-header) + 1);
+  }
+  .lang__menu.open {
+    display: block;
+  }
+  .lang__opt {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.55rem 0.65rem;
+    border-radius: var(--radius);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--charcoal);
+  }
+  .lang__opt:hover {
+    background: var(--light-gray);
+  }
+  .lang__opt.active {
+    color: var(--red);
+  }
+
+  /* Inline (footer) */
+  .lang-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .lang-inline__opt {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-weight: 700;
+    font-size: 0.8125rem;
+    color: var(--on-dark);
+  }
+  .lang-inline__opt.active {
+    color: #fff;
+  }
+  .lang-inline__opt:hover {
+    color: var(--red);
+  }
+</style>
+
+<script>
+  // Toggle open/close for each dropdown instance
+  document.querySelectorAll<HTMLElement>('.lang').forEach((root) => {
+    const btn = root.querySelector<HTMLButtonElement>('.lang__btn');
+    const menu = root.querySelector<HTMLElement>('.lang__menu');
+    if (!btn || !menu) return;
+    const close = () => {
+      btn.setAttribute('aria-expanded', 'false');
+      menu.classList.remove('open');
+    };
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const open = btn.getAttribute('aria-expanded') === 'true';
+      document.querySelectorAll('.lang__menu.open').forEach((m) => m.classList.remove('open'));
+      document.querySelectorAll('.lang__btn[aria-expanded="true"]').forEach((b) => b.setAttribute('aria-expanded', 'false'));
+      if (!open) {
+        btn.setAttribute('aria-expanded', 'true');
+        menu.classList.add('open');
+      }
+    });
+    document.addEventListener('click', close);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') close();
+    });
+  });
+
+  // Persist language choice + honor it on future visits (static-site friendly).
+  document.querySelectorAll<HTMLAnchorElement>('[data-lang]').forEach((el) => {
+    el.addEventListener('click', () => {
+      try {
+        localStorage.setItem('ab-lang', el.dataset.lang || 'en');
+      } catch {}
+    });
+  });
+  try {
+    const pref = localStorage.getItem('ab-lang');
+    const isEs = /^\/es(\/|$)/.test(location.pathname);
+    const cur = isEs ? 'es' : 'en';
+    if (pref && pref !== cur && (pref === 'en' || pref === 'es')) {
+      const bare = location.pathname.replace(/^\/es(?=\/|$)/, '') || '/';
+      const target = pref === 'en' ? bare : bare === '/' ? '/es' : '/es' + bare;
+      location.replace(target + location.search + location.hash);
+    }
+  } catch {}
+</script>

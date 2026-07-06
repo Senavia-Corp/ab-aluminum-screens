@@ -1,0 +1,260 @@
+---
+import { useT, localizedHref, type Lang } from '../lib/i18n';
+import { SERVICES, PHONE, SOCIAL, EMAIL, SENAVIA, FOOTER_AREAS } from '../lib/nav';
+import LanguageToggle from './LanguageToggle.astro';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+const h = (p: string) => localizedHref(p, lang);
+
+const company = [
+  { href: h('/about-us'), label: t('nav.aboutUs') },
+  { href: h('/reviews'), label: t('nav.reviews') },
+  { href: h('/contact-us'), label: t('nav.contact') },
+  { href: h('/financing'), label: t('nav.financing') },
+  { href: h('/privacy-policy'), label: t('footer.privacy') },
+];
+const resources = [
+  { href: h('/blog'), label: t('nav.blog') },
+  { href: h('/project-videos'), label: t('nav.projectVideos') },
+  { href: h('/project-estimator'), label: t('nav.projectEstimator') },
+  { href: h('/contact-us'), label: t('cta.requestEstimate') },
+];
+---
+
+<footer class="ftr">
+  <div class="container ftr__top">
+    <div class="ftr__brand">
+      <img src="/images/Logo-White.svg" alt="AB Aluminum & Screens" width="200" height="52" />
+      <p class="ftr__tagline">{t('footer.tagline')}</p>
+      <p class="ftr__cta-line">{t('common.callUsToday')}</p>
+      <div class="ftr__phones">
+        <a href={`tel:${PHONE.en.tel}`}><strong>{t('common.phoneEnLabel')}:</strong> {PHONE.en.display}</a>
+        <a href={`tel:${PHONE.es.tel}`}><strong>{t('common.phoneEsLabel')}:</strong> {PHONE.es.display}</a>
+      </div>
+      <div class="ftr__social" aria-label={t('footer.followUs')}>
+        <a href={SOCIAL.facebook} target="_blank" rel="noopener" aria-label="Facebook"><Icon name="facebook" size={19} /></a>
+        <a href={SOCIAL.instagram} target="_blank" rel="noopener" aria-label="Instagram"><Icon name="instagram" size={19} /></a>
+        <a href={SOCIAL.youtube} target="_blank" rel="noopener" aria-label="YouTube"><Icon name="youtube" size={19} /></a>
+      </div>
+    </div>
+
+    <div class="ftr__cols">
+      <div class="ftr__col">
+        <h3>{t('footer.services')}</h3>
+        <ul>
+          {SERVICES.map((s) => <li><a href={h('/' + s.route)}>{s.label[lang]}</a></li>)}
+        </ul>
+      </div>
+      <div class="ftr__col">
+        <h3>{t('footer.company')}</h3>
+        <ul>{company.map((i) => <li><a href={i.href}>{i.label}</a></li>)}</ul>
+      </div>
+      <div class="ftr__col">
+        <h3>{t('footer.resources')}</h3>
+        <ul>{resources.map((i) => <li><a href={i.href}>{i.label}</a></li>)}</ul>
+      </div>
+      <div class="ftr__col ftr__col--areas">
+        <h3>{t('footer.serviceAreas')}</h3>
+        <div class="ftr__areas">
+          {
+            FOOTER_AREAS.map((group) => (
+              <div>
+                <p class="ftr__county">{group.county[lang]}</p>
+                <ul>
+                  {group.cities.map((c) => (
+                    <li><a href={h('/service-areas/' + c.slug)}>{c.name}</a></li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ftr__bottom">
+    <div class="container ftr__bottom-row">
+      <p class="ftr__nap">
+        <a href={`mailto:${EMAIL}`}>{EMAIL}</a> · {PHONE.en.display} ({t('common.phoneEnLabel')}) · {PHONE.es.display} ({t('common.phoneEsLabel')})
+      </p>
+      <div class="ftr__legal">
+        <LanguageToggle lang={lang} compact={true} />
+        <span>© 2026 AB Aluminum &amp; Screens. {t('footer.rights')} {t('footer.developedBy')} <a href={SENAVIA} target="_blank" rel="noopener">Senavia Corp</a>.</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .ftr {
+    background: var(--dark-bg);
+    color: var(--on-dark);
+  }
+  .ftr__top {
+    display: grid;
+    grid-template-columns: 1.1fr 2fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    padding-block: clamp(2.5rem, 5vw, 4rem);
+  }
+  .ftr__brand img {
+    margin-bottom: 1rem;
+  }
+  .ftr__tagline {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--on-dark-muted);
+    max-width: 36ch;
+  }
+  .ftr__cta-line {
+    margin-top: 1rem;
+    font-weight: 700;
+    color: #fff;
+  }
+  .ftr__phones {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    margin-top: 0.5rem;
+  }
+  .ftr__phones a {
+    color: #fff;
+  }
+  .ftr__phones a:hover {
+    color: var(--red);
+  }
+  .ftr__social {
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 1.25rem;
+  }
+  .ftr__social a {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: var(--on-dark);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    transition: background 0.18s var(--ease), color 0.18s var(--ease), border-color 0.18s var(--ease),
+      transform 0.18s var(--ease);
+  }
+  .ftr__social a:hover {
+    color: #fff;
+    background: var(--red);
+    border-color: var(--red);
+    transform: translateY(-2px);
+  }
+  .ftr__cols {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr) 1.4fr;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+  .ftr__col h3 {
+    color: #fff;
+    font-size: 0.9375rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 1rem;
+  }
+  .ftr__col h3::after {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 3px;
+    background: var(--red);
+    border-radius: 2px;
+    margin-top: 0.5rem;
+  }
+  .ftr__col ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .ftr__col a {
+    color: var(--on-dark);
+    font-size: 0.9375rem;
+  }
+  .ftr__col a:hover {
+    color: var(--red);
+  }
+  .ftr__areas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+  @media (max-width: 560px) {
+    .ftr__areas {
+      grid-template-columns: 1fr;
+    }
+  }
+  .ftr__county {
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+  }
+  .ftr__areas ul {
+    gap: 0.4rem;
+  }
+  .ftr__bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .ftr__bottom-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding-block: 1.25rem;
+    font-size: 0.875rem;
+    color: var(--on-dark-muted);
+  }
+  .ftr__nap a {
+    color: var(--on-dark);
+    text-decoration: underline;
+  }
+  .ftr__legal {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .ftr__legal a {
+    color: var(--on-dark);
+  }
+  .ftr__legal span a {
+    text-decoration: underline;
+  }
+  .ftr__legal a:hover {
+    color: var(--red);
+  }
+
+  @media (max-width: 900px) {
+    .ftr__top {
+      grid-template-columns: 1fr;
+    }
+    .ftr__cols {
+      grid-template-columns: 1fr 1fr;
+    }
+    .ftr__col--areas {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (max-width: 560px) {
+    .ftr__cols {
+      grid-template-columns: 1fr;
+    }
+    .ftr__bottom-row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

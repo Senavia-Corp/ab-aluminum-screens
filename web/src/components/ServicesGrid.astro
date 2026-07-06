@@ -1,0 +1,122 @@
+---
+import { localizedHref, type Lang } from '../lib/i18n';
+import { SERVICES } from '../lib/nav';
+import SectionHeading from './SectionHeading.astro';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Lang;
+  exclude?: string;
+  alt?: boolean;
+  eyebrow?: string;
+  heading?: string;
+  intro?: string;
+}
+const { lang, exclude, alt = false, eyebrow, heading, intro } = Astro.props;
+const items = SERVICES.filter((s) => s.route !== exclude);
+const explore = lang === 'es' ? 'Explorar' : 'Explore';
+---
+<section class:list={['section', { 'section--alt': alt }]}>
+  <div class="container">
+    {(eyebrow || heading) && (
+      <SectionHeading eyebrow={eyebrow} heading={heading ?? ''} intro={intro} />
+    )}
+    <div
+      class:list={['svc-grid', 'grid', items.length === 4 ? 'cols-4' : 'cols-3']}
+    >
+      {
+        items.map((s, i) => (
+          <a
+            class="svc card"
+            href={localizedHref('/' + s.route, lang)}
+            data-reveal
+            style={`--reveal-delay:${(i % 4) * 80}ms`}
+          >
+            <div class="svc__media zoom">
+              <img
+                src={s.thumb}
+                alt={s.label[lang]}
+                width="360"
+                height="240"
+                loading="lazy"
+              />
+            </div>
+            <div class="svc__body">
+              <h3>{s.label[lang]}</h3>
+              <p>{s.blurb[lang]}</p>
+              <span class="svc__link">
+                {explore}
+                <Icon name="arrow-right" size={16} />
+              </span>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .svc-grid {
+    margin-top: 3rem;
+  }
+  .svc {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    isolation: isolate;
+  }
+  .svc::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(135deg, var(--red), var(--blue));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.25s var(--ease);
+    z-index: 3;
+    pointer-events: none;
+  }
+  .svc:hover::before {
+    opacity: 1;
+  }
+  .svc__media {
+    position: relative;
+    aspect-ratio: 16 / 11;
+  }
+  .svc__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .svc__body {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+  }
+  .svc__body p {
+    color: var(--muted);
+    font-size: 0.9375rem;
+    flex: 1;
+    line-height: 1.6;
+  }
+  .svc__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--red-ink);
+    font-weight: 700;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    transition: gap 0.25s var(--ease);
+  }
+  .svc:hover .svc__link {
+    gap: 0.7rem;
+  }
+</style>

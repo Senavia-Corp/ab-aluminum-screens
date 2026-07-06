@@ -1,0 +1,227 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { useT, localizedHref, loc, type Lang } from '../../lib/i18n';
+import { getBlogIndex, getBlogCategories } from '../../lib/queries';
+import SanityImg from '../SanityImg.astro';
+import CtaStrip from '../CtaStrip.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+const [posts, categories] = await Promise.all([getBlogIndex(), getBlogCategories()]);
+
+const copy = {
+  en: {
+    metaT: 'Outdoor Living Blog & Tips | AB Aluminum & Screens',
+    metaD: 'Expert guides on pergola costs, permits, hurricane prep, materials and financing for South Florida homeowners.',
+    title: 'Outdoor Living Blog & Tips',
+    sub: 'Expert guides on pergola costs, permits, hurricane prep, materials and financing for South Florida homeowners.',
+    all: 'All',
+    featured: 'Featured',
+  },
+  es: {
+    metaT: 'Blog y Consejos de Vida al Aire Libre | AB Aluminum & Screens',
+    metaD: 'Guías expertas sobre costos de pérgolas, permisos, preparación para huracanes, materiales y financiamiento para propietarios del sur de Florida.',
+    title: 'Blog y Consejos de Vida al Aire Libre',
+    sub: 'Guías expertas sobre costos de pérgolas, permisos, preparación para huracanes, materiales y financiamiento para propietarios del sur de Florida.',
+    all: 'Todos',
+    featured: 'Destacado',
+  },
+};
+const c = copy[lang];
+
+const fmtDate = (d: string) =>
+  d ? new Date(d).toLocaleDateString(lang === 'es' ? 'es-US' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : '';
+
+const featured = posts.find((p: any) => p.featured) || posts[0];
+const rest = posts.filter((p: any) => p !== featured);
+const catTitle = (cat: any) => (cat ? loc<string>(cat, 'title', lang) || cat.title : '');
+---
+
+<BaseLayout lang={lang} title={c.metaT} description={c.metaD}>
+  <section class="section blog-hero">
+    <div class="container narrow text-center">
+      <h1>{c.title}</h1>
+      <p class="lead" style="margin-top:1rem;">{c.sub}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <!-- Category filter chips -->
+      <div class="chips" role="tablist" aria-label="Categories">
+        <button class="chip active" data-cat="all">{c.all}</button>
+        {categories.map((cat: any) => <button class="chip" data-cat={cat.slug}>{catTitle(cat)}</button>)}
+      </div>
+
+      <!-- Featured -->
+      {
+        featured && (
+          <a class="card feat" href={localizedHref('/blog/' + featured.slug, lang)} data-cat={featured.category?.slug}>
+            {featured.mainImage && <SanityImg image={featured.mainImage} width={760} class="feat__img" alt={featured.mainImage.alt || featured.title} />}
+            <div class="feat__body">
+              <span class="chip chip--tag">{c.featured}{featured.category ? ` · ${catTitle(featured.category)}` : ''}</span>
+              <h2>{loc(featured, 'title', lang) || featured.title}</h2>
+              <p>{loc(featured, 'summary', lang) || featured.summary}</p>
+              <span class="feat__date">{fmtDate(featured.publishedAt)}</span>
+            </div>
+          </a>
+        )
+      }
+
+      <!-- Grid -->
+      <div class="grid cols-3 blog-grid" style="margin-top:2rem;">
+        {
+          rest.map((p: any) => (
+            <a class="card post-card" href={localizedHref('/blog/' + p.slug, lang)} data-cat={p.category?.slug || 'uncategorized'}>
+              {p.mainImage && <SanityImg image={p.mainImage} width={420} class="post-card__img" alt={p.mainImage.alt || p.title} />}
+              <div class="post-card__body">
+                {p.category && <span class="post-card__cat">{catTitle(p.category)}</span>}
+                <h3>{loc(p, 'title', lang) || p.title}</h3>
+                <p>{loc(p, 'summary', lang) || p.summary}</p>
+                <span class="post-card__meta">{fmtDate(p.publishedAt)} · {t('cta.readMore')} →</span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+      <p class="blog-empty" hidden>—</p>
+    </div>
+  </section>
+
+  <CtaStrip lang={lang} />
+</BaseLayout>
+
+<style>
+  .blog-hero {
+    position: relative;
+    color: #fff;
+    background-image:
+      radial-gradient(120% 100% at 50% 0%, rgba(255, 255, 255, 0.1), transparent 55%),
+      linear-gradient(
+        118deg,
+        rgba(0, 16, 78, 0.9) 0%,
+        rgba(0, 25, 148, 0.8) 45%,
+        rgba(160, 35, 50, 0.68) 82%,
+        rgba(236, 60, 61, 0.6) 100%
+      ),
+      url('/images/Aluminum-Pergolas.avif');
+    background-size: cover;
+    background-position: center;
+  }
+  .blog-hero h1 {
+    color: #fff;
+    text-shadow: 0 2px 22px rgba(0, 0, 0, 0.28);
+  }
+  .blog-hero .lead {
+    color: rgba(255, 255, 255, 0.92);
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+  .chip {
+    border: 1px solid var(--border);
+    background: #fff;
+    border-radius: 999px;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    cursor: pointer;
+    color: var(--charcoal);
+  }
+  .chip.active,
+  .chip:hover {
+    background: var(--red);
+    border-color: var(--red);
+    color: #fff;
+  }
+  .chip--tag {
+    cursor: default;
+    background: var(--peach);
+    color: var(--red-dark);
+    border: none;
+    align-self: flex-start;
+  }
+  .feat {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    overflow: hidden;
+  }
+  :global(.feat__img) {
+    width: 100%;
+    height: 100%;
+    min-height: 280px;
+    object-fit: cover;
+  }
+  .feat__body {
+    padding: clamp(1.25rem, 3vw, 2rem);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    justify-content: center;
+  }
+  .feat__body p {
+    color: var(--muted);
+  }
+  .feat__date {
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+  .post-card {
+    display: flex;
+    flex-direction: column;
+  }
+  :global(.post-card__img) {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  .post-card__body {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+  }
+  .post-card__cat {
+    color: var(--red);
+    font-weight: 700;
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .post-card__body p {
+    color: var(--muted);
+    font-size: 0.9375rem;
+    flex: 1;
+  }
+  .post-card__meta {
+    color: var(--muted);
+    font-size: 0.8125rem;
+  }
+  @media (max-width: 760px) {
+    .feat {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  const chips = document.querySelectorAll<HTMLButtonElement>('.chip[data-cat]');
+  const cards = document.querySelectorAll<HTMLElement>('[data-cat]');
+  chips.forEach((chip) =>
+    chip.addEventListener('click', () => {
+      const cat = chip.dataset.cat;
+      chips.forEach((ch) => ch.classList.toggle('active', ch === chip));
+      document.querySelectorAll<HTMLElement>('.post-card, .feat').forEach((card) => {
+        const show = cat === 'all' || card.dataset.cat === cat;
+        card.style.display = show ? '' : 'none';
+      });
+    }),
+  );
+</script>

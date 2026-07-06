@@ -1,0 +1,9 @@
+---
+import GalleryPage from '../../components/pages/GalleryPage.astro';
+import { galleryPaths } from '../../lib/routes';
+export function getStaticPaths() {
+  return galleryPaths();
+}
+const { collection } = Astro.params;
+---
+<GalleryPage lang="en" collection={collection as any} />

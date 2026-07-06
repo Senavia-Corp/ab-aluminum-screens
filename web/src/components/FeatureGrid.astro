@@ -1,0 +1,145 @@
+---
+import Icon from './Icon.astro';
+import SectionHeading from './SectionHeading.astro';
+import type { Lang } from '../lib/i18n';
+
+interface Feature {
+  icon: string;
+  title: { en: string; es: string } | string;
+  text: { en: string; es: string } | string;
+}
+interface Props {
+  lang: Lang;
+  eyebrow?: string;
+  heading?: string;
+  intro?: string;
+  alt?: boolean;
+  items?: Feature[];
+}
+const { lang, eyebrow, heading, intro, alt = false, items } = Astro.props;
+
+const defaults = {
+  en: {
+    eyebrow: 'Why AB Aluminum & Screens',
+    heading: 'Why South Florida Homeowners Choose Us',
+    intro:
+      'One licensed local team handling design, permits and installation — built to last in the South Florida climate.',
+  },
+  es: {
+    eyebrow: 'Por Qué AB Aluminum & Screens',
+    heading: 'Por Qué los Dueños del Sur de Florida Nos Eligen',
+    intro:
+      'Un solo equipo local con licencia que maneja diseño, permisos e instalación, hecho para durar en el clima del sur de Florida.',
+  },
+};
+const c = defaults[lang];
+
+const defaultItems: Feature[] = [
+  {
+    icon: 'shield-check',
+    title: { en: 'Licensed & Insured', es: 'Con Licencia y Seguro' },
+    text: {
+      en: 'A fully licensed, insured Florida contractor — your project and property are protected end to end.',
+      es: 'Un contratista de Florida con licencia y seguro: tu proyecto y propiedad están protegidos de principio a fin.',
+    },
+  },
+  {
+    icon: 'wind',
+    title: { en: 'Built to Miami-Dade HVHZ Code', es: 'Hecho al Código HVHZ de Miami-Dade' },
+    text: {
+      en: 'Engineered and permitted for South Florida hurricane-force winds and the Florida Building Code.',
+      es: 'Diseñado y permitido para los vientos huracanados del sur de Florida y el código de construcción.',
+    },
+  },
+  {
+    icon: 'users',
+    title: { en: 'In-House Crew', es: 'Equipo Propio' },
+    text: {
+      en: 'No subcontractors. The same team designs, engineers and installs every project.',
+      es: 'Sin subcontratistas. El mismo equipo diseña, calcula e instala cada proyecto.',
+    },
+  },
+  {
+    icon: 'box',
+    title: { en: 'Free 3D Design', es: 'Diseño 3D Gratis' },
+    text: {
+      en: 'See a realistic 3D rendering and a clear quote before anything is built — at no cost.',
+      es: 'Ve un render 3D realista y un presupuesto claro antes de construir nada, sin costo.',
+    },
+  },
+  {
+    icon: 'award',
+    title: { en: '15+ Years of Experience', es: '15+ Años de Experiencia' },
+    text: {
+      en: 'Hundreds of pergolas, enclosures and screen rooms installed across the tri-county area.',
+      es: 'Cientos de pérgolas, cerramientos y porches instalados en los tres condados.',
+    },
+  },
+  {
+    icon: 'credit-card',
+    title: { en: 'Financing Available', es: 'Financiamiento Disponible' },
+    text: {
+      en: 'Build now and pay over time with flexible monthly plans through Synchrony Bank.',
+      es: 'Construye ahora y paga a tu ritmo con planes mensuales flexibles vía Synchrony Bank.',
+    },
+  },
+];
+
+const feats = items ?? defaultItems;
+const txt = (v: { en: string; es: string } | string) => (typeof v === 'string' ? v : v[lang]);
+const cols = feats.length % 3 === 0 ? 'cols-3' : feats.length === 4 ? 'cols-4' : 'cols-3';
+---
+<section class:list={['section', { 'section--alt': alt }]}>
+  <div class="container">
+    <SectionHeading
+      eyebrow={eyebrow ?? c.eyebrow}
+      heading={heading ?? c.heading}
+      intro={intro ?? c.intro}
+    />
+    <ul class:list={['features', 'grid', cols]}>
+      {
+        feats.map((f, i) => (
+          <li class="feature card" data-reveal style={`--reveal-delay:${(i % 3) * 90}ms`}>
+            <span class="feature__icon">
+              <Icon name={f.icon} size={24} />
+            </span>
+            <h3>{txt(f.title)}</h3>
+            <p>{txt(f.text)}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .features {
+    list-style: none;
+    padding: 0;
+    margin-top: 3rem;
+  }
+  .feature {
+    padding: 1.75rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .feature__icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    background: var(--peach);
+    color: var(--red);
+    margin-bottom: 0.35rem;
+  }
+  .feature h3 {
+    font-size: var(--h3);
+  }
+  .feature p {
+    color: var(--muted);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+</style>

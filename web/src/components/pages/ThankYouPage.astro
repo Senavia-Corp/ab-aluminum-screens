@@ -1,0 +1,141 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { useT, localizedHref, type Lang } from '../../lib/i18n';
+import Reviews from '../Reviews.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+---
+
+<BaseLayout lang={lang} title={`${t('thankYou.title')} | AB Aluminum & Screens`} noindex={true}>
+  <section class="section text-center">
+    <div class="container narrow">
+      <img src="/images/Logo-Final.svg" alt="AB Aluminum & Screens" width="220" height="56" style="margin-inline:auto;margin-bottom:1.5rem;" />
+      <h1>{t('thankYou.title')}</h1>
+      <p class="lead" style="margin:1rem auto 1.5rem;">{t('thankYou.body')}</p>
+
+      {/* Estimate carried over from the project estimator (shown only when present). */}
+      <div class="ty-estimate" data-ty-estimate hidden>
+        <p class="ty-estimate__eyebrow">{lang === 'es' ? 'Tu estimado' : 'Your estimate'}</p>
+        <p class="ty-estimate__total" data-ty-total></p>
+        <ul class="ty-estimate__rows" data-ty-rows></ul>
+        <p class="ty-estimate__note">
+          {lang === 'es'
+            ? 'Estimado preliminar. Te enviaremos una cotización exacta.'
+            : 'Preliminary estimate — we’ll follow up with an exact quote.'}
+        </p>
+      </div>
+
+      <a class="btn btn--primary btn--lg" href={localizedHref('/', lang)}>{t('cta.returnHome')}</a>
+    </div>
+  </section>
+  <Reviews lang={lang} alt={true} limit={3} />
+
+  {/* Conversion event — /thank-you is the success destination for every lead form on the site.
+      Pushes generate_lead to the dataLayer (GTM → GA4 + Google Ads) with the estimator value when present. */}
+  <script is:inline>
+    (function () {
+      var dl = (window.dataLayer = window.dataLayer || []);
+      var value, isEst = false;
+      try {
+        var est = JSON.parse(sessionStorage.getItem('ab_estimate') || 'null');
+        if (est && est.value) { value = est.value; isEst = true; }
+      } catch (e) {}
+      dl.push({
+        event: 'generate_lead',
+        lead_type: isEst ? 'estimator' : 'contact',
+        value: value,
+        currency: 'USD',
+        lang: document.documentElement.lang || 'en',
+      });
+      if (window.va) window.va('event', { name: 'lead_submit' });
+    })();
+  </script>
+
+  {/* Render the estimator's estimate if it was carried over, then clear it. Labels/amounts
+      are app-generated (not user input), so innerHTML here is safe. */}
+  <script is:inline>
+    (function () {
+      var wrap = document.querySelector('[data-ty-estimate]');
+      try {
+        var raw = sessionStorage.getItem('ab_estimate');
+        if (!wrap || !raw) return;
+        var est = JSON.parse(raw);
+        var totalEl = wrap.querySelector('[data-ty-total]');
+        var rowsEl = wrap.querySelector('[data-ty-rows]');
+        if (totalEl) totalEl.textContent = est.total || '';
+        if (rowsEl && Array.isArray(est.rows)) {
+          rowsEl.innerHTML = est.rows
+            .map(function (r) {
+              return (
+                '<li class="ty-line' +
+                (r.sub ? ' ty-line--sub' : '') +
+                (r.add ? ' ty-line--add' : '') +
+                '"><span>' + r.l + '</span><span>' + r.a + '</span></li>'
+              );
+            })
+            .join('');
+        }
+        wrap.hidden = false;
+        sessionStorage.removeItem('ab_estimate');
+      } catch (e) {}
+    })();
+  </script>
+
+  <style is:global>
+    .ty-estimate {
+      max-width: 440px;
+      margin: 0 auto 2rem;
+      padding: 1.5rem;
+      border-radius: var(--radius-card);
+      background: var(--light-gray);
+      border: 1px solid var(--border);
+      text-align: left;
+    }
+    .ty-estimate__eyebrow {
+      margin: 0;
+      text-align: center;
+      font-size: 0.8125rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .ty-estimate__total {
+      margin: 0.25rem 0 1rem;
+      text-align: center;
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--charcoal);
+    }
+    .ty-estimate__rows {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .ty-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.4rem 0;
+      font-size: 0.95rem;
+    }
+    .ty-line--sub {
+      margin-top: 0.25rem;
+      border-top: 1px solid var(--border);
+      font-weight: 700;
+    }
+    .ty-line--add {
+      color: var(--muted);
+    }
+    .ty-estimate__note {
+      margin: 1rem 0 0;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+  </style>
+</BaseLayout>

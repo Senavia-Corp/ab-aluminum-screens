@@ -1,0 +1,137 @@
+---
+import type { Lang } from '../lib/i18n';
+import SectionHeading from './SectionHeading.astro';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Lang;
+  intro?: string;
+  alt?: boolean;
+}
+const { lang, intro, alt = false } = Astro.props;
+
+const copy = {
+  en: {
+    eyebrow: 'Our Process',
+    heading: 'Our 3-Step Process: Consultation, 3D Design, Installation',
+    steps: [
+      { icon: 'map-pin', t: 'Free Consultation', d: 'We visit your property, take measurements and learn how you want to use the space.' },
+      { icon: 'pen-tool', t: 'Custom 3D Design', d: 'You see a realistic 3D rendering and a clear quote before anything is built.' },
+      { icon: 'hammer', t: 'Permits & Installation', d: 'We pull the permits and our licensed crew installs to Florida Building Code.' },
+    ],
+  },
+  es: {
+    eyebrow: 'Nuestro Proceso',
+    heading: 'Nuestro Proceso de 3 Pasos: Consulta, Diseño 3D, Instalación',
+    steps: [
+      { icon: 'map-pin', t: 'Consulta Gratis', d: 'Visitamos tu propiedad, tomamos medidas y entendemos cómo quieres usar el espacio.' },
+      { icon: 'pen-tool', t: 'Diseño 3D a Medida', d: 'Ves un render 3D realista y un presupuesto claro antes de construir nada.' },
+      { icon: 'hammer', t: 'Permisos e Instalación', d: 'Tramitamos los permisos y nuestro equipo con licencia instala según el código de Florida.' },
+    ],
+  },
+};
+const c = copy[lang];
+---
+<section class:list={['section', { 'section--alt': alt }]}>
+  <div class="container">
+    <SectionHeading eyebrow={c.eyebrow} heading={c.heading} intro={intro} />
+    <ol class="proc">
+      {
+        c.steps.map((s, i) => (
+          <li class="proc__step" data-reveal style={`--reveal-delay:${i * 110}ms`}>
+            <div class="proc__top">
+              <span class="proc__num">{String(i + 1).padStart(2, '0')}</span>
+            </div>
+            <span class="proc__icon">
+              <Icon name={s.icon} size={26} />
+            </span>
+            <h3>{s.t}</h3>
+            <p>{s.d}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .proc {
+    list-style: none;
+    padding: 0;
+    margin-top: 3rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.5rem, 4vw, 2.5rem);
+  }
+  .proc__step {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .proc__top {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+  }
+  /* Connector line through the number badges */
+  .proc__top::before,
+  .proc__top::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    height: 2px;
+    background: var(--border);
+    width: 50%;
+  }
+  .proc__top::before {
+    left: 0;
+  }
+  .proc__top::after {
+    right: 0;
+  }
+  .proc__step:first-child .proc__top::before,
+  .proc__step:last-child .proc__top::after {
+    display: none;
+  }
+  .proc__num {
+    position: relative;
+    z-index: 1;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--red);
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.0625rem;
+    box-shadow: 0 0 0 6px var(--bg);
+  }
+  .section--alt .proc__num {
+    box-shadow: 0 0 0 6px var(--bg-alt);
+  }
+  .proc__icon {
+    color: var(--blue);
+    margin-bottom: 0.6rem;
+  }
+  .proc__step h3 {
+    margin-bottom: 0.4rem;
+  }
+  .proc__step p {
+    color: var(--muted);
+    max-width: 32ch;
+  }
+  @media (max-width: 720px) {
+    .proc {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    .proc__top::before,
+    .proc__top::after {
+      display: none;
+    }
+  }
+</style>

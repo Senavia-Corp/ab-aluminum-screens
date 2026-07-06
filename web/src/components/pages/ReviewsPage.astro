@@ -1,0 +1,150 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { useT, localizedHref, type Lang } from '../../lib/i18n';
+import PageHero from '../PageHero.astro';
+import StatsBand from '../StatsBand.astro';
+import AnswerBlock from '../AnswerBlock.astro';
+import Reviews from '../Reviews.astro';
+import CtaStrip from '../CtaStrip.astro';
+import LeadSection from '../LeadSection.astro';
+import Icon from '../Icon.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+
+const copy = {
+  en: {
+    metaT: 'Reviews & Testimonials | AB Aluminum & Screens',
+    metaD:
+      'Read what South Florida homeowners say about AB Aluminum & Screens — 4.9★ across 500+ aluminum pergola, pool enclosure and screen room projects in Miami-Dade, Broward and Palm Beach.',
+    sub: 'We’re proud to have transformed outdoor spaces across Miami-Dade, Broward and Palm Beach. Here’s what homeowners say about working with our team.',
+    answerQ: 'Why do South Florida homeowners trust AB Aluminum & Screens?',
+    answerA:
+      'For 15+ years we’ve designed, permitted and installed 500+ aluminum pergolas, pool enclosures and screen rooms across Miami-Dade, Broward and Palm Beach. Every project is built to Miami-Dade HVHZ code by our own licensed, insured in-house crew — no subcontractors — and backed by a written warranty.',
+    credEyebrow: 'Why Choose Us',
+    credH2: 'Credentials Behind Every Review',
+    creds: [
+      { icon: 'shield-check', t: 'Licensed & Insured', d: 'Fully licensed and insured for every job in South Florida.' },
+      { icon: 'badge-check', t: 'Miami-Dade HVHZ Approved', d: 'Engineered and permitted to High-Velocity Hurricane Zone code.' },
+      { icon: 'users', t: 'In-House Crew', d: 'Our own team builds it — no subcontractors handed your project.' },
+      { icon: 'box', t: 'Free 3D Design', d: 'See your structure in 3D before you commit, at no cost.' },
+      { icon: 'message-circle', t: 'Bilingual Service', d: 'Clear communication in English and Spanish, start to finish.' },
+      { icon: 'credit-card', t: 'Synchrony Financing', d: 'Flexible monthly payments with no upfront cost.' },
+    ],
+    chips: [
+      { icon: 'star', value: '4.9★', label: 'average rating' },
+      { icon: 'home', value: '500+', label: 'projects completed' },
+      { icon: 'award', value: '15+ yrs', label: 'in business' },
+      { icon: 'shield-check', value: '100%', label: 'licensed & insured' },
+    ],
+  },
+  es: {
+    metaT: 'Reseñas y Testimonios | AB Aluminum & Screens',
+    metaD:
+      'Lee lo que dicen los propietarios del sur de Florida sobre AB Aluminum & Screens — 4.9★ en más de 500 proyectos de pérgolas, cerramientos de piscina y porches en Miami-Dade, Broward y Palm Beach.',
+    sub: 'Nos enorgullece haber transformado espacios exteriores en Miami-Dade, Broward y Palm Beach. Esto es lo que dicen los propietarios sobre trabajar con nuestro equipo.',
+    answerQ: '¿Por qué los propietarios del sur de Florida confían en AB Aluminum & Screens?',
+    answerA:
+      'Durante más de 15 años hemos diseñado, tramitado permisos e instalado más de 500 pérgolas, cerramientos de piscina y porches en Miami-Dade, Broward y Palm Beach. Cada proyecto se construye según el código HVHZ de Miami-Dade con nuestro equipo propio con licencia y seguro — sin subcontratistas — y con garantía por escrito.',
+    credEyebrow: 'Por Qué Elegirnos',
+    credH2: 'Las Credenciales Detrás de Cada Reseña',
+    creds: [
+      { icon: 'shield-check', t: 'Con Licencia y Seguro', d: 'Totalmente con licencia y asegurados en cada obra del sur de Florida.' },
+      { icon: 'badge-check', t: 'Aprobado HVHZ Miami-Dade', d: 'Calculado y permisado según el código de zona de huracanes.' },
+      { icon: 'users', t: 'Equipo Propio', d: 'Nuestro equipo lo construye — sin subcontratistas en tu proyecto.' },
+      { icon: 'box', t: 'Diseño 3D Gratis', d: 'Ve tu estructura en 3D antes de decidir, sin costo.' },
+      { icon: 'message-circle', t: 'Servicio Bilingüe', d: 'Comunicación clara en inglés y español, de principio a fin.' },
+      { icon: 'credit-card', t: 'Financiamiento Synchrony', d: 'Pagos mensuales flexibles sin costo inicial.' },
+    ],
+    chips: [
+      { icon: 'star', value: '4.9★', label: 'calificación promedio' },
+      { icon: 'home', value: '500+', label: 'proyectos completados' },
+      { icon: 'award', value: '15+ años', label: 'de experiencia' },
+      { icon: 'shield-check', value: '100%', label: 'licencia y seguro' },
+    ],
+  },
+};
+const c = copy[lang];
+---
+
+<BaseLayout lang={lang} title={c.metaT} description={c.metaD}>
+  <PageHero
+    lang={lang}
+    eyebrow={t('reviews.eyebrow')}
+    title={t('reviews.heading')}
+    subtitle={c.sub}
+    image="/images/residential.avif"
+    align="center"
+    badges={true}
+    ctas={[{ label: t('cta.requestEstimate'), href: localizedHref('/contact-us', lang) }]}
+  />
+
+  <StatsBand lang={lang} />
+
+  <AnswerBlock
+    lang={lang}
+    question={c.answerQ}
+    answer={c.answerA}
+    chips={c.chips}
+    image="/images/about-aluminum-pergola-outdoor-living-miami-fl.avif"
+    imageAlt={lang === 'es'
+      ? 'Pérgola de aluminio con sala de estar exterior y vista al agua en Miami, Florida'
+      : 'Aluminum pergola with outdoor living lounge and water view in Miami, Florida'}
+  />
+
+  {/* Carousel + Google badge. {{PENDIENTE: replace src/lib/testimonials.ts placeholders with real Google reviews}} */}
+  <Reviews lang={lang} alt={true} limit={6} />
+
+  <section class="section">
+    <div class="container">
+      <span class="eyebrow eyebrow--line" style="display:block;text-align:center;">{c.credEyebrow}</span>
+      <h2 class="text-center" style="margin-top:0.25rem;">{c.credH2}</h2>
+      <div class="grid cols-3 creds" style="margin-top:2rem;">
+        {
+          c.creds.map((cr) => (
+            <div class="card cred" data-reveal>
+              <span class="cred__ic"><Icon name={cr.icon} size={24} /></span>
+              <h3>{cr.t}</h3>
+              <p>{cr.d}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CtaStrip lang={lang} />
+  <LeadSection lang={lang} source="reviews" alt={true} />
+</BaseLayout>
+
+<style>
+  .cred {
+    padding: 1.75rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    align-items: flex-start;
+  }
+  .cred__ic {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    background: var(--peach);
+    color: var(--red-ink);
+    flex: none;
+  }
+  .cred h3 {
+    margin: 0;
+  }
+  .cred p {
+    color: var(--muted);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+</style>

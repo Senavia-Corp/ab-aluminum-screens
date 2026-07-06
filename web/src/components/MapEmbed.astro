@@ -1,0 +1,106 @@
+---
+/**
+ * Click-to-load Google Maps facade. Renders a styled placeholder; the real <iframe> (and its
+ * third-party request/cookies) is injected only after the user clicks. Meets the no-third-party-
+ * cookie / perf budget — nothing loads from google.com until interaction.
+ */
+import type { Lang } from '../lib/i18n';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Lang;
+  query: string; // Google Maps `q` value, e.g. "Miami-Dade County, FL"
+  title: string; // accessible iframe + button label
+  aspect?: string; // CSS aspect-ratio
+}
+const { lang, query, title, aspect = '16 / 10' } = Astro.props;
+const src = `https://www.google.com/maps?q=${encodeURIComponent(query)}&output=embed`;
+const label = lang === 'es' ? 'Cargar mapa' : 'Load map';
+const note = lang === 'es' ? 'Se conecta a Google Maps al hacer clic' : 'Connects to Google Maps on click';
+---
+<div class="mapfac" style={`--map-aspect:${aspect}`} data-map-src={src} data-map-title={title}>
+  <button type="button" class="mapfac__btn">
+    <span class="mapfac__pin" aria-hidden="true"><Icon name="map-pin" size={26} /></span>
+    <span class="mapfac__label">{label}</span>
+    <span class="mapfac__note">{note}</span>
+    <span class="visually-hidden"> — {title}</span>
+  </button>
+</div>
+
+<style>
+  .mapfac {
+    position: relative;
+    aspect-ratio: var(--map-aspect);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background:
+      radial-gradient(circle at 30% 28%, rgba(0, 25, 148, 0.1), transparent 60%),
+      repeating-linear-gradient(0deg, var(--light-gray), var(--light-gray) 22px, #eef0f4 22px, #eef0f4 23px),
+      repeating-linear-gradient(90deg, var(--light-gray), var(--light-gray) 22px, #eef0f4 22px, #eef0f4 23px);
+  }
+  .mapfac__btn {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    color: var(--charcoal);
+  }
+  .mapfac__pin {
+    display: grid;
+    place-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--red);
+    box-shadow: var(--shadow);
+    margin-bottom: 0.25rem;
+    transition: background 0.18s var(--ease), color 0.18s var(--ease);
+  }
+  .mapfac__label {
+    font-weight: 800;
+    font-size: 1.0625rem;
+  }
+  .mapfac__note {
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+  .mapfac__btn:hover .mapfac__pin {
+    background: var(--red);
+    color: #fff;
+  }
+  /* injected iframe lives outside scoped styles → :global */
+  :global(.mapfac iframe) {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.mapfac').forEach((el) => {
+    const btn = el.querySelector('button');
+    btn?.addEventListener(
+      'click',
+      () => {
+        const f = document.createElement('iframe');
+        f.src = el.dataset.mapSrc!;
+        f.title = el.dataset.mapTitle || 'Map';
+        f.loading = 'lazy';
+        f.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
+        el.replaceChildren(f);
+      },
+      { once: true },
+    );
+  });
+</script>

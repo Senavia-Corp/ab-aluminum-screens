@@ -1,0 +1,97 @@
+---
+import { useT, localizedHref, type Lang } from '../lib/i18n';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Lang;
+  heading?: string;
+  text?: string;
+  image?: string;
+}
+const {
+  lang,
+  heading,
+  text,
+  image = '/images/black-aluminum-pergola-screens-pool-luxury-home-florida.avif',
+} = Astro.props;
+const t = useT(lang);
+const h =
+  heading ??
+  (lang === 'es' ? 'Obtén tu diseño 3D y presupuesto gratis' : 'Get your free 3D design & estimate');
+const sub =
+  text ??
+  (lang === 'es'
+    ? 'Hablemos de tu proyecto de exteriores — sin compromiso, respuesta usualmente en 24 horas.'
+    : "Let's talk about your outdoor project — no obligation, usually a response within 24 hours.");
+---
+<section class="cta-band">
+  <img class="cta-band__bg" src={image} alt="" width="1600" height="600" loading="lazy" />
+  <div class="container cta-band__inner" data-reveal>
+    <h2>{h}</h2>
+    <p>{sub}</p>
+    <div class="cta-band__btns">
+      <a class="btn btn--primary btn--lg" href={localizedHref('/contact-us', lang)}>
+        {t('cta.requestEstimate')}
+        <Icon name="arrow-right" size={18} class="btn__i" />
+      </a>
+      <a class="btn btn--ghost btn--lg cta-band__ghost" href={localizedHref('/project-estimator', lang)}>
+        {t('cta.tryEstimator')}
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-band {
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+    isolation: isolate;
+  }
+  .cta-band__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+  }
+  .cta-band::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(120deg, rgba(0, 25, 148, 0.92) 0%, rgba(0, 19, 111, 0.78) 45%, rgba(8, 8, 20, 0.7) 100%);
+  }
+  .cta-band__inner {
+    text-align: center;
+    padding-block: clamp(3rem, 7vw, 5.5rem);
+    max-width: 760px;
+  }
+  .cta-band h2 {
+    color: #fff;
+    font-size: var(--h2);
+  }
+  .cta-band p {
+    color: rgba(255, 255, 255, 0.88);
+    margin-top: 0.75rem;
+    font-size: 1.0625rem;
+  }
+  .cta-band__btns {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1.75rem;
+  }
+  .cta-band__ghost {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+  .cta-band__ghost:hover {
+    background: #fff;
+    color: var(--blue);
+    border-color: #fff;
+  }
+</style>

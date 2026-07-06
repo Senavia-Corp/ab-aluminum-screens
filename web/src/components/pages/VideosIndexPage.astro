@@ -1,0 +1,146 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { useT, localizedHref, loc, type Lang } from '../../lib/i18n';
+import { getProjectVideos } from '../../lib/queries';
+import SanityImg from '../SanityImg.astro';
+import PageHero from '../PageHero.astro';
+import CtaStrip from '../CtaStrip.astro';
+import LeadSection from '../LeadSection.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+const videos = await getProjectVideos();
+
+const copy = {
+  en: {
+    metaT: 'Project Videos | AB Aluminum & Screens',
+    metaD: 'Watch our aluminum pergolas, louvered roofs, pool enclosures and screen rooms come to life across South Florida.',
+    title: 'Project Videos',
+    sub: 'Watch our aluminum pergolas, louvered roofs, pool enclosures and screen rooms come to life across South Florida.',
+    all: 'All',
+    empty: 'Videos coming soon.',
+  },
+  es: {
+    metaT: 'Videos de Proyectos | AB Aluminum & Screens',
+    metaD: 'Mira nuestras pérgolas de aluminio, techos de lamas, cerramientos de piscina y porches con malla cobrar vida en el sur de Florida.',
+    title: 'Videos de Proyectos',
+    sub: 'Mira nuestras pérgolas de aluminio, techos de lamas, cerramientos de piscina y porches con malla cobrar vida en el sur de Florida.',
+    all: 'Todos',
+    empty: 'Próximamente videos.',
+  },
+};
+const c = copy[lang];
+const types = [...new Set(videos.map((v: any) => v.serviceType).filter(Boolean))] as string[];
+---
+
+<BaseLayout lang={lang} title={c.metaT} description={c.metaD}>
+  <PageHero lang={lang} title={c.title} subtitle={c.sub} image="/videos/louvers-poster.jpg" align="center" />
+
+  <section class="section">
+    <div class="container">
+      {
+        types.length > 1 && (
+          <div class="chips">
+            <button class="chip active" data-cat="all">{c.all}</button>
+            {types.map((ty) => <button class="chip" data-cat={ty}>{ty}</button>)}
+          </div>
+        )
+      }
+      {
+        videos.length === 0 ? (
+          <p class="text-center lead">{c.empty}</p>
+        ) : (
+          <div class="grid cols-3 vid-grid">
+            {videos.map((v: any) => (
+              <a class="card vid-card" href={localizedHref('/project-videos/' + v.slug, lang)} data-cat={v.serviceType || 'all'}>
+                <div class="vid-card__media">
+                  {v.posterImage ? (
+                    <SanityImg image={v.posterImage} width={420} class="vid-card__img" alt={v.posterImage.alt || v.title} />
+                  ) : (
+                    <img class="vid-card__img" src="/videos/louvers-poster.jpg" alt={v.title} width="420" height="260" loading="lazy" />
+                  )}
+                  <span class="vid-card__play" aria-hidden="true">▶</span>
+                </div>
+                <div class="vid-card__body">
+                  <h3>{loc(v, 'title', lang) || v.title}</h3>
+                  {v.city && <span class="vid-card__city">{v.city}</span>}
+                </div>
+              </a>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <CtaStrip lang={lang} />
+  <LeadSection lang={lang} source="project-videos" alt={false} />
+</BaseLayout>
+
+<style>
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+  .chip {
+    border: 1px solid var(--border);
+    background: #fff;
+    border-radius: 999px;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    cursor: pointer;
+  }
+  .chip.active,
+  .chip:hover {
+    background: var(--red);
+    border-color: var(--red);
+    color: #fff;
+  }
+  .vid-card__media {
+    position: relative;
+  }
+  :global(.vid-card__img) {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+  }
+  .vid-card__play {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 56px;
+    height: 56px;
+    background: var(--red);
+    color: #fff;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 1.125rem;
+  }
+  .vid-card__body {
+    padding: 1rem 1.25rem;
+  }
+  .vid-card__city {
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+</style>
+
+<script>
+  const chips = document.querySelectorAll<HTMLButtonElement>('.chip[data-cat]');
+  chips.forEach((chip) =>
+    chip.addEventListener('click', () => {
+      const cat = chip.dataset.cat;
+      chips.forEach((ch) => ch.classList.toggle('active', ch === chip));
+      document.querySelectorAll<HTMLElement>('.vid-card').forEach((card) => {
+        card.style.display = cat === 'all' || card.dataset.cat === cat ? '' : 'none';
+      });
+    }),
+  );
+</script>

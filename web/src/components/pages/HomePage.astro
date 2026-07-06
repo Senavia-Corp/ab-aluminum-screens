@@ -1,0 +1,331 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { useT, localizedHref, type Lang } from '../../lib/i18n';
+import ServicesGrid from '../ServicesGrid.astro';
+import ProcessSteps from '../ProcessSteps.astro';
+import Reviews from '../Reviews.astro';
+import FinancingTeaser from '../FinancingTeaser.astro';
+import LeadSection from '../LeadSection.astro';
+import TrustBadges from '../TrustBadges.astro';
+import StatsBand from '../StatsBand.astro';
+import GalleryMosaic from '../GalleryMosaic.astro';
+import AboutIntro from '../AboutIntro.astro';
+import FeatureGrid from '../FeatureGrid.astro';
+import CtaStrip from '../CtaStrip.astro';
+import AnswerBlock from '../AnswerBlock.astro';
+import Icon from '../Icon.astro';
+import { DEFAULT_PRICING } from '../../lib/pricing';
+import { getImage } from 'astro:assets';
+import heroPosterSrc from '../../assets/hero/hero-poster.jpg';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+const h = (p: string) => localizedHref(p, lang);
+const perPergola = DEFAULT_PRICING.structures.pergola.basePerSqft;
+const perPool = DEFAULT_PRICING.structures['pool-enclosure'].basePerSqft;
+
+const copy = {
+  en: {
+    title: "South Florida's Aluminum Pergola, Pool Enclosure & Screen Room Contractors",
+    eyebrow: 'Licensed Outdoor Living Contractor · Miami-Dade · Broward · Palm Beach',
+    tag: 'Financing available',
+    sub: 'AB Aluminum & Screens designs, permits and installs custom aluminum pergolas, pool screen enclosures, patio screen rooms and motorized louvered roofs across South Florida. Every project starts with a free 3D design consultation.',
+    proof: 'Rated 5★ · 500+ projects across South Florida',
+    scroll: 'Scroll to explore',
+    servicesEyebrow: 'Our Services',
+    servicesH2: 'Four Aluminum Outdoor Living Services, One Licensed Local Team',
+    servicesIntro:
+      'Pergolas, pool enclosures, screen rooms and motorized louvered roofs — designed, permitted and installed to Florida Building Code.',
+    answerQ: 'How much does an aluminum pergola or pool enclosure cost in South Florida?',
+    answerA: `Custom aluminum pergolas start around $${perPergola}/sq ft and pool screen enclosures around $${perPool}/sq ft installed, with most projects ranging from a few thousand to the low five figures. AB Aluminum & Screens designs, permits and installs across Miami-Dade, Broward and Palm Beach to Miami-Dade HVHZ code — every project starts with a free 3D design.`,
+    chips: [
+      { icon: 'ruler', value: `from $${perPergola}/sq ft`, label: 'pergolas' },
+      { icon: 'ruler', value: `from $${perPool}/sq ft`, label: 'pool enclosures' },
+      { icon: 'wind', value: '175 mph', label: 'HVHZ wind-rated' },
+      { icon: 'box', value: 'Free', label: '3D design' },
+    ],
+  },
+  es: {
+    title: 'Contratistas de Pérgolas de Aluminio, Cerramientos de Piscina y Porches en el Sur de Florida',
+    eyebrow: 'Contratista con Licencia · Miami-Dade · Broward · Palm Beach',
+    tag: 'Financiamiento disponible',
+    sub: 'AB Aluminum & Screens diseña, tramita permisos e instala pérgolas de aluminio a medida, cerramientos de piscina, porches con malla y techos de lamas motorizados en el sur de Florida. Cada proyecto comienza con una consulta de diseño 3D gratis.',
+    proof: 'Calificación 5★ · 500+ proyectos en el sur de Florida',
+    scroll: 'Desliza para explorar',
+    servicesEyebrow: 'Nuestros Servicios',
+    servicesH2: 'Cuatro Servicios de Vida al Aire Libre, Un Equipo Local con Licencia',
+    servicesIntro:
+      'Pérgolas, cerramientos de piscina, porches con malla y techos de lamas motorizados, diseñados e instalados según el código de construcción de Florida.',
+    answerQ: '¿Cuánto cuesta una pérgola de aluminio o cerramiento de piscina en el sur de Florida?',
+    answerA: `Las pérgolas de aluminio a medida cuestan desde unos $${perPergola}/pie² y los cerramientos de piscina desde unos $${perPool}/pie² instalados, y la mayoría de los proyectos va de unos miles a cifras de cinco dígitos bajas. AB Aluminum & Screens diseña, tramita permisos e instala en Miami-Dade, Broward y Palm Beach según el código HVHZ de Miami-Dade — cada proyecto comienza con un diseño 3D gratis.`,
+    chips: [
+      { icon: 'ruler', value: `desde $${perPergola}/pie²`, label: 'pérgolas' },
+      { icon: 'ruler', value: `desde $${perPool}/pie²`, label: 'cerramientos' },
+      { icon: 'wind', value: '175 mph', label: 'resistencia HVHZ' },
+      { icon: 'box', value: 'Gratis', label: 'diseño 3D' },
+    ],
+  },
+};
+const c = copy[lang];
+
+// Optimized hero poster (LCP on mobile). Served as a real <img>; the video is
+// attached only >=768px by a client script, so phones download zero video bytes.
+const heroPoster = await getImage({
+  src: heroPosterSrc,
+  widths: [640, 1024, 1280],
+  sizes: '100vw',
+  format: 'webp',
+});
+---
+
+<BaseLayout lang={lang} title={`AB Aluminum & Screens | ${c.title}`} description={c.sub}>
+  <link
+    slot="head"
+    rel="preload"
+    as="image"
+    imagesrcset={heroPoster.srcSet.attribute}
+    imagesizes="100vw"
+    fetchpriority="high"
+  />
+  <!-- ===== HERO (showpiece) ===== -->
+  <section class="home-hero">
+    <img
+      class="home-hero__poster"
+      src={heroPoster.src}
+      srcset={heroPoster.srcSet.attribute}
+      sizes="100vw"
+      width="1280"
+      height="720"
+      alt=""
+      fetchpriority="high"
+      decoding="async"
+    />
+    <video class="home-hero__video" muted loop playsinline preload="none"></video>
+    <div class="container home-hero__inner">
+      <div class="home-hero__content">
+      <div class="home-hero__proof">
+        <span class="home-hero__stars">
+          {[0, 1, 2, 3, 4].map(() => <Icon name="star" solid size={16} />)}
+        </span>
+        <span>{c.proof}</span>
+      </div>
+      <span class="home-hero__eyebrow">{c.eyebrow}</span>
+      <h1>{c.title}</h1>
+      <p class="home-hero__sub">{c.sub}</p>
+      <div class="home-hero__ctas">
+        <a class="btn btn--primary btn--lg" href={h('/contact-us')}>
+          {t('cta.requestEstimate')}
+          <Icon name="arrow-right" size={18} class="btn__i" />
+        </a>
+        <a class="btn btn--ghost btn--lg home-hero__ghost" href={h('/project-estimator')}>
+          {t('cta.tryEstimator')}
+        </a>
+      </div>
+      <TrustBadges lang={lang} variant="hero" reveal={false} class="home-hero__badges" />
+      </div>
+    </div>
+    <a class="home-hero__scroll" href="#about" aria-label={c.scroll}>
+      <Icon name="chevron-down" size={22} />
+    </a>
+  </section>
+
+  <AboutIntro lang={lang} />
+
+  <StatsBand lang={lang} />
+
+  <AnswerBlock
+    lang={lang}
+    question={c.answerQ}
+    answer={c.answerA}
+    chips={c.chips}
+    alt={true}
+    image="/images/black-aluminum-pergola-screens-pool-luxury-home-florida.avif"
+    imageAlt={lang === 'es'
+      ? 'Pérgola de aluminio negra con cerramiento de piscina en una casa de lujo del sur de Florida'
+      : 'Black aluminum pergola and pool screen enclosure at a luxury South Florida home'}
+  />
+
+  <ServicesGrid
+    lang={lang}
+    alt={false}
+    eyebrow={c.servicesEyebrow}
+    heading={c.servicesH2}
+    intro={c.servicesIntro}
+  />
+
+  <GalleryMosaic lang={lang} />
+
+  <FeatureGrid lang={lang} alt={true} />
+
+  <Reviews lang={lang} alt={false} />
+
+  <FinancingTeaser lang={lang} alt={true} />
+
+  <ProcessSteps lang={lang} alt={false} />
+
+  <CtaStrip lang={lang} />
+
+  <LeadSection lang={lang} source="home" alt={true} />
+</BaseLayout>
+
+<script>
+  // Attach + autoplay the hero video only on >=768px viewports. On phones the
+  // video never loads, leaving the optimized poster <img> as an uncontested LCP.
+  const v = document.querySelector('.home-hero__video');
+  if (v && window.matchMedia('(min-width: 768px)').matches) {
+    const webm = document.createElement('source');
+    webm.src = '/videos/hero.webm';
+    webm.type = 'video/webm';
+    const mp4 = document.createElement('source');
+    mp4.src = '/videos/hero.mp4';
+    mp4.type = 'video/mp4';
+    v.append(webm, mp4);
+    v.load();
+    v.play().catch(() => {});
+  }
+</script>
+
+<style>
+  .home-hero {
+    position: relative;
+    min-height: clamp(560px, 82vh, 760px);
+    display: flex;
+    align-items: center;
+    color: #fff;
+    overflow: hidden;
+    background: var(--charcoal);
+  }
+  .home-hero__poster,
+  .home-hero__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+  .home-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    /* Symmetric scrim for the centered layout (darker bottom for the CTA/badge row) */
+    background: linear-gradient(rgba(8, 8, 20, 0.5), rgba(8, 8, 20, 0.66)),
+      radial-gradient(ellipse 85% 70% at 50% 42%, rgba(8, 8, 20, 0.4), transparent 72%);
+    z-index: 1;
+  }
+  .home-hero__inner {
+    position: relative;
+    z-index: 2;
+    padding-block: clamp(3rem, 7vw, 5rem);
+  }
+  .home-hero__content {
+    max-width: 720px;
+    margin-inline: auto;
+    text-align: center;
+  }
+  .home-hero__eyebrow {
+    display: inline-block;
+    margin-top: 1.1rem;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--peach-2);
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
+    /* dark glass (was rgba white .1) so the light peach text clears WCAG AA on the photo hero */
+    background: rgba(0, 0, 0, 0.32);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+  .home-hero h1 {
+    color: #fff;
+    font-size: var(--h1);
+    line-height: 1.1;
+    margin-top: 1.25rem;
+    text-wrap: balance;
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.3);
+  }
+  .home-hero__sub {
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
+    line-height: 1.65;
+    margin: 1.25rem auto 0;
+    color: rgba(255, 255, 255, 0.92);
+    max-width: 620px;
+    text-wrap: pretty;
+  }
+  .home-hero__ctas {
+    display: flex;
+    gap: 0.875rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
+  }
+  .home-hero__ghost {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.6);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+  .home-hero__ghost:hover {
+    background: #fff;
+    color: var(--charcoal);
+    border-color: #fff;
+  }
+  .home-hero__proof {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.92);
+  }
+  /* Centre the trust-badge pills (rendered by the TrustBadges child component) */
+  :global(.home-hero__badges) {
+    justify-content: center;
+  }
+  .home-hero__stars {
+    display: inline-flex;
+    color: #f5a623;
+    gap: 1px;
+  }
+  .home-hero__scroll {
+    position: absolute;
+    z-index: 2;
+    left: 50%;
+    bottom: 1.1rem;
+    transform: translateX(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    background: rgba(255, 255, 255, 0.08);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    animation: hero-bob 1.8s var(--ease) infinite;
+  }
+  .home-hero__scroll:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.2);
+  }
+  @keyframes hero-bob {
+    0%, 100% { transform: translate(-50%, 0); }
+    50% { transform: translate(-50%, 6px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .home-hero__scroll {
+      animation: none;
+    }
+  }
+
+</style>

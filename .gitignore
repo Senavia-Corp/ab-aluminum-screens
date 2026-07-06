@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.sanity/
+*.local
+.env
+.env.*
+sanity.env
+.DS_Store
+
+# Webflow source exports (already imported into Sanity; ~0.5GB of assets)
+source/

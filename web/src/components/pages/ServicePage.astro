@@ -1,0 +1,509 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { useT, localizedHref, loc, type Lang } from '../../lib/i18n';
+import { SERVICE_ROUTE_TO_SLUG, SERVICE_TO_GALLERY, type ServiceRoute } from '../../lib/routes';
+import { SERVICES, FOOTER_AREAS } from '../../lib/nav';
+import { getServiceBySlug } from '../../lib/queries';
+import { BUSINESS_ID, SITE_ORIGIN } from '../../lib/seo';
+import {
+  DEFAULT_PRICING,
+  estimateBreakdown,
+  formatUSD,
+  type StructureType,
+  type EstimateInput,
+} from '../../lib/pricing';
+import Breadcrumbs from '../Breadcrumbs.astro';
+import SanityImg from '../SanityImg.astro';
+import PortableText from '../PortableText.astro';
+import AnswerBlock from '../AnswerBlock.astro';
+import FAQ from '../FAQ.astro';
+import ServicesGrid from '../ServicesGrid.astro';
+import GalleryMosaic from '../GalleryMosaic.astro';
+import ProcessSteps from '../ProcessSteps.astro';
+import FinancingTeaser from '../FinancingTeaser.astro';
+import Reviews from '../Reviews.astro';
+import LeadSection from '../LeadSection.astro';
+
+interface Props {
+  lang: Lang;
+  route: ServiceRoute;
+}
+const { lang, route } = Astro.props;
+const slug = SERVICE_ROUTE_TO_SLUG[route];
+const service = await getServiceBySlug(slug);
+const t = useT(lang);
+const meta = SERVICES.find((s) => s.route === route)!;
+
+// Lead-section carousel: show only this service's photos.
+const LEAD_SERVICE = {
+  'aluminum-pergolas': 'pergola',
+  'pool-enclosure': 'pool',
+  'patio-screens': 'screen',
+  'louvered-roof-system': 'louvered',
+} as const;
+const leadService = LEAD_SERVICE[route];
+
+// Video poster (cover) per service — SEO-named, optimized renders.
+const VIDEO_POSTER: Record<string, string> = {
+  pergola: '/covers/aluminum-pergola-patio-cover-miami.webp',
+  pool: '/covers/aluminum-pool-enclosure-screen-cage-miami.webp',
+  screen: '/covers/patio-screen-room-enclosure-miami.webp',
+  louvered: '/covers/louvered-roof-system-pergola-miami.webp',
+};
+const videoPoster = VIDEO_POSTER[leadService];
+
+const hero = service?.hero;
+const heroLoc = loc<any>(service, 'hero', lang) || hero || {};
+const introLoc = loc<any>(service, 'intro', lang) || service?.intro || {};
+const engLoc = loc<any>(service, 'engineered', lang) || service?.engineered || {};
+const featLoc = loc<any>(service, 'featured', lang) || service?.featured || {};
+const colorsLoc = loc<any>(service, 'colors', lang) || service?.colors || {};
+const seo = (lang === 'es' && service?.seoEs) || service?.seo || {};
+
+const whyCopy = {
+  en: {
+    h: 'Why South Florida Homeowners Choose AB Aluminum & Screens',
+    items: [
+      'Licensed & Insured in South Florida',
+      'Built to Miami-Dade HVHZ Code',
+      '15+ Years Serving South Florida',
+    ],
+  },
+  es: {
+    h: 'Por Qué los Propietarios del Sur de Florida Eligen AB Aluminum & Screens',
+    items: [
+      'Con Licencia y Seguro en el Sur de Florida',
+      'Construido según el Código HVHZ de Miami-Dade',
+      '15+ Años Sirviendo al Sur de Florida',
+    ],
+  },
+}[lang];
+const whyIcons = ['/images/Icon-7.svg', '/images/Icon-13.svg', '/images/Icon-5.svg'];
+const galleryRoute = SERVICE_TO_GALLERY[route];
+const pageTitle = seo.metaTitle || `${meta.label[lang]} | AB Aluminum & Screens`;
+
+// ── GEO/pricing: a typical installed range per service, computed from the SAME engine the estimator
+// uses (src/lib/pricing.ts) so the answer text and the calculator never disagree. Real numbers only. ──
+const SVC_STRUCT: Record<ServiceRoute, StructureType> = {
+  'aluminum-pergolas': 'pergola',
+  'pool-enclosure': 'pool-enclosure',
+  'patio-screens': 'screen-room',
+  'louvered-roof-system': 'louvered',
+};
+const TYPICAL: Record<ServiceRoute, EstimateInput> = {
+  'aluminum-pergolas': { structure: 'pergola', sqft: 200, attachment: 'attached', roofType: 'solid-insulated', material: 'white', addOns: [] },
+  'pool-enclosure': { structure: 'pool-enclosure', sqft: 450, cageStyle: 'flat', height: 'single', mesh: 'standard', material: 'white', addOns: [] },
+  'patio-screens': { structure: 'screen-room', sqft: 200, attachment: 'attached', subtype: 'under-existing', mesh: 'standard', material: 'white', addOns: [] },
+  'louvered-roof-system': { structure: 'louvered', sqft: 200, attachment: 'attached', operation: 'motorized', material: 'white', addOns: [] },
+};
+const perSqft = DEFAULT_PRICING.structures[SVC_STRUCT[route]].basePerSqft;
+const typical = estimateBreakdown(TYPICAL[route]);
+const rangeText = `${formatUSD(typical.total.low)}–${formatUSD(typical.total.high)}`;
+
+// Best-in-class, service-specific photo for the answer block (distinct per service).
+const SVC_IMG: Record<ServiceRoute, string> = {
+  'aluminum-pergolas': '/images/aluminum-pergola-solid-roof-outdoor-patio-florida.avif',
+  'pool-enclosure': '/images/service-pool-enclosure.jpg',
+  'patio-screens': '/images/patio-screens-contractors.avif',
+  'louvered-roof-system': '/images/service-louvered.avif',
+};
+
+// Per-service GEO answer + FAQ (bilingual, inline per codebase convention). Facts are region-true.
+const SVC: Record<ServiceRoute, {
+  serviceType: { en: string; es: string };
+  answerQ: { en: string; es: string };
+  answerA: { en: string; es: string };
+  faqs: { en: { q: string; a: string }[]; es: { q: string; a: string }[] };
+}> = {
+  'aluminum-pergolas': {
+    serviceType: { en: 'Aluminum pergola installation', es: 'Instalación de pérgolas de aluminio' },
+    answerQ: { en: 'How much does an aluminum pergola cost in South Florida?', es: '¿Cuánto cuesta una pérgola de aluminio en el sur de Florida?' },
+    answerA: {
+      en: `A custom aluminum pergola typically runs ${rangeText} installed, from about $${perSqft}/sq ft. That includes 3D design, sealed engineering, Miami-Dade HVHZ permits and installation by our licensed in-house crew. Open-lattice, solid insulated or motorized louvered roofs are available, powder-coated to match your home.`,
+      es: `Una pérgola de aluminio a medida cuesta normalmente ${rangeText} instalada, desde unos $${perSqft}/pie². Incluye diseño 3D, ingeniería sellada, permisos HVHZ de Miami-Dade e instalación por nuestro equipo propio con licencia. Disponible con techo de celosía, sólido aislado o lamas motorizadas, pintado para combinar con tu casa.`,
+    },
+    faqs: {
+      en: [
+        { q: 'How much does an aluminum pergola cost?', a: `Most installed pergolas land between ${rangeText}, starting around $${perSqft} per square foot. Your exact price depends on size, roof style (lattice, solid or motorized) and add-ons like lighting or screens — confirmed with a free 3D design.` },
+        { q: 'Do I need a permit for a pergola in Miami-Dade or Broward?', a: 'Yes. Permanent aluminum pergolas require a permit and sealed engineering in South Florida. We handle the drawings, permitting and inspections for you, all built to the Miami-Dade HVHZ High-Velocity Hurricane Zone wind-load code.' },
+        { q: 'How long does installation take?', a: 'After design and permitting, fabrication and installation typically take 2–4 weeks depending on size and finish. Permitting timelines vary by city, and we keep you updated at every stage.' },
+      ],
+      es: [
+        { q: '¿Cuánto cuesta una pérgola de aluminio?', a: `La mayoría de las pérgolas instaladas cuestan entre ${rangeText}, desde unos $${perSqft} por pie². El precio exacto depende del tamaño, el estilo de techo (celosía, sólido o motorizado) y extras como iluminación o malla — confirmado con un diseño 3D gratis.` },
+        { q: '¿Necesito permiso para una pérgola en Miami-Dade o Broward?', a: 'Sí. Las pérgolas de aluminio permanentes requieren permiso e ingeniería sellada en el sur de Florida. Nosotros gestionamos los planos, permisos e inspecciones, todo según el código HVHZ de zona de huracanes de Miami-Dade.' },
+        { q: '¿Cuánto tarda la instalación?', a: 'Tras el diseño y los permisos, la fabricación e instalación toman normalmente de 2 a 4 semanas según el tamaño y el acabado. Los tiempos de permiso varían por ciudad y te mantenemos informado en cada etapa.' },
+      ],
+    },
+  },
+  'pool-enclosure': {
+    serviceType: { en: 'Pool screen enclosure installation', es: 'Instalación de cerramientos de piscina' },
+    answerQ: { en: 'How much does a pool screen enclosure cost in South Florida?', es: '¿Cuánto cuesta un cerramiento de piscina en el sur de Florida?' },
+    answerA: {
+      en: `A screened pool enclosure typically runs ${rangeText} installed, from about $${perSqft}/sq ft of cage. That includes engineering, Miami-Dade HVHZ permits and installation by our licensed crew. Aluminum framing is powder-coated and screened to keep bugs and debris out while keeping your view.`,
+      es: `Un cerramiento de piscina con malla cuesta normalmente ${rangeText} instalado, desde unos $${perSqft}/pie² de jaula. Incluye ingeniería, permisos HVHZ de Miami-Dade e instalación por nuestro equipo con licencia. La estructura de aluminio va pintada y con malla para dejar fuera insectos y hojas sin perder la vista.`,
+    },
+    faqs: {
+      en: [
+        { q: 'How much does a pool enclosure cost?', a: `Pool screen enclosures typically run ${rangeText} installed, from about $${perSqft} per square foot of cage. Final price depends on the cage size, height, screen type and door layout — confirmed with a free measurement and 3D design.` },
+        { q: 'Are pool enclosures built to hurricane code?', a: 'Yes. Our aluminum pool cages are engineered and permitted to the Miami-Dade HVHZ wind-load code, with corrosion-resistant powder-coated framing suited to coastal South Florida.' },
+        { q: 'Do you repair or rescreen existing enclosures?', a: 'We focus on new and replacement enclosures. Tell us what you have and we’ll advise whether a rescreen, repair or full replacement is the right call for your budget.' },
+      ],
+      es: [
+        { q: '¿Cuánto cuesta un cerramiento de piscina?', a: `Los cerramientos con malla cuestan normalmente ${rangeText} instalados, desde unos $${perSqft} por pie² de jaula. El precio final depende del tamaño, la altura, el tipo de malla y las puertas — confirmado con medición y diseño 3D gratis.` },
+        { q: '¿Se construyen según el código de huracanes?', a: 'Sí. Nuestras jaulas de aluminio se calculan y permisan según el código de carga de viento HVHZ de Miami-Dade, con estructura pintada resistente a la corrosión para la costa del sur de Florida.' },
+        { q: '¿Reparan o cambian la malla de cerramientos existentes?', a: 'Nos enfocamos en cerramientos nuevos y de reemplazo. Cuéntanos qué tienes y te asesoramos si conviene cambiar la malla, reparar o reemplazar según tu presupuesto.' },
+      ],
+    },
+  },
+  'patio-screens': {
+    serviceType: { en: 'Patio screen room installation', es: 'Instalación de porches con malla' },
+    answerQ: { en: 'How much does a patio screen room cost in South Florida?', es: '¿Cuánto cuesta un porche con malla en el sur de Florida?' },
+    answerA: {
+      en: `A patio screen room typically runs ${rangeText} installed, from about $${perSqft}/sq ft. That includes design, Miami-Dade HVHZ-rated engineering, permits and installation by our in-house crew. Screen rooms keep insects out and let you enjoy your patio year-round, with optional solid or insulated roofs.`,
+      es: `Un porche con malla cuesta normalmente ${rangeText} instalado, desde unos $${perSqft}/pie². Incluye diseño, ingeniería HVHZ de Miami-Dade, permisos e instalación por nuestro equipo propio. Los porches con malla dejan fuera los insectos y te permiten disfrutar el patio todo el año, con techo sólido o aislado opcional.`,
+    },
+    faqs: {
+      en: [
+        { q: 'How much does a screen room cost?', a: `Patio screen rooms typically run ${rangeText} installed, from about $${perSqft} per square foot. Your price depends on size, roof type and screen choice — confirmed with a free 3D design and quote.` },
+        { q: 'Do screen rooms need a permit in South Florida?', a: 'Yes. Screen enclosures attached to your home require a permit and engineering. We handle permitting and build to the Miami-Dade HVHZ wind-load code so your room holds up to South Florida storms.' },
+        { q: 'Can you add a solid roof to a screen room?', a: 'Absolutely. We can combine screen walls with an insulated solid roof or aluminum lattice cover, so you get shade, rain protection and a bug-free space in one structure.' },
+      ],
+      es: [
+        { q: '¿Cuánto cuesta un porche con malla?', a: `Los porches con malla cuestan normalmente ${rangeText} instalados, desde unos $${perSqft} por pie². El precio depende del tamaño, el tipo de techo y la malla — confirmado con diseño 3D y presupuesto gratis.` },
+        { q: '¿Los porches con malla requieren permiso?', a: 'Sí. Los cerramientos con malla adosados a la casa requieren permiso e ingeniería. Gestionamos los permisos y construimos según el código de viento HVHZ de Miami-Dade para resistir las tormentas del sur de Florida.' },
+        { q: '¿Pueden agregar un techo sólido al porche?', a: 'Por supuesto. Combinamos paredes de malla con un techo sólido aislado o una cubierta de celosía de aluminio, para tener sombra, protección de lluvia y un espacio sin insectos en una sola estructura.' },
+      ],
+    },
+  },
+  'louvered-roof-system': {
+    serviceType: { en: 'Motorized louvered roof installation', es: 'Instalación de techos de lamas motorizados' },
+    answerQ: { en: 'How much does a motorized louvered roof cost in South Florida?', es: '¿Cuánto cuesta un techo de lamas motorizado en el sur de Florida?' },
+    answerA: {
+      en: `A motorized louvered roof typically runs ${rangeText} installed, from about $${perSqft}/sq ft. The aluminum louvers tilt open for sun and close at the first drop of rain. Price includes 3D design, sealed engineering, Miami-Dade HVHZ permits and installation by our licensed in-house crew.`,
+      es: `Un techo de lamas motorizado cuesta normalmente ${rangeText} instalado, desde unos $${perSqft}/pie². Las lamas de aluminio se abren al sol y se cierran con la primera gota de lluvia. El precio incluye diseño 3D, ingeniería sellada, permisos HVHZ de Miami-Dade e instalación por nuestro equipo con licencia.`,
+    },
+    faqs: {
+      en: [
+        { q: 'How much does a motorized louvered roof cost?', a: `Motorized louvered roofs typically run ${rangeText} installed, from about $${perSqft} per square foot — the premium option for full sun-and-rain control. Final price depends on size, motor and add-ons, confirmed with a free 3D design.` },
+        { q: 'Do louvered roofs handle Florida rain and wind?', a: 'Yes. The louvers close to a sealed roof against rain and are engineered to the Miami-Dade HVHZ wind-load code. Many systems include rain sensors that close the roof automatically.' },
+        { q: 'Can I add lighting or screens to a louvered roof?', a: 'Yes. Integrated LED lighting, fans and motorized or fixed screens are popular add-ons. We design the structure around the extras you want and quote it transparently.' },
+      ],
+      es: [
+        { q: '¿Cuánto cuesta un techo de lamas motorizado?', a: `Los techos de lamas motorizados cuestan normalmente ${rangeText} instalados, desde unos $${perSqft} por pie² — la opción premium para control total de sol y lluvia. El precio depende del tamaño, el motor y los extras, confirmado con diseño 3D gratis.` },
+        { q: '¿Resisten la lluvia y el viento de Florida?', a: 'Sí. Las lamas se cierran formando un techo sellado contra la lluvia y se calculan según el código de viento HVHZ de Miami-Dade. Muchos sistemas incluyen sensores que cierran el techo automáticamente.' },
+        { q: '¿Puedo agregar iluminación o malla?', a: 'Sí. La iluminación LED integrada, los ventiladores y las mallas fijas o motorizadas son extras populares. Diseñamos la estructura según los extras que quieras y lo cotizamos con transparencia.' },
+      ],
+    },
+  },
+};
+const svc = SVC[route];
+
+// Service JSON-LD — references the business by @id (declared once in BaseLayout), never redeclared.
+const serviceJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: meta.label[lang],
+  serviceType: svc.serviceType[lang],
+  areaServed: ['Miami-Dade County', 'Broward County', 'Palm Beach County'],
+  provider: { '@id': BUSINESS_ID },
+  url: `${SITE_ORIGIN}${localizedHref('/' + route, lang)}`,
+};
+
+// In-body internal links to real service-area cities (slugs that resolve to live pages).
+const areaLinks = FOOTER_AREAS.flatMap((g) => g.cities).slice(0, 8);
+const areaH2 = lang === 'es' ? 'Instalamos en todo el Sur de Florida' : 'We Install Across South Florida';
+const areaIntro =
+  lang === 'es'
+    ? 'Atendemos Miami-Dade, Broward y Palm Beach. Algunas de las ciudades donde instalamos:'
+    : 'Serving Miami-Dade, Broward and Palm Beach. A few of the cities we install in:';
+---
+
+<BaseLayout lang={lang} title={pageTitle} description={seo.metaDescription || heroLoc.paragraph} jsonLd={serviceJsonLd}>
+  <Breadcrumbs lang={lang} items={[{ label: meta.label[lang] }]} />
+
+  <!-- Hero -->
+  <section class="svc-hero">
+    {hero?.image && <SanityImg image={hero.image} width={1400} class="svc-hero__bg" loading="eager" fetchpriority="high" alt={hero.image.alt || meta.label[lang]} />}
+    <div class="container svc-hero__inner">
+      <h1>{heroLoc.heading || meta.label[lang]}</h1>
+      {heroLoc.paragraph && <p class="svc-hero__sub">{heroLoc.paragraph}</p>}
+      <a class="btn btn--primary btn--lg" href={localizedHref('/contact-us', lang)}>{t('cta.requestEstimate')}</a>
+    </div>
+  </section>
+
+  <!-- GEO direct-answer (real pricing from the estimator engine) -->
+  <AnswerBlock
+    lang={lang}
+    question={svc.answerQ[lang]}
+    answer={svc.answerA[lang]}
+    alt={true}
+    image={SVC_IMG[route]}
+    imageAlt={`${meta.label[lang]} — AB Aluminum & Screens, South Florida`}
+    chips={[
+      { icon: 'ruler', value: `from $${perSqft}/sq ft`, label: lang === 'es' ? 'instalado' : 'installed' },
+      { icon: 'wind', value: '175 mph', label: lang === 'es' ? 'resistencia HVHZ' : 'HVHZ wind-rated' },
+      { icon: 'clock', value: lang === 'es' ? '2–4 sem' : '2–4 wks', label: lang === 'es' ? 'construcción típica' : 'typical build' },
+      { icon: 'box', value: lang === 'es' ? 'Gratis' : 'Free', label: lang === 'es' ? 'diseño 3D' : '3D design' },
+    ]}
+  />
+
+  <!-- Intro -->
+  {
+    introLoc.heading && (
+      <section class="section">
+        <div class="container narrow text-center">
+          <h2>{introLoc.heading}</h2>
+          <p class="lead" style="margin-top:1rem;">{introLoc.paragraph}</p>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- Picture gallery strip -->
+  {
+    service?.pageImages?.length > 0 && (
+      <section class="section section--alt">
+        <div class="container">
+          <div class="grid cols-4">
+            {service.pageImages.slice(0, 4).map((img: any) => (
+              <SanityImg image={img} width={420} class="svc-strip-img" alt={img.alt || ''} />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- Engineered / video -->
+  {
+    engLoc.heading && (
+      <section class="section">
+        <div class="container svc-eng">
+          <div>
+            <h2>{engLoc.heading}</h2>
+            <p class="lead">{engLoc.paragraph}</p>
+            <a class="btn btn--secondary" href={localizedHref('/contact-us', lang)}>{t('cta.getFreeQuote')}</a>
+          </div>
+          {service?.engineered?.videoUrl && (
+            <video
+              class="svc-eng__video"
+              controls
+              preload="none"
+              playsinline
+              poster={videoPoster}
+              aria-label={engLoc.heading ? `${meta.label[lang]}: ${engLoc.heading}` : meta.label[lang]}
+              title={meta.label[lang]}
+            >
+              <source src={service.engineered.videoUrl} type="video/mp4" />
+            </video>
+          )}
+        </div>
+      </section>
+    )
+  }
+
+  <!-- Featured / Colors two-column -->
+  {
+    featLoc.heading && (
+      <section class="section section--alt">
+        <div class="container svc-two svc-two--rev">
+          <div class="svc-two__text">
+            <h2>{featLoc.heading}</h2>
+            <PortableText value={featLoc.body} />
+          </div>
+          {service?.featured?.image && <SanityImg image={service.featured.image} width={560} class="img-frame" alt={service.featured.image.alt || ''} />}
+        </div>
+      </section>
+    )
+  }
+  {
+    colorsLoc.heading && (
+      <section class="section">
+        <div class="container svc-two">
+          <div class="svc-two__text">
+            <h2>{colorsLoc.heading}</h2>
+            <PortableText value={colorsLoc.body} />
+          </div>
+          {service?.colors?.image && <SanityImg image={service.colors.image} width={560} class="img-frame" alt={service.colors.image.alt || ''} />}
+        </div>
+      </section>
+    )
+  }
+
+  <!-- Why choose us -->
+  <section class="section section--alt">
+    <div class="container">
+      <h2 class="text-center">{whyCopy.h}</h2>
+      <div class="grid cols-3" style="margin-top:2rem;">
+        {
+          whyCopy.items.map((item, i) => (
+            <div class="card why">
+              <img src={whyIcons[i]} alt="" width="40" height="40" />
+              <h3>{item}</h3>
+            </div>
+          ))
+        }
+      </div>
+      <div class="text-center" style="margin-top:1.5rem;">
+        <a class="btn btn--primary" href={localizedHref('/gallery/' + galleryRoute, lang)}>{t('cta.viewGallery')}</a>
+      </div>
+    </div>
+  </section>
+
+  <GalleryMosaic lang={lang} />
+  <ProcessSteps lang={lang} />
+  <FinancingTeaser lang={lang} alt={true} />
+  <Reviews lang={lang} limit={3} />
+
+  <!-- In-body internal links: service ↔ service-area (real, resolving city slugs) -->
+  <section class="section section--alt">
+    <div class="container narrow text-center">
+      <h2>{areaH2}</h2>
+      <p class="lead" style="margin-top:0.75rem;">{areaIntro}</p>
+      <ul class="svc-areas" data-reveal>
+        {
+          areaLinks.map((city) => (
+            <li>
+              <a href={localizedHref('/service-areas/' + city.slug, lang)}>
+                {meta.label[lang]} {lang === 'es' ? 'en' : 'in'} {city.name}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <a class="btn btn--ghost" href={localizedHref('/service-areas', lang)} style="margin-top:1.5rem;">
+        {lang === 'es' ? 'Ver todas las áreas' : 'View all service areas'}
+      </a>
+    </div>
+  </section>
+
+  <FAQ lang={lang} items={svc.faqs[lang]} alt={false} />
+
+  <ServicesGrid lang={lang} exclude={route} alt={true} heading={lang === 'es' ? 'Otros Servicios' : 'Other Services'} />
+  <LeadSection lang={lang} source={`service:${route}`} alt={true} service={leadService} />
+</BaseLayout>
+
+<style>
+  .svc-hero {
+    position: relative;
+    color: #fff;
+    background: var(--charcoal);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    min-height: clamp(420px, 58vh, 560px);
+    padding-block: clamp(3rem, 8vw, 6rem);
+  }
+  /* :global — the <img> is rendered by the SanityImg child, outside this component's scope */
+  :global(.svc-hero__bg) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.45;
+  }
+  .svc-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    /* Symmetric scrim for the centered layout */
+    background: linear-gradient(rgba(8, 8, 20, 0.6), rgba(8, 8, 20, 0.68)),
+      radial-gradient(ellipse 85% 75% at 50% 45%, rgba(8, 8, 20, 0.35), transparent 72%);
+  }
+  .svc-hero__inner {
+    position: relative;
+    z-index: 2;
+    max-width: 760px;
+    margin-inline: auto;
+    text-align: center;
+  }
+  .svc-hero h1 {
+    color: #fff;
+    text-wrap: balance;
+    text-shadow: 0 2px 22px rgba(0, 0, 0, 0.28);
+  }
+  .svc-hero__sub {
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    margin: 1.15rem auto 2rem;
+    max-width: 600px;
+    color: rgba(255, 255, 255, 0.92);
+    text-wrap: pretty;
+  }
+  :global(.svc-strip-img) {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  .svc-eng,
+  .svc-two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: center;
+  }
+  .svc-eng__video {
+    width: 100%;
+    border-radius: var(--radius-card);
+    background: #000;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+  }
+  .svc-two img {
+    width: 100%;
+  }
+  /* min-width:0 stops long words/headings from blowing out the grid columns */
+  .svc-eng > div,
+  .svc-two__text {
+    min-width: 0;
+  }
+  /* Reversed row: image left, text right (desktop) → alternating zigzag */
+  .svc-two--rev .svc-two__text {
+    order: 2;
+  }
+  .why {
+    padding: 1.75rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+  .why h3 {
+    margin: 0;
+  }
+  .svc-areas {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+  }
+  .svc-areas a {
+    display: inline-block;
+    padding: 0.5rem 0.95rem;
+    border-radius: 999px;
+    background: #fff;
+    border: 1px solid var(--border);
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: border-color 0.18s ease, color 0.18s ease;
+  }
+  .svc-areas a:hover {
+    border-color: var(--red);
+    color: var(--red);
+  }
+  @media (max-width: 860px) {
+    .svc-eng,
+    .svc-two {
+      grid-template-columns: 1fr;
+    }
+    /* Always text-first when stacked on mobile, regardless of desktop order */
+    .svc-two--rev .svc-two__text {
+      order: 0;
+    }
+  }
+</style>

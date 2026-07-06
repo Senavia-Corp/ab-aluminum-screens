@@ -1,0 +1,2112 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../Icon.astro';
+import { getImage } from 'astro:assets';
+import { useT, type Lang } from '../../lib/i18n';
+import { getPricingConfig } from '../../lib/queries';
+import { estimateBreakdown, formatUSD, mergePricing, type StructureType } from '../../lib/pricing';
+import { TURNSTILE_SITE_KEY } from '../../lib/turnstile';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+
+// Server-rendered pricing: Sanity numbers deep-merged over the in-code defaults, then serialized.
+// ponytail: in-code DEFAULT_PRICING is the source of truth. mergePricing() ignores docs from the
+// old flat model (no `structures`) so a stale doc can never serve old prices, and only lets a
+// new-shape doc override NUMBERS. Owner re-saves pricingConfig in Sanity after go-live review.
+const cfg = mergePricing(await getPricingConfig());
+
+const PHONE_DISPLAY = '(786) 383-6066';
+const PHONE_TEL = '+17863836066';
+
+// ── Curated imagery (optimized at build via astro:assets) ──
+const imgMods = import.meta.glob<{ default: ImageMetadata }>(
+  '../../assets/estimator/*.{avif,jpeg,jpg,png,webp}',
+  { eager: true },
+);
+const meta = (file: string) => {
+  const key = Object.keys(imgMods).find((p) => p.endsWith('/' + file));
+  return key ? imgMods[key].default : undefined;
+};
+const optimize = async (file: string, width: number) => {
+  const m = meta(file);
+  if (!m) return '';
+  return (await getImage({ src: m, width, format: 'webp' })).src;
+};
+
+// Hero pool — each entry tagged with the option tokens it best represents, plus an optimized src.
+// `style` holds the product's primary-axis token (pergola roofType / louvered operation /
+// screen-room subtype; pool photos aren't cage-style-specific so they match on material only).
+const HERO_DEFS = [
+  { structure: 'pergola', material: 'white', style: 'open-lattice', attachment: 'attached', file: 'pergola-white-lattice.jpeg' },
+  { structure: 'pergola', material: 'bronze', style: 'solid-insulated', attachment: 'attached', file: 'pergola-bronze-solid.jpeg' },
+  { structure: 'pergola', material: 'white', style: 'solid-insulated', attachment: 'freestanding', file: 'pergola-white-solid.jpeg' },
+  { structure: 'pergola', material: 'bronze', style: 'open-lattice', attachment: 'attached', file: 'pergola-bronze-lattice.jpeg' },
+  { structure: 'pergola', material: 'black', style: 'solid-insulated', attachment: 'attached', file: 'pergola-dark-solid.jpeg' },
+  { structure: 'pergola', material: 'black', style: 'open-lattice', attachment: 'freestanding', file: 'pergola-dark-lattice.jpeg' },
+  { structure: 'louvered', material: 'white', style: 'motorized', attachment: 'attached', file: 'louvered-white-attached.jpeg' },
+  { structure: 'louvered', material: 'white', style: 'motorized', attachment: 'freestanding', file: 'louvered-white-freestanding.jpeg' },
+  { structure: 'louvered', material: 'black', style: 'motorized', attachment: 'attached', file: 'louvered-dark-attached.jpeg' },
+  { structure: 'louvered', material: 'bronze', style: 'motorized', attachment: 'freestanding', file: 'louvered-motorized.jpeg' },
+  { structure: 'pool-enclosure', material: 'white', style: '', attachment: 'attached', file: 'pool-white.jpeg' },
+  { structure: 'pool-enclosure', material: 'white', style: '', attachment: 'freestanding', file: 'pool-white-interior.jpeg' },
+  { structure: 'pool-enclosure', material: 'bronze', style: '', attachment: 'attached', file: 'pool-bronze.jpeg' },
+  { structure: 'pool-enclosure', material: 'bronze', style: '', attachment: 'freestanding', file: 'pool-bronze-exterior.jpeg' },
+  { structure: 'pool-enclosure', material: 'black', style: '', attachment: 'attached', file: 'pool-default.jpeg' },
+  { structure: 'screen-room', material: 'white', style: 'new-roof', attachment: 'attached', file: 'screen-white-solid.jpeg' },
+  { structure: 'screen-room', material: 'bronze', style: 'new-roof', attachment: 'attached', file: 'screen-bronze-solid.jpeg' },
+  { structure: 'screen-room', material: 'white', style: 'screen-only', attachment: 'attached', file: 'screen-white-pool.jpeg' },
+  { structure: 'screen-room', material: 'black', style: 'new-roof', attachment: 'attached', file: 'screen-dark.jpeg' },
+  { structure: 'screen-room', material: 'white', style: 'screen-only', attachment: 'freestanding', file: 'screen-pool-clear.jpeg' },
+] as const;
+
+const heroPool = await Promise.all(
+  HERO_DEFS.map(async (h) => ({
+    structure: h.structure,
+    material: h.material,
+    style: h.style,
+    attachment: h.attachment,
+    src: await optimize(h.file, 1000),
+  })),
+);
+
+// Default selection (matches the pre-checked inputs below).
+const DEFAULTS = { structure: 'pergola', style: 'solid-insulated', material: 'white', attachment: 'attached' };
+const heroScore = (h: (typeof heroPool)[number], s: typeof DEFAULTS) =>
+  (h.material === s.material ? 3 : 0) + (h.style === s.style ? 2 : 0) + (h.attachment === s.attachment ? 1 : 0);
+const pickHero = (s: typeof DEFAULTS) =>
+  heroPool.filter((h) => h.structure === s.structure).reduce((best, h) => (heroScore(h, s) > heroScore(best, s) ? h : best));
+const defaultHeroSrc = pickHero(DEFAULTS).src;
+
+// Structure card thumbnails.
+const cardSrc = {
+  pergola: await optimize('pergola-white-lattice.jpeg', 640),
+  louvered: await optimize('louvered-white-attached.jpeg', 640),
+  'pool-enclosure': await optimize('pool-default.jpeg', 640),
+  'screen-room': await optimize('screen-white-solid.jpeg', 640),
+};
+
+// ── Option models (data-driven, per product) ──
+const structures = [
+  { v: 'pergola', l: t('estimator.pergola'), help: t('estimator.pergolaHelp'), icon: 'home', img: cardSrc.pergola, popular: true },
+  { v: 'louvered', l: t('estimator.louvered'), help: t('estimator.louveredHelp'), icon: 'wind', img: cardSrc.louvered, popular: false },
+  { v: 'pool-enclosure', l: t('estimator.poolEnclosure'), help: t('estimator.poolEnclosureHelp'), icon: 'shield-check', img: cardSrc['pool-enclosure'], popular: false },
+  { v: 'screen-room', l: t('estimator.screenRoom'), help: t('estimator.screenRoomHelp'), icon: 'layers', img: cardSrc['screen-room'], popular: false },
+];
+
+type Opt = { v: string; l: string; help: string; icon: string; popular?: boolean };
+const axisOpts: Record<string, Opt[]> = {
+  roofType: [
+    { v: 'open-lattice', l: t('estimator.openLattice'), help: t('estimator.openLatticeHelp'), icon: 'layers' },
+    { v: 'solid-insulated', l: t('estimator.solidRoof'), help: t('estimator.solidRoofHelp'), icon: 'home', popular: true },
+  ],
+  operation: [
+    { v: 'manual', l: t('estimator.opManual'), help: t('estimator.opManualHelp'), icon: 'wind' },
+    { v: 'motorized', l: t('estimator.opMotorized'), help: t('estimator.opMotorizedHelp'), icon: 'zap', popular: true },
+    { v: 'smart', l: t('estimator.opSmart'), help: t('estimator.opSmartHelp'), icon: 'sparkles' },
+  ],
+  cageStyle: [
+    { v: 'flat', l: t('estimator.cageFlat'), help: t('estimator.cageFlatHelp'), icon: 'box', popular: true },
+    { v: 'mansard', l: t('estimator.cageMansard'), help: t('estimator.cageMansardHelp'), icon: 'home' },
+    { v: 'gable', l: t('estimator.cageGable'), help: t('estimator.cageGableHelp'), icon: 'layers' },
+    { v: 'panoramic', l: t('estimator.cagePanoramic'), help: t('estimator.cagePanoramicHelp'), icon: 'star' },
+  ],
+  height: [
+    { v: 'single', l: t('estimator.heightSingle'), help: t('estimator.heightSingleHelp'), icon: 'box', popular: true },
+    { v: 'high', l: t('estimator.heightHigh'), help: t('estimator.heightHighHelp'), icon: 'layers' },
+  ],
+  subtype: [
+    { v: 'under-existing', l: t('estimator.subUnder'), help: t('estimator.subUnderHelp'), icon: 'home', popular: true },
+    { v: 'new-roof', l: t('estimator.subNewRoof'), help: t('estimator.subNewRoofHelp'), icon: 'box' },
+    { v: 'screen-only', l: t('estimator.subScreenOnly'), help: t('estimator.subScreenOnlyHelp'), icon: 'layers' },
+  ],
+};
+// Default (pre-checked) token per axis — must exist in axisOpts and in pricing's axes tables.
+const axisDefault: Record<string, string> = {
+  roofType: 'solid-insulated',
+  operation: 'motorized',
+  cageStyle: 'flat',
+  height: 'single',
+  subtype: 'under-existing',
+};
+
+// Step-2 variant per structure: which axes it configures (rendered as its own block; JS shows one).
+const step2Variants: { s: StructureType; title: string; help: string; groups: { axis: string; legend?: string }[] }[] = [
+  { s: 'pergola', title: t('estimator.s2Title'), help: t('estimator.s2Help'), groups: [{ axis: 'roofType' }] },
+  { s: 'louvered', title: t('estimator.s2LouveredTitle'), help: t('estimator.s2LouveredHelp'), groups: [{ axis: 'operation' }] },
+  {
+    s: 'pool-enclosure',
+    title: t('estimator.s2PoolTitle'),
+    help: t('estimator.s2PoolHelp'),
+    groups: [{ axis: 'cageStyle' }, { axis: 'height', legend: t('estimator.heightLegend') }],
+  },
+  { s: 'screen-room', title: t('estimator.s2ScreenTitle'), help: t('estimator.s2ScreenHelp'), groups: [{ axis: 'subtype' }] },
+];
+
+const meshOpts: Opt[] = [
+  { v: 'standard', l: t('estimator.meshStandard'), help: t('estimator.meshStandardHelp'), icon: 'layers', popular: true },
+  { v: 'no-see-um', l: t('estimator.meshNoSeeUm'), help: t('estimator.meshNoSeeUmHelp'), icon: 'sparkles' },
+  { v: 'pet', l: t('estimator.meshPet'), help: t('estimator.meshPetHelp'), icon: 'shield-check' },
+  { v: 'florida-glass', l: t('estimator.meshFlorida'), help: t('estimator.meshFloridaHelp'), icon: 'sun' },
+];
+const materials = [
+  { v: 'white', l: t('estimator.white'), help: t('estimator.whiteHelp'), swatch: '#ffffff', popular: true },
+  { v: 'bronze', l: t('estimator.bronze'), help: t('estimator.bronzeHelp'), swatch: '#8c6a45' },
+  { v: 'black', l: t('estimator.black'), help: t('estimator.blackHelp'), swatch: '#2b2b2b' },
+  { v: 'custom', l: t('estimator.custom'), help: t('estimator.customHelp'), swatch: 'conic-gradient(from 90deg,#ec3c3d,#f5a623,#001994,#2bb673,#ec3c3d)' },
+];
+const attachments = [
+  { v: 'attached', l: t('estimator.attached'), help: t('estimator.attachedHelp'), icon: 'home', popular: true },
+  { v: 'freestanding', l: t('estimator.freestanding'), help: t('estimator.freestandingHelp'), icon: 'box' },
+];
+// Union of every product's add-ons — one row each; JS shows the active product's set (gated).
+const addons = [
+  { v: 'lighting', l: t('estimator.lighting'), help: t('estimator.lightingHelp'), icon: 'sun', price: cfg.addOnFlat.lighting },
+  { v: 'fans', l: t('estimator.fans'), help: t('estimator.fansHelp'), icon: 'wind', price: cfg.addOnFlat.fans },
+  { v: 'side-screens', l: t('estimator.sideScreens'), help: t('estimator.sideScreensHelp'), icon: 'layers', price: cfg.addOnFlat['side-screens'] },
+  { v: 'gutters', l: t('estimator.gutters'), help: t('estimator.guttersHelp'), icon: 'leaf', price: cfg.addOnFlat.gutters },
+  { v: 'rain-sensor', l: t('estimator.rainSensor'), help: t('estimator.rainSensorHelp'), icon: 'zap', price: cfg.addOnFlat['rain-sensor'] },
+  { v: 'drainage', l: t('estimator.drainage'), help: t('estimator.drainageHelp'), icon: 'leaf', price: cfg.addOnFlat.drainage },
+  { v: 'screen-door', l: t('estimator.screenDoor'), help: t('estimator.screenDoorHelp'), icon: 'box', price: cfg.addOnFlat['screen-door'] },
+  { v: 'kick-plates', l: t('estimator.kickPlates'), help: t('estimator.kickPlatesHelp'), icon: 'shield-check', price: cfg.addOnFlat['kick-plates'] },
+  { v: 'super-gutter', l: t('estimator.superGutter'), help: t('estimator.superGutterHelp'), icon: 'leaf', price: cfg.addOnFlat['super-gutter'] },
+  { v: 'doggy-door', l: t('estimator.doggyDoor'), help: t('estimator.doggyDoorHelp'), icon: 'star', price: cfg.addOnFlat['doggy-door'] },
+];
+
+// Project phases (educational; tied to the cost breakdown).
+const phases = [
+  { icon: 'pen-tool', title: t('estimator.p1Title'), desc: t('estimator.p1Desc'), time: t('estimator.p1Time'), cost: t('estimator.p1Cost') },
+  { icon: 'file-text', title: t('estimator.p2Title'), desc: t('estimator.p2Desc'), time: t('estimator.p2Time'), cost: t('estimator.p2Cost') },
+  { icon: 'box', title: t('estimator.p3Title'), desc: t('estimator.p3Desc'), time: t('estimator.p3Time'), cost: t('estimator.p3Cost') },
+  { icon: 'hammer', title: t('estimator.p4Title'), desc: t('estimator.p4Desc'), time: t('estimator.p4Time'), cost: t('estimator.p4Cost') },
+  { icon: 'badge-check', title: t('estimator.p5Title'), desc: t('estimator.p5Desc'), time: t('estimator.p5Time'), cost: t('estimator.p5Cost') },
+];
+
+// Stepper segments (icon per step).
+const stepIcons = ['home', 'layers', 'palette', 'ruler', 'sparkles', 'message-circle'];
+
+// Initial breakdown for the default selection (no-JS / first paint, no flash).
+const init = estimateBreakdown(
+  { structure: 'pergola', sqft: 192, attachment: 'attached', roofType: 'solid-insulated', material: 'white', addOns: [] },
+  cfg,
+);
+const lineLabel: Record<string, string> = {
+  engineering: t('estimator.liEngineering'),
+  permits: t('estimator.liPermits'),
+  materials: t('estimator.liMaterials'),
+  construction: t('estimator.liConstruction'),
+};
+
+// Strings the client script needs (no hardcoded user-facing text in JS).
+const clientLabels = {
+  structures: Object.fromEntries(structures.map((s) => [s.v, s.l])),
+  // every per-product axis token + mesh token → human label (for chips + lead payload)
+  options: Object.fromEntries([...Object.values(axisOpts).flat(), ...meshOpts].map((o) => [o.v, o.l])),
+  materials: Object.fromEntries(materials.map((m) => [m.v, m.l])),
+  attachments: Object.fromEntries(attachments.map((a) => [a.v, a.l])),
+  addons: Object.fromEntries(addons.map((a) => [a.v, a.l])),
+  // option-group display names (email summary rows)
+  groups: {
+    roofType: t('estimator.gRoofType'),
+    operation: t('estimator.gOperation'),
+    cageStyle: t('estimator.gCageStyle'),
+    height: t('estimator.gHeight'),
+    subtype: t('estimator.gSubtype'),
+    mesh: t('estimator.gMesh'),
+    material: t('estimator.colorLegend'),
+    attachment: t('estimator.attachment'),
+  },
+  lines: lineLabel,
+  subtotal: t('estimator.subtotalLabel'),
+  totalAria: t('estimator.totalAria'),
+  plus: t('estimator.plusPrefix'),
+  sqftUnit: t('estimator.sqft'),
+  viewBreakdown: t('estimator.viewBreakdown'),
+  hideBreakdown: t('estimator.hideBreakdown'),
+  next: t('estimator.next'),
+  submitEstimate: t('estimator.submitEstimate'),
+  sending: t('estimator.sending'),
+  successTitle: t('estimator.successTitle'),
+  successBody: t('estimator.successBody'),
+  errPickOne: t('estimator.errPickOne'),
+  errRequired: t('estimator.errRequired'),
+  errEmail: t('estimator.errEmail'),
+  errSubmit: t('estimator.errSubmit'),
+  stepOf: t('estimator.stepOf'),
+};
+const TOTAL_STEPS = 6;
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${t('estimator.title')} | AB Aluminum & Screens`}
+  description={t('estimator.subcopy')}
+>
+  <!-- ───────────────────────── HERO ───────────────────────── -->
+  <section class="est-hero">
+    <div class="container">
+      <span class="eyebrow eyebrow--line">{t('estimator.eyebrow')}</span>
+      <h1>{t('estimator.heroTitle')}</h1>
+      <p class="lead">{t('estimator.subcopy')}</p>
+      <p class="est-hero__micro">{t('estimator.heroMicro')}</p>
+    </div>
+  </section>
+
+  <!-- ───────────────────── WIZARD + RESULTS ─────────────────── -->
+  <section class="section est-section">
+    <div
+      class="container est-grid"
+      data-est
+      data-locale={lang}
+      data-pricing={JSON.stringify(cfg)}
+      data-heroes={JSON.stringify(heroPool)}
+      data-labels={JSON.stringify(clientLabels)}
+    >
+      <!-- LEFT: wizard -->
+      <div class="est-wizard">
+        <!-- stepper -->
+        <ol class="est-stepper" data-stepper aria-hidden="true">
+          {
+            stepIcons.map((ic, i) => (
+              <li class={`est-seg${i === 0 ? ' is-current' : ''}`} data-seg={i + 1}>
+                <span class="est-seg__dot">
+                  <Icon name={ic} size={16} class="est-seg__ico" />
+                  <Icon name="check" size={16} class="est-seg__chk" />
+                </span>
+              </li>
+            ))
+          }
+        </ol>
+        <p class="est-steplabel" data-step-label>
+          {t('estimator.stepOf').replace('{x}', '1').replace('{y}', String(TOTAL_STEPS))}
+        </p>
+
+        <form id="est-form" novalidate>
+          <!-- STEP 1 — structure -->
+          <section class="est-step" data-step="1" role="group" aria-labelledby="est-s1-h">
+            <h2 id="est-s1-h" tabindex="-1">{t('estimator.s1Title')}</h2>
+            <p class="est-step__help">{t('estimator.s1Help')}</p>
+            <div class="est-opts est-opts--cards" role="radiogroup" aria-labelledby="est-s1-h">
+              {
+                structures.map((s, i) => (
+                  <label class="est-opt est-opt--card">
+                    <input class="visually-hidden" type="radio" name="structure" value={s.v} checked={i === 0} />
+                    <span class="est-opt__media">
+                      {s.img && <img src={s.img} alt="" width={320} height={240} loading="lazy" decoding="async" />}
+                    </span>
+                    <span class="est-opt__body">
+                      <span class="est-opt__head">
+                        <Icon name={s.icon} size={18} class="est-opt__icon" />
+                        <span class="est-opt__label">{s.l}</span>
+                        {s.popular && <span class="est-opt__tag">{t('estimator.popular')}</span>}
+                      </span>
+                      <span class="est-opt__help">{s.help}</span>
+                    </span>
+                    <span class="est-opt__check" aria-hidden="true"><Icon name="check" size={14} /></span>
+                  </label>
+                ))
+              }
+            </div>
+          </section>
+
+          <!-- STEP 2 — per-product configuration (one variant visible; JS switches by structure) -->
+          <section class="est-step" data-step="2" role="group" hidden>
+            {
+              step2Variants.map((v) => (
+                <div data-variant={v.s} hidden={v.s !== 'pergola'}>
+                  <h2 id={`est-s2-${v.s}-h`} tabindex="-1">{v.title}</h2>
+                  <p class="est-step__help">{v.help}</p>
+                  {v.groups.map((g, gi) => (
+                    <fieldset class={`est-fieldset${gi === 0 ? ' est-fieldset--first' : ''}`}>
+                      <legend class={g.legend ? 'est-legend' : 'visually-hidden'}>{g.legend ?? v.title}</legend>
+                      <div class="est-opts est-opts--rows">
+                        {axisOpts[g.axis].map((o) => (
+                          <label class="est-opt est-opt--row">
+                            <input class="visually-hidden" type="radio" name={g.axis} value={o.v} checked={o.v === axisDefault[g.axis]} />
+                            <span class="est-opt__lead"><Icon name={o.icon} size={20} class="est-opt__icon" /></span>
+                            <span class="est-opt__body">
+                              <span class="est-opt__head">
+                                <span class="est-opt__label">{o.l}</span>
+                                {o.popular && <span class="est-opt__tag">{t('estimator.popular')}</span>}
+                              </span>
+                              <span class="est-opt__help">{o.help}</span>
+                            </span>
+                            <span class="est-opt__check" aria-hidden="true"><Icon name="check" size={14} /></span>
+                          </label>
+                        ))}
+                      </div>
+                    </fieldset>
+                  ))}
+                </div>
+              ))
+            }
+          </section>
+
+          <!-- STEP 3 — finish (color always; screen mesh only for pool enclosures / screen rooms) -->
+          <section class="est-step" data-step="3" role="group" aria-labelledby="est-s3-h" hidden>
+            <h2 id="est-s3-h" tabindex="-1">{t('estimator.s3Title')}</h2>
+            <p class="est-step__help">{t('estimator.s3Help')}</p>
+            <fieldset class="est-fieldset est-fieldset--first">
+              <legend class="visually-hidden">{t('estimator.colorLegend')}</legend>
+              <div class="est-opts est-opts--rows">
+                {
+                  materials.map((m, i) => (
+                    <label class="est-opt est-opt--row" data-color={m.v}>
+                      <input class="visually-hidden" type="radio" name="material" value={m.v} checked={i === 0} />
+                      <span class="est-opt__lead"><span class="est-swatch" style={`background:${m.swatch}`} /></span>
+                      <span class="est-opt__body">
+                        <span class="est-opt__head">
+                          <span class="est-opt__label">{m.l}</span>
+                          {m.popular && <span class="est-opt__tag">{t('estimator.popular')}</span>}
+                        </span>
+                        <span class="est-opt__help">{m.help}</span>
+                      </span>
+                      <span class="est-opt__check" aria-hidden="true"><Icon name="check" size={14} /></span>
+                    </label>
+                  ))
+                }
+              </div>
+            </fieldset>
+            <fieldset class="est-fieldset" data-mesh-block hidden>
+              <legend class="est-legend">{t('estimator.meshLegend')}</legend>
+              <div class="est-opts est-opts--rows">
+                {
+                  meshOpts.map((o) => (
+                    <label class="est-opt est-opt--row">
+                      <input class="visually-hidden" type="radio" name="mesh" value={o.v} checked={o.v === 'standard'} />
+                      <span class="est-opt__lead"><Icon name={o.icon} size={20} class="est-opt__icon" /></span>
+                      <span class="est-opt__body">
+                        <span class="est-opt__head">
+                          <span class="est-opt__label">{o.l}</span>
+                          {o.popular && <span class="est-opt__tag">{t('estimator.popular')}</span>}
+                        </span>
+                        <span class="est-opt__help">{o.help}</span>
+                      </span>
+                      <span class="est-opt__check" aria-hidden="true"><Icon name="check" size={14} /></span>
+                    </label>
+                  ))
+                }
+              </div>
+            </fieldset>
+          </section>
+
+          <!-- STEP 4 — size & placement -->
+          <section class="est-step" data-step="4" role="group" aria-labelledby="est-s4-h" hidden>
+            <h2 id="est-s4-h" tabindex="-1">{t('estimator.s4Title')}</h2>
+            <p class="est-step__help">{t('estimator.s4Help')}</p>
+
+            <div class="est-size">
+              <label class="est-num">
+                <span>{t('estimator.length')}</span>
+                <input type="number" name="length" min="4" max="80" value="16" inputmode="numeric" />
+              </label>
+              <span class="est-size__x" aria-hidden="true">×</span>
+              <label class="est-num">
+                <span>{t('estimator.width')}</span>
+                <input type="number" name="width" min="4" max="80" value="12" inputmode="numeric" />
+              </label>
+            </div>
+
+            <label class="est-range">
+              <span class="est-range__top">
+                <span>{t('estimator.sqft')}</span>
+                <output name="sqftout" class="est-range__val">192</output>
+              </span>
+              <input type="range" name="sqft" min="40" max="1200" step="10" value="192" aria-valuetext="192" />
+            </label>
+            <p class="est-hint" data-hint="default">{t('estimator.sizeHint')}</p>
+            <p class="est-hint" data-hint="pool" hidden>{t('estimator.sizeHintPool')}</p>
+
+            <fieldset class="est-fieldset" data-attach-block>
+              <legend class="est-legend">{t('estimator.attachment')}</legend>
+              <div class="est-opts est-opts--rows">
+                {
+                  attachments.map((a, i) => (
+                    <label class="est-opt est-opt--row">
+                      <input class="visually-hidden" type="radio" name="attachment" value={a.v} checked={i === 0} />
+                      <span class="est-opt__lead"><Icon name={a.icon} size={20} class="est-opt__icon" /></span>
+                      <span class="est-opt__body">
+                        <span class="est-opt__head"><span class="est-opt__label">{a.l}</span></span>
+                        <span class="est-opt__help">{a.help}</span>
+                      </span>
+                      <span class="est-opt__check" aria-hidden="true"><Icon name="check" size={14} /></span>
+                    </label>
+                  ))
+                }
+              </div>
+            </fieldset>
+          </section>
+
+          <!-- STEP 5 — add-ons (union of all products; JS shows the active product's set, gated) -->
+          <section class="est-step" data-step="5" role="group" aria-labelledby="est-s5-h" hidden>
+            <h2 id="est-s5-h" tabindex="-1">{t('estimator.s5Title')}</h2>
+            <p class="est-step__help">{t('estimator.s5Help')}</p>
+            <fieldset class="est-fieldset est-fieldset--first">
+              <legend class="visually-hidden">{t('estimator.addOns')}</legend>
+              <div class="est-opts est-opts--rows">
+                {
+                  addons.map((a) => (
+                    <label class="est-opt est-opt--row est-opt--check" data-addon-row={a.v}>
+                      <input class="visually-hidden" type="checkbox" name="addon" value={a.v} />
+                      <span class="est-opt__lead"><Icon name={a.icon} size={20} class="est-opt__icon" /></span>
+                      <span class="est-opt__body">
+                        <span class="est-opt__head"><span class="est-opt__label">{a.l}</span></span>
+                        <span class="est-opt__help">{a.help}</span>
+                      </span>
+                      <span class="est-opt__price">+{formatUSD(a.price)}</span>
+                      <span class="est-opt__check" aria-hidden="true"><Icon name="check" size={14} /></span>
+                    </label>
+                  ))
+                }
+              </div>
+            </fieldset>
+          </section>
+
+          <!-- STEP 6 — contact / lead -->
+          <section class="est-step" data-step="6" role="group" aria-labelledby="est-s6-h" hidden>
+            <h2 id="est-s6-h" tabindex="-1">{t('estimator.s6Title')}</h2>
+            <p class="est-step__help">{t('estimator.s6Help')}</p>
+
+            <div class="est-form-grid">
+              <label class="est-input">
+                <span>{t('form.fullName')} *</span>
+                <input type="text" name="name" autocomplete="name" required aria-describedby="est-err" />
+              </label>
+              <label class="est-input">
+                <span>{t('form.email')} *</span>
+                <input type="email" name="email" autocomplete="email" required aria-describedby="est-err" />
+              </label>
+              <label class="est-input">
+                <span>{t('form.phone')} *</span>
+                <input type="tel" name="phone" autocomplete="tel" required aria-describedby="est-err" />
+              </label>
+              <label class="est-input">
+                <span>{t('wizard.bestTime')}</span>
+                <input type="text" name="bestTime" autocomplete="off" />
+              </label>
+            </div>
+
+            <fieldset class="est-fieldset">
+              <legend class="est-legend">{t('wizard.preferredLanguage')}</legend>
+              <div class="est-opts est-opts--inline">
+                <label class="est-opt est-opt--pill">
+                  <input class="visually-hidden" type="radio" name="prefLang" value="en" checked={lang === 'en'} />
+                  <span class="est-opt__label">{t('wizard.english')}</span>
+                </label>
+                <label class="est-opt est-opt--pill">
+                  <input class="visually-hidden" type="radio" name="prefLang" value="es" checked={lang === 'es'} />
+                  <span class="est-opt__label">{t('wizard.spanish')}</span>
+                </label>
+              </div>
+            </fieldset>
+
+            <label class="est-consent">
+              <input type="checkbox" name="consent" required aria-describedby="est-err" />
+              <span>{t('wizard.consent')}</span>
+            </label>
+
+            {/* Cloudflare Turnstile — rendered explicitly when this step opens (it starts hidden). */}
+            <div id="est-turnstile" class="est-ts" data-sitekey={TURNSTILE_SITE_KEY}></div>
+            <script is:inline>
+              if (!window.__tsLoading) {
+                window.__tsLoading = true;
+                const s = document.createElement('script');
+                s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+                s.async = true;
+                s.defer = true;
+                document.head.appendChild(s);
+              }
+            </script>
+
+            <p class="est-disc est-disc--callout">{t('estimator.disclaimer')}</p>
+
+            <p class="est-talk">
+              <Icon name="phone" size={16} class="est-talk__i" />
+              {t('estimator.talkPrefer')} <a href={`tel:${PHONE_TEL}`}>{PHONE_DISPLAY}</a>
+            </p>
+          </section>
+
+          <p class="error-msg est-error" id="est-err" data-error role="alert" hidden></p>
+
+          <div class="est-nav">
+            <button type="button" class="btn btn--ghost est-back" data-back hidden>
+              <Icon name="arrow-left" size={18} class="btn__i" />{t('estimator.back')}
+            </button>
+            <button type="button" class="btn btn--primary est-next" data-next>
+              {t('estimator.next')}<Icon name="arrow-right" size={18} class="btn__i" />
+            </button>
+            <button type="submit" class="btn btn--primary est-submit" data-submit hidden>
+              <span data-submit-label>{t('estimator.submitEstimate')}</span>
+              <span class="btn__i" data-submit-arrow><Icon name="arrow-right" size={18} /></span>
+              <span class="btn__i est-spin" data-submit-spin hidden><Icon name="loader" size={18} /></span>
+            </button>
+          </div>
+        </form>
+
+        <!-- left-column success takeover -->
+        <div class="est-done" data-left-success hidden>
+          <span class="est-done__icon"><Icon name="check" size={26} /></span>
+          <h2 tabindex="-1" data-done-title>{t('estimator.successTitle')}</h2>
+          <p>{t('estimator.successBody')}</p>
+          <a class="btn btn--primary btn--lg" href={`tel:${PHONE_TEL}`}>
+            <Icon name="phone" size={18} class="btn__i" />{PHONE_DISPLAY}
+          </a>
+        </div>
+      </div>
+
+      <!-- RIGHT: sticky glass results / mobile bottom-bar -->
+      <aside class="est-results" data-results data-collapsed>
+        <!-- mobile collapsed bar (the toggle stays accessible; the duplicate total is decorative) -->
+        <div class="est-bar">
+          <div class="est-bar__total" aria-hidden="true">
+            <span data-bar-low>{formatUSD(init.total.low)}</span>
+            <span class="est-bar__dash">–</span>
+            <span data-bar-high>{formatUSD(init.total.high)}</span>
+          </div>
+          <button type="button" class="est-bar__toggle" data-bar-toggle aria-expanded="false" aria-controls="est-card-body">
+            <span data-bar-label>{t('estimator.viewBreakdown')}</span>
+            <Icon name="chevron-down" size={18} class="est-bar__chev" />
+          </button>
+        </div>
+
+        <div class="est-card" id="est-card-body">
+          <div class="est-card__live" data-live>
+            <div class="est-card-hero" data-hero>
+              <img class="est-card-hero__img is-front" data-hero-a src={defaultHeroSrc} alt="" width={1000} height={750} fetchpriority="high" decoding="async" />
+              <img class="est-card-hero__img" data-hero-b alt="" width={1000} height={750} loading="lazy" decoding="async" />
+            </div>
+            <div class="est-card__pad">
+              <span class="eyebrow">{t('estimator.yourEstimate')}</span>
+              <p class="est-total-cap">{t('estimator.totalLabel')}</p>
+              <output class="est-total" data-total aria-live="polite" aria-atomic="true" aria-label={t('estimator.totalAria')}>
+                <span data-low aria-hidden="true">{formatUSD(init.total.low)}</span>
+                <span class="est-total__dash" aria-hidden="true">–</span>
+                <span data-high aria-hidden="true">{formatUSD(init.total.high)}</span>
+                <span class="visually-hidden" data-announce></span>
+              </output>
+
+              <ul class="est-breakdown" data-breakdown>
+                {
+                  init.lineItems.map((li) => (
+                    <li class="est-line">
+                      <span class="est-line__label">{lineLabel[li.key]}</span>
+                      <span class="est-line__amt">{formatUSD(li.amount)}</span>
+                    </li>
+                  ))
+                }
+                <li class="est-line est-line--subtotal">
+                  <span class="est-line__label">{t('estimator.subtotalLabel')}</span>
+                  <span class="est-line__amt">{formatUSD(init.subtotal)}</span>
+                </li>
+              </ul>
+
+              <ul class="est-chips" data-chips aria-label={t('estimator.summaryHeading')}>
+                <li class="chip est-chip">{t('estimator.pergola')}</li>
+                <li class="chip est-chip">192 {t('estimator.sqft')}</li>
+                <li class="chip est-chip">{t('estimator.solidRoof')}</li>
+                <li class="chip est-chip">{t('estimator.white')}</li>
+              </ul>
+
+              <p class="est-trust"><Icon name="shield-check" size={16} class="est-trust__i" />{t('estimator.trustRow')}</p>
+
+              <button type="button" class="btn btn--primary btn--block est-continue" data-bar-continue>
+                {t('estimator.next')}
+              </button>
+
+              <p class="est-disc est-disc--callout">{t('estimator.disclaimer')}</p>
+            </div>
+          </div>
+
+          <!-- results-card success state -->
+          <div class="est-card__success" data-success hidden>
+            <div class="est-card__pad">
+              <span class="est-done__icon est-done__icon--card"><Icon name="check" size={24} /></span>
+              <h2 class="est-success__title" data-success-title>{t('estimator.successTitle')}</h2>
+              <p class="est-success__body">{t('estimator.successBody')}</p>
+              <p class="est-total-cap">{t('estimator.successTotalLabel')}</p>
+              <p class="est-total est-total--locked" data-success-total></p>
+              <ul class="est-breakdown" data-success-breakdown></ul>
+              <p class="est-trust"><Icon name="shield-check" size={16} class="est-trust__i" />{t('estimator.trustRow')}</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── PHASES ───────────────────────── -->
+  <section class="section section--alt est-phases">
+    <div class="container">
+      <div class="est-phases__head">
+        <span class="eyebrow eyebrow--line">{t('estimator.phasesEyebrow')}</span>
+        <h2>{t('estimator.phasesTitle')}</h2>
+        <p class="lead">{t('estimator.phasesSubcopy')}</p>
+      </div>
+      <ol class="est-timeline">
+        {
+          phases.map((p, i) => (
+            <li class="est-phase" data-reveal style={`--reveal-delay:${i * 70}ms`}>
+              <span class="est-phase__node">
+                <span class="est-phase__icon"><Icon name={p.icon} size={22} /></span>
+                <span class="est-phase__num">{i + 1}</span>
+              </span>
+              <span class="est-phase__body">
+                <span class="est-phase__time"><Icon name="clock" size={13} class="est-phase__time-i" />{p.time}</span>
+                <h3 class="est-phase__title">{p.title}</h3>
+                <p class="est-phase__desc">{p.desc}</p>
+                <span class="est-phase__cost">{t('estimator.inYourEstimate')} <strong>{p.cost}</strong></span>
+              </span>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ───── Hero ───── */
+  .est-hero {
+    position: relative;
+    color: #fff;
+    padding-block: clamp(2.75rem, 6vw, 4.25rem);
+    background-image:
+      radial-gradient(115% 85% at 82% 16%, rgba(255, 255, 255, 0.13), transparent 56%),
+      linear-gradient(
+        118deg,
+        rgba(0, 16, 78, 0.93) 0%,
+        rgba(0, 25, 148, 0.85) 45%,
+        rgba(160, 35, 50, 0.72) 82%,
+        rgba(236, 60, 61, 0.64) 100%
+      ),
+      url('/images/aluminum-pergola-louvers-patio-pool-tropical-plants-florida.avif');
+    background-size: cover;
+    background-position: center;
+  }
+  .est-hero .eyebrow {
+    color: var(--peach-2);
+  }
+  .est-hero .eyebrow::before {
+    background: var(--peach-2);
+  }
+  .est-hero h1 {
+    max-width: 18ch;
+    margin-top: 0.35rem;
+    color: #fff;
+    text-shadow: 0 2px 22px rgba(0, 0, 0, 0.28);
+  }
+  .est-hero .lead {
+    margin-top: 0.9rem;
+    max-width: 60ch;
+    color: rgba(255, 255, 255, 0.92);
+  }
+  .est-hero__micro {
+    margin-top: 0.85rem;
+    font-weight: 700;
+    color: #fff;
+    font-size: 0.9375rem;
+  }
+
+  /* ───── Layout ───── */
+  .est-section {
+    padding-block: clamp(2rem, 5vw, 3.5rem);
+  }
+  .est-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: start;
+  }
+  /* grid items must be allowed to shrink below content size, or a wide child (cards/stepper)
+     blows the track out and causes horizontal overflow on small screens. */
+  .est-wizard,
+  .est-results {
+    min-width: 0;
+  }
+
+  /* ───── Stepper ───── */
+  .est-stepper {
+    list-style: none;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 0;
+    margin: 0 0 0.5rem;
+  }
+  .est-seg {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+  .est-seg:not(:last-child)::after {
+    content: '';
+    flex: 1;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--border);
+    margin: 0 0.4rem;
+  }
+  .est-seg.is-done:not(:last-child)::after {
+    background: var(--red);
+  }
+  .est-seg__dot {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: #fff;
+    border: 2px solid var(--border);
+    color: var(--muted);
+    flex: none;
+    transition: background 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+  }
+  .est-seg__chk {
+    display: none;
+  }
+  .est-seg.is-current .est-seg__dot {
+    border-color: var(--red);
+    color: var(--red);
+    box-shadow: var(--ring);
+  }
+  .est-seg.is-done .est-seg__dot {
+    background: var(--red);
+    border-color: var(--red);
+    color: #fff;
+  }
+  .est-seg.is-done .est-seg__ico {
+    display: none;
+  }
+  .est-seg.is-done .est-seg__chk {
+    display: block;
+  }
+  .est-seg.is-visited {
+    cursor: pointer;
+  }
+  .est-steplabel {
+    font-weight: 700;
+    color: var(--muted);
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ───── Steps ───── */
+  .est-step h2 {
+    outline: none;
+    font-size: var(--h2);
+  }
+  .est-step__help {
+    color: var(--muted);
+    margin: 0.45rem 0 1.25rem;
+  }
+  .est-step[hidden] {
+    display: none;
+  }
+  .js .est-step:not([hidden]) {
+    animation: est-fade 0.3s var(--ease);
+  }
+  @keyframes est-fade {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* ───── Option groups ───── */
+  .est-opts--cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.85rem;
+  }
+  .est-opts--rows {
+    display: grid;
+    gap: 0.6rem;
+  }
+  .est-opts--inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .est-opt {
+    position: relative;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    background: #fff;
+    transition: border-color 0.15s var(--ease), background 0.15s var(--ease), transform 0.15s var(--ease),
+      box-shadow 0.15s var(--ease);
+  }
+  .est-opt:hover {
+    border-color: var(--border);
+  }
+  .est-opt:has(input:checked) {
+    border-color: var(--red);
+    background: var(--peach);
+    box-shadow: var(--shadow-sm);
+    transform: scale(1.01);
+  }
+  .est-opt:has(input:focus-visible) {
+    box-shadow: var(--ring);
+    border-color: var(--red);
+  }
+
+  /* card variant (structures) */
+  .est-opt--card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .est-opt__media {
+    aspect-ratio: 4 / 3;
+    background: var(--light-gray);
+    overflow: hidden;
+  }
+  .est-opt__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .est-opt--card .est-opt__body {
+    padding: 0.8rem 0.9rem 0.95rem;
+    display: block;
+  }
+
+  /* row variant */
+  .est-opt--row {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.85rem 1rem;
+    min-height: 60px;
+  }
+  .est-opt__lead {
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-lg);
+    background: var(--light-gray);
+    display: grid;
+    place-items: center;
+    color: var(--blue);
+  }
+  .est-opt:has(input:checked) .est-opt__lead {
+    background: #fff;
+    color: var(--red);
+  }
+  .est-opt__body {
+    flex: 1;
+    min-width: 0;
+  }
+  .est-opt__head {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+  }
+  .est-opt__icon {
+    color: var(--red);
+    flex: none;
+  }
+  .est-opt__label {
+    font-weight: 700;
+    font-size: var(--body);
+  }
+  .est-opt__help {
+    display: block;
+    color: var(--muted);
+    font-size: 0.875rem;
+    margin-top: 0.15rem;
+    line-height: 1.4;
+  }
+  .est-opt__tag {
+    font-size: 0.6875rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--red-dark);
+    background: #fff;
+    border: 1px solid var(--red);
+    border-radius: 999px;
+    padding: 0.1rem 0.45rem;
+  }
+  .est-opt__price {
+    flex: none;
+    font-weight: 800;
+    color: var(--blue);
+    font-size: 0.9375rem;
+  }
+  .est-opt__check {
+    position: absolute;
+    top: 0.55rem;
+    right: 0.55rem;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--red);
+    color: #fff;
+    display: none;
+    place-items: center;
+    box-shadow: var(--shadow-sm);
+  }
+  .est-opt--card .est-opt__check {
+    top: 0.6rem;
+    right: 0.6rem;
+  }
+  .est-opt--row .est-opt__check,
+  .est-opt--check .est-opt__check {
+    position: static;
+    margin-left: auto;
+  }
+  .est-opt:has(input:checked) .est-opt__check {
+    display: grid;
+  }
+  .est-opt--row:has(input:checked) .est-opt__price + .est-opt__check {
+    margin-left: 0.3rem;
+  }
+
+  /* pill variant (language) */
+  .est-opt--pill {
+    padding: 0.6rem 1.1rem;
+    border-radius: 999px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .est-swatch {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    display: block;
+  }
+
+  /* ───── Size step ───── */
+  .est-size {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.75rem;
+  }
+  .est-size__x {
+    padding-bottom: 0.85rem;
+    color: var(--muted);
+    font-weight: 700;
+  }
+  .est-num {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-weight: 700;
+    font-size: 0.9375rem;
+  }
+  .est-range {
+    display: block;
+    margin-top: 1.1rem;
+  }
+  .est-range__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+  .est-range__val {
+    color: var(--blue);
+    font-weight: 800;
+  }
+  .est-range input[type='range'] {
+    accent-color: var(--red);
+    padding: 0;
+    min-height: 24px;
+  }
+  .est-hint {
+    color: var(--muted);
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+  }
+  .est-fieldset {
+    border: none;
+    padding: 0;
+    margin: 1.5rem 0 0;
+  }
+  .est-fieldset--first {
+    margin-top: 0;
+  }
+  .est-legend {
+    font-weight: 700;
+    padding: 0;
+    margin-bottom: 0.6rem;
+  }
+  /* .est-opt sets display:flex, which beats the UA [hidden]{display:none} — same trick as .btn[hidden].
+     Applies to per-product option rows, variant blocks and gated fieldsets toggled by the script. */
+  .est-opt[hidden],
+  .est-fieldset[hidden],
+  .est-hint[hidden] {
+    display: none !important;
+  }
+
+  /* ───── Contact step ───── */
+  .est-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.9rem;
+  }
+  .est-input {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    font-weight: 700;
+    font-size: 0.9375rem;
+  }
+  .est-consent {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+    font-weight: 600;
+    margin-top: 1.2rem;
+  }
+  .est-consent input {
+    width: auto;
+    min-height: 0;
+    margin-top: 0.2rem;
+    accent-color: var(--red);
+  }
+  .est-talk {
+    margin-top: 1.1rem;
+    color: var(--muted);
+    font-size: 0.9375rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .est-talk__i {
+    color: var(--red);
+  }
+  .est-talk a {
+    color: var(--blue);
+    font-weight: 800;
+  }
+
+  /* ───── Error + nav ───── */
+  .est-error {
+    background: var(--peach);
+    color: var(--red-dark);
+    padding: 0.7rem 1rem;
+    border-radius: var(--radius);
+    font-weight: 700;
+    margin-top: 1.25rem;
+  }
+  .est-nav {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+  /* .btn sets display:inline-flex, which beats the UA [hidden]{display:none}; restore it so the
+     hidden Back/Next/Submit buttons actually hide. */
+  .btn[hidden] {
+    display: none !important;
+  }
+  /* WCAG AA (§11): white-on-red needs ≥4.5:1. --red (#ec3c3d) is only 3.98:1; --red-dark
+     (#cf2c2d) is ~5.2:1. Scope to this page's CTAs so the brand red elsewhere is untouched. */
+  .est-grid .btn--primary {
+    background: var(--red-dark);
+    border-color: var(--red-dark);
+  }
+  .est-next,
+  .est-submit {
+    margin-left: auto;
+  }
+  .est-spin {
+    animation: est-spin 0.8s linear infinite;
+  }
+  @keyframes est-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* ───── Left success ───── */
+  .est-done {
+    text-align: center;
+    padding: 1.5rem 0;
+  }
+  .est-done__icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--red);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 1rem;
+  }
+  .est-done__icon--card {
+    width: 46px;
+    height: 46px;
+    margin: 0 0 0.75rem;
+  }
+  .est-done h2 {
+    outline: none;
+  }
+  .est-done p {
+    color: var(--muted);
+    max-width: 42ch;
+    margin: 0.5rem auto 1.25rem;
+  }
+
+  /* ───── Results card ───── */
+  .est-results {
+    position: sticky;
+    top: calc(var(--header-h) + 1rem);
+  }
+  .est-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    backdrop-filter: blur(var(--glass-blur));
+    overflow: hidden;
+  }
+  .est-card-hero {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    background: var(--light-gray);
+  }
+  .est-card-hero__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.25s var(--ease);
+  }
+  .est-card-hero__img.is-front {
+    opacity: 1;
+  }
+  .est-card__pad {
+    padding: 1.25rem 1.35rem 1.4rem;
+  }
+  .est-total-cap {
+    color: var(--muted);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 0.4rem;
+  }
+  .est-total {
+    display: block;
+    font-size: var(--h2);
+    font-weight: 800;
+    color: var(--blue);
+    line-height: 1.1;
+    margin: 0.15rem 0 1rem;
+    min-height: 1.1em;
+  }
+  .est-total__dash {
+    margin: 0 0.15rem;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .est-total--locked {
+    margin-bottom: 0.85rem;
+  }
+
+  .est-breakdown {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid var(--border);
+  }
+  /* Breakdown rows + chips are (re)built via innerHTML in the client script, so they lack Astro's
+     scoped data-attribute — these est-* selectors must be :global to style injected nodes. */
+  :global(.est-line) {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.55rem 0;
+    font-size: 0.9375rem;
+    border-bottom: 1px solid var(--border);
+  }
+  :global(.est-line__label) {
+    color: var(--charcoal);
+  }
+  :global(.est-line__amt) {
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  :global(.est-line--subtotal) {
+    font-weight: 800;
+  }
+  :global(.est-line--subtotal .est-line__label) {
+    font-weight: 800;
+  }
+  :global(.est-line--addon .est-line__amt) {
+    color: var(--blue);
+  }
+
+  .est-chips {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  :global(.est-chip) {
+    font-size: 0.8125rem;
+    padding: 0.3rem 0.7rem;
+    background: #fff;
+  }
+  .est-trust {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 1rem;
+    color: var(--muted);
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+  .est-trust__i {
+    color: var(--red);
+    flex: none;
+  }
+  .est-disc {
+    color: var(--muted);
+    font-size: 0.8125rem;
+    margin-top: 0.85rem;
+    line-height: 1.5;
+  }
+  /* Legal disclaimer — deliberately conspicuous (bordered callout, darker text), not fine print. */
+  .est-disc--callout {
+    color: var(--charcoal);
+    font-size: 0.875rem;
+    background: var(--light-gray);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--red);
+    border-radius: var(--radius);
+    padding: 0.75rem 0.9rem;
+    margin-top: 1.1rem;
+  }
+  .est-success__title {
+    font-size: var(--h3);
+  }
+  .est-success__body {
+    color: var(--muted);
+    margin: 0.4rem 0 1rem;
+  }
+  .est-continue {
+    margin-top: 1rem;
+    display: none; /* mobile bottom-bar CTA only; shown via the ≤1023px media query */
+  }
+
+  /* mobile bottom-bar chrome — hidden on desktop */
+  .est-bar {
+    display: none;
+  }
+
+  /* ───── Phases ───── */
+  .est-phases__head {
+    max-width: 60ch;
+    margin-bottom: 2.25rem;
+  }
+  .est-phases__head h2 {
+    margin-top: 0.3rem;
+  }
+  .est-phases__head .lead {
+    margin-top: 0.7rem;
+  }
+  .est-timeline {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.25rem;
+    counter-reset: phase;
+  }
+  .est-phase {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+  .est-phase__node {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .est-phase__node::after {
+    content: '';
+    position: absolute;
+    left: 56px;
+    right: -1.25rem;
+    top: 50%;
+    height: 2px;
+    background: var(--border);
+  }
+  .est-phase:last-child .est-phase__node::after {
+    display: none;
+  }
+  .est-phase__icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid var(--red);
+    color: var(--red);
+    display: grid;
+    place-items: center;
+    flex: none;
+    box-shadow: var(--shadow-sm);
+  }
+  .est-phase__num {
+    margin-left: 0.6rem;
+    font-weight: 800;
+    color: var(--border);
+    font-size: 1.6rem;
+    line-height: 1;
+  }
+  .est-phase__time {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: var(--red-ink);
+    font-weight: 700;
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .est-phase__title {
+    font-size: var(--body);
+    font-weight: 700;
+    margin-top: 0.35rem;
+  }
+  .est-phase__desc {
+    color: var(--muted);
+    font-size: 0.9375rem;
+    margin-top: 0.3rem;
+  }
+  .est-phase__cost {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+  .est-phase__cost strong {
+    color: var(--blue);
+  }
+
+  /* ───────── Responsive: tablet → sticky bottom bar ───────── */
+  @media (max-width: 1023px) {
+    .est-grid {
+      grid-template-columns: 1fr;
+    }
+    /* The estimate bar replaces the site-wide mobile CTA bar here so they don't stack/overlap. */
+    :global(.bottombar) {
+      display: none !important;
+    }
+    .est-wizard {
+      padding-bottom: 96px; /* room for the fixed bottom bar */
+    }
+    .est-results {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: auto;
+      z-index: var(--z-bottombar);
+      border-top: 1px solid var(--border);
+      background: var(--glass-bg);
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      backdrop-filter: blur(var(--glass-blur));
+      box-shadow: var(--shadow-up);
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    .est-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+    }
+    .est-bar__total {
+      font-weight: 800;
+      color: var(--blue);
+      font-size: 1.125rem;
+    }
+    .est-bar__dash {
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .est-bar__toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: none;
+      border: none;
+      color: var(--charcoal);
+      font-weight: 700;
+      font-size: 0.9375rem;
+      cursor: pointer;
+      min-height: 44px;
+      padding: 0 0.25rem;
+    }
+    .est-bar__chev {
+      transition: transform 0.2s var(--ease);
+    }
+    .est-results:not([data-collapsed]) .est-bar__chev {
+      transform: rotate(180deg);
+    }
+    .est-card {
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      background: transparent;
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+    .est-results[data-collapsed] .est-card {
+      display: none;
+    }
+    .est-card-hero {
+      display: none; /* no room for the hero image in the bottom sheet */
+    }
+    .est-continue {
+      display: block;
+    }
+    .est-card__pad {
+      padding-top: 0.5rem;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .est-timeline {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .est-phase {
+      flex-direction: row;
+      gap: 1rem;
+      padding-bottom: 1.5rem;
+    }
+    .est-phase__node {
+      flex-direction: column;
+      align-items: center;
+    }
+    .est-phase__node::after {
+      left: 50%;
+      right: auto;
+      top: 52px;
+      bottom: -1.5rem;
+      width: 2px;
+      height: auto;
+      transform: translateX(-50%);
+    }
+    .est-phase:last-child {
+      padding-bottom: 0;
+    }
+    .est-phase__num {
+      margin-left: 0;
+      margin-top: 0.35rem;
+      font-size: 1.1rem;
+    }
+    .est-phase__body {
+      padding-top: 0.2rem;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .est-form-grid {
+      grid-template-columns: 1fr;
+    }
+    .est-size {
+      gap: 0.5rem;
+    }
+    .est-nav .btn {
+      flex: 1;
+    }
+    .est-opts--cards {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .est-opts--cards {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  import { estimateBreakdown, formatUSD, DEFAULT_PRICING } from '../../lib/pricing';
+  import type { BreakdownResult, EstimateInput } from '../../lib/pricing';
+
+  const root = document.querySelector<HTMLElement>('[data-est]');
+  const form = document.getElementById('est-form') as HTMLFormElement | null;
+  if (root && form) {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const STORAGE = 'ab-estimator';
+    const TOTAL = 6;
+
+    let cfg = DEFAULT_PRICING;
+    try {
+      // the server serializes a fully-merged config; only trust it if it has the current shape
+      const parsed = JSON.parse(root.dataset.pricing || '');
+      if (parsed && parsed.structures) cfg = parsed;
+    } catch {}
+    const L = JSON.parse(root.dataset.labels || '{}');
+    const heroes: { structure: string; material: string; style: string; attachment: string; src: string }[] =
+      JSON.parse(root.dataset.heroes || '[]');
+
+    const $ = <T extends Element = HTMLElement>(sel: string) => root.querySelector<T>(sel)!;
+    const $$ = <T extends Element = HTMLElement>(sel: string) => Array.from(root.querySelectorAll<T>(sel));
+
+    const steps = $$('.est-step');
+    const segs = $$('.est-seg');
+    const stepLabel = $<HTMLElement>('[data-step-label]');
+    const backBtn = $<HTMLButtonElement>('[data-back]');
+    const nextBtn = $<HTMLButtonElement>('[data-next]');
+    const submitBtn = $<HTMLButtonElement>('[data-submit]');
+    const errEl = $<HTMLElement>('[data-error]');
+
+    const lengthEl = $<HTMLInputElement>('input[name=length]');
+    const widthEl = $<HTMLInputElement>('input[name=width]');
+    const sqftEl = $<HTMLInputElement>('input[name=sqft]');
+    const sqftOut = $<HTMLOutputElement>('output[name=sqftout]');
+
+    const lowEl = $<HTMLElement>('[data-low]');
+    const highEl = $<HTMLElement>('[data-high]');
+    const announceEl = $<HTMLElement>('[data-announce]');
+    const breakdownEl = $<HTMLElement>('[data-breakdown]');
+    const chipsEl = $<HTMLElement>('[data-chips]');
+    const barLow = $<HTMLElement>('[data-bar-low]');
+    const barHigh = $<HTMLElement>('[data-bar-high]');
+    const heroA = $<HTMLImageElement>('[data-hero-a]');
+    const heroB = $<HTMLImageElement>('[data-hero-b]');
+
+    let step = 1;
+    let maxStep = 1;
+    let usingDims = true;
+    let advanceTimer: number | undefined;
+
+    // Turnstile renders explicitly when the contact step opens (step 6 starts hidden, which breaks auto-render).
+    let tsId: string | undefined;
+    const ensureTurnstile = () => {
+      if (tsId !== undefined) return;
+      const ts = (window as any).turnstile;
+      const el = root.querySelector<HTMLElement>('#est-turnstile');
+      if (ts && ts.render && el) tsId = ts.render(el, { sitekey: el.dataset.sitekey });
+      else setTimeout(ensureTurnstile, 300);
+    };
+
+    const val = (name: string) => root.querySelector<HTMLInputElement>(`input[name=${name}]:checked`)?.value || '';
+    const addonsChecked = () => $$('input[name=addon]:checked').map((c) => (c as HTMLInputElement).value);
+
+    const currentSqft = () => {
+      if (usingDims) {
+        const a = parseFloat(lengthEl.value) || 0;
+        const b = parseFloat(widthEl.value) || 0;
+        return Math.round(a * b);
+      }
+      return parseInt(sqftEl.value) || 0;
+    };
+
+    // Active structure's pricing/flow config — declares its axes, mesh/attachment participation,
+    // allowed colors and purchasable add-ons. Everything below reconfigures from it.
+    const sKey = () => (val('structure') || 'pergola') as keyof typeof cfg.structures;
+    const sc = () => cfg.structures[sKey()] || cfg.structures.pergola;
+
+    const buildInput = (): EstimateInput => {
+      const c = sc();
+      const input: Record<string, unknown> = {
+        structure: sKey(),
+        sqft: currentSqft(),
+        material: val('material'),
+        addOns: addonsChecked(),
+      };
+      for (const axis of Object.keys(c.axes)) input[axis] = val(axis);
+      if (c.attachment) input.attachment = val('attachment');
+      if (c.mesh) input.mesh = val('mesh');
+      return input as unknown as EstimateInput;
+    };
+
+    // ── per-product wizard reconfiguration (no impossible option stays selectable) ──
+    const applyAddonGates = () => {
+      const c = sc();
+      const offers = new Map(c.addOns.map((o) => [String(o.key), o]));
+      $$('[data-addon-row]').forEach((row) => {
+        const offer = offers.get((row as HTMLElement).dataset.addonRow || '');
+        let show = !!offer;
+        if (show && offer!.requires) show = offer!.requires.oneOf.includes(val(offer!.requires.axis));
+        (row as HTMLElement).hidden = !show;
+        const inp = row.querySelector<HTMLInputElement>('input');
+        if (!show && inp?.checked) inp.checked = false;
+      });
+    };
+    const applyStructure = () => {
+      const s = sKey();
+      const c = sc();
+      $$('[data-variant]').forEach((v) => ((v as HTMLElement).hidden = (v as HTMLElement).dataset.variant !== s));
+      $<HTMLElement>('[data-mesh-block]').hidden = !c.mesh;
+      $<HTMLElement>('[data-attach-block]').hidden = !c.attachment;
+      $$('[data-hint]').forEach(
+        (h) => ((h as HTMLElement).hidden = (h as HTMLElement).dataset.hint !== (s === 'pool-enclosure' ? 'pool' : 'default')),
+      );
+      $$('[data-color]').forEach((row) => {
+        const el = row as HTMLElement;
+        const okColor = (c.colors as string[]).includes(el.dataset.color || '');
+        el.hidden = !okColor;
+        const inp = row.querySelector<HTMLInputElement>('input');
+        if (!okColor && inp?.checked) inp.checked = false;
+      });
+      // a color deselected by the product switch (e.g. custom → pool cage) falls back to the first allowed
+      if (!root.querySelector('input[name=material]:checked')) {
+        const first = root.querySelector<HTMLInputElement>(`[data-color="${c.colors[0]}"] input`);
+        if (first) first.checked = true;
+      }
+      applyAddonGates();
+    };
+
+    // ── hero picker + crossfade ──
+    let frontIsA = true;
+    let currentHeroSrc = heroA.getAttribute('src') || '';
+    // a product's "style" token for hero matching = its primary axis value (roofType/operation/…)
+    const styleOf = (i: EstimateInput) => {
+      const axes = Object.keys(cfg.structures[i.structure]?.axes || {});
+      return axes.length ? String((i as Record<string, unknown>)[axes[0]] || '') : '';
+    };
+    const pickHero = (i: EstimateInput) => {
+      const pool = heroes.filter((h) => h.structure === i.structure);
+      if (!pool.length) return currentHeroSrc;
+      const style = styleOf(i);
+      const score = (h: (typeof heroes)[number]) =>
+        (h.material === i.material ? 3 : 0) + (h.style === style ? 2 : 0) + (h.attachment === i.attachment ? 1 : 0);
+      return pool.reduce((best, h) => (score(h) > score(best) ? h : best)).src;
+    };
+    const setHero = (src: string) => {
+      if (!src || src === currentHeroSrc) return;
+      currentHeroSrc = src;
+      if (reduce) {
+        heroA.src = src;
+        heroA.classList.add('is-front');
+        heroB.classList.remove('is-front');
+        frontIsA = true;
+        return;
+      }
+      const back = frontIsA ? heroB : heroA;
+      const frontEl = frontIsA ? heroA : heroB;
+      back.onload = () => {
+        back.classList.add('is-front');
+        frontEl.classList.remove('is-front');
+        frontIsA = !frontIsA;
+      };
+      back.src = src;
+    };
+
+    // ── animated count-up of the total range ──
+    let rafId = 0;
+    let settleTimer: number | undefined;
+    function parseMoney(s: string | null) {
+      return parseInt((s || '0').replace(/[^0-9]/g, ''), 10) || 0;
+    }
+    let shown = { low: parseMoney(lowEl.textContent), high: parseMoney(highEl.textContent) };
+    const paint = (low: number, high: number) => {
+      lowEl.textContent = formatUSD(low);
+      highEl.textContent = formatUSD(high);
+      barLow.textContent = formatUSD(low);
+      barHigh.textContent = formatUSD(high);
+    };
+    const settle = (low: number, high: number) => {
+      cancelAnimationFrame(rafId);
+      shown = { low, high };
+      paint(low, high);
+    };
+    const animateTo = (low: number, high: number) => {
+      window.clearTimeout(settleTimer);
+      if (reduce) {
+        settle(low, high);
+        return;
+      }
+      cancelAnimationFrame(rafId);
+      const from = { ...shown };
+      const start = performance.now();
+      const dur = 450;
+      const tick = (now: number) => {
+        const p = Math.min(1, (now - start) / dur);
+        const e = 1 - Math.pow(1 - p, 3);
+        const cl = Math.round(from.low + (low - from.low) * e);
+        const ch = Math.round(from.high + (high - from.high) * e);
+        paint(cl, ch);
+        if (p < 1) rafId = requestAnimationFrame(tick);
+        else shown = { low, high };
+      };
+      rafId = requestAnimationFrame(tick);
+      // Safety net: rAF is paused while the tab is hidden, so guarantee the final value lands.
+      settleTimer = window.setTimeout(() => settle(low, high), dur + 120);
+    };
+
+    // ── breakdown + chips render ──
+    const renderBreakdown = (b: BreakdownResult, target: HTMLElement) => {
+      const rows: string[] = [];
+      for (const li of b.lineItems) {
+        rows.push(
+          `<li class="est-line"><span class="est-line__label">${L.lines[li.key]}</span><span class="est-line__amt">${formatUSD(li.amount)}</span></li>`,
+        );
+      }
+      rows.push(
+        `<li class="est-line est-line--subtotal"><span class="est-line__label">${L.subtotal}</span><span class="est-line__amt">${formatUSD(b.subtotal)}</span></li>`,
+      );
+      for (const a of b.addOns) {
+        rows.push(
+          `<li class="est-line est-line--addon"><span class="est-line__label">${L.plus} ${L.addons[a.key]}</span><span class="est-line__amt">+${formatUSD(a.amount)}</span></li>`,
+        );
+      }
+      target.innerHTML = rows.join('');
+    };
+    const renderChips = (i: EstimateInput) => {
+      const items = [L.structures[i.structure], `${i.sqft} ${L.sqftUnit}`];
+      for (const axis of Object.keys(sc().axes)) items.push(L.options[String((i as Record<string, unknown>)[axis])]);
+      if (i.mesh) items.push(L.options[i.mesh]);
+      items.push(L.materials[i.material]);
+      chipsEl.innerHTML = items.filter(Boolean).map((x) => `<li class="chip est-chip">${x}</li>`).join('');
+    };
+
+    // ── debounced screen-reader announcement ──
+    let announceTimer: number | undefined;
+    const announce = (b: BreakdownResult, immediate = false) => {
+      window.clearTimeout(announceTimer);
+      const say = () => {
+        announceEl.textContent = `${L.totalAria}: ${formatUSD(b.total.low)} – ${formatUSD(b.total.high)}`;
+      };
+      if (immediate) say();
+      else announceTimer = window.setTimeout(say, 500);
+    };
+
+    let last: BreakdownResult | null = null;
+    const recalc = (announceNow = false) => {
+      const input = buildInput();
+      sqftOut.textContent = String(input.sqft);
+      sqftEl.setAttribute('aria-valuetext', `${input.sqft} ${L.sqftUnit}`);
+      const b = estimateBreakdown(input, cfg);
+      last = b;
+      animateTo(b.total.low, b.total.high);
+      renderBreakdown(b, breakdownEl);
+      renderChips(input);
+      setHero(pickHero(input));
+      announce(b, announceNow);
+      persist();
+    };
+
+    // ── persistence ──
+    const persist = () => {
+      const data: Record<string, any> = {};
+      new FormData(form).forEach((v, k) => {
+        if (v instanceof File) return;
+        if (data[k] !== undefined) data[k] = Array.isArray(data[k]) ? [...data[k], v] : [data[k], v];
+        else data[k] = v;
+      });
+      try {
+        localStorage.setItem(STORAGE, JSON.stringify(data));
+      } catch {}
+    };
+    const restore = () => {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE) || '{}');
+        Object.entries(saved).forEach(([name, value]) => {
+          form.querySelectorAll<HTMLInputElement>(`[name="${name}"]`).forEach((el) => {
+            if (el.type === 'checkbox' || el.type === 'radio') {
+              if (Array.isArray(value) ? value.includes(el.value) : el.value === value) el.checked = true;
+            } else if (el.type !== 'file') {
+              el.value = value as string;
+            }
+          });
+        });
+      } catch {}
+    };
+
+    // ── stepper / navigation ──
+    const renderNav = () => {
+      steps.forEach((s) => (s.hidden = Number((s as HTMLElement).dataset.step) !== step));
+      segs.forEach((seg, i) => {
+        const n = i + 1;
+        seg.classList.toggle('is-current', n === step);
+        seg.classList.toggle('is-done', n < step || (n <= maxStep && n !== step));
+        seg.classList.toggle('is-visited', n <= maxStep);
+      });
+      stepLabel.textContent = L.stepOf.replace('{x}', String(step)).replace('{y}', String(TOTAL));
+      backBtn.hidden = step === 1;
+      nextBtn.hidden = step === TOTAL;
+      submitBtn.hidden = step !== TOTAL;
+      errEl.hidden = true;
+      // proxy CTA on the mobile bottom bar mirrors the primary action (visibility is CSS-controlled)
+      const cta = root.querySelector<HTMLButtonElement>('[data-bar-continue]');
+      if (cta) cta.textContent = step === TOTAL ? L.submitEstimate : L.next;
+    };
+    const focusStepHeading = () => {
+      const s = steps[step - 1];
+      // step 2 holds one heading per product variant — focus the visible one
+      const h = s.querySelector<HTMLElement>('[data-variant]:not([hidden]) h2') || s.querySelector<HTMLElement>('h2');
+      h?.focus();
+    };
+    const goto = (n: number, focus = true) => {
+      step = Math.min(TOTAL, Math.max(1, n));
+      maxStep = Math.max(maxStep, step);
+      renderNav();
+      if (step === TOTAL) ensureTurnstile();
+      if (focus) {
+        if (step === TOTAL) {
+          form.querySelector<HTMLInputElement>('input[name=name]')?.focus();
+        } else {
+          focusStepHeading();
+        }
+      }
+      if (last) announce(last, true);
+    };
+
+    const emailOk = (s: string) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(s);
+    const validate = (): boolean => {
+      errEl.hidden = true;
+      const cur = steps[step - 1];
+      if (step <= 4) {
+        // single-selects always have a default; size needs > 0
+        if (step === 4 && currentSqft() <= 0) {
+          errEl.textContent = L.errRequired;
+          errEl.hidden = false;
+          (lengthEl.value ? widthEl : lengthEl).focus();
+          return false;
+        }
+        return true;
+      }
+      if (step === 6) {
+        const name = (form.elements.namedItem('name') as HTMLInputElement);
+        const email = (form.elements.namedItem('email') as HTMLInputElement);
+        const phone = (form.elements.namedItem('phone') as HTMLInputElement);
+        const consent = (form.elements.namedItem('consent') as HTMLInputElement);
+        for (const el of [name, email, phone]) {
+          if (!el.value.trim()) {
+            errEl.textContent = L.errRequired;
+            errEl.hidden = false;
+            el.closest('.est-input')?.classList.add('field--error');
+            el.focus();
+            return false;
+          }
+        }
+        if (!emailOk(email.value.trim())) {
+          errEl.textContent = L.errEmail;
+          errEl.hidden = false;
+          email.closest('.est-input')?.classList.add('field--error');
+          email.focus();
+          return false;
+        }
+        if (!consent.checked) {
+          errEl.textContent = L.errRequired;
+          errEl.hidden = false;
+          consent.focus();
+          return false;
+        }
+      }
+      return true;
+    };
+
+    backBtn.addEventListener('click', () => {
+      window.clearTimeout(advanceTimer);
+      goto(step - 1);
+    });
+    nextBtn.addEventListener('click', () => {
+      if (validate()) goto(step + 1);
+    });
+
+    // auto-advance when the LAST option group of the current step is picked (pool step 2 waits
+    // for height; mesh products' step 3 waits for mesh)
+    const advanceField = () => {
+      if (step === 1) return 'structure';
+      if (step === 2) {
+        const axes = Object.keys(sc().axes);
+        return axes[axes.length - 1];
+      }
+      if (step === 3) return sc().mesh ? 'mesh' : 'material';
+      return '';
+    };
+    const AUTO = reduce ? 120 : 250;
+    root.addEventListener('change', (e) => {
+      const t = e.target as HTMLInputElement;
+      if (t.name === 'structure') applyStructure();
+      else if (t.type === 'radio') applyAddonGates(); // sub-selection gates (fans need a roof, …)
+      recalc();
+      // clear error styling on edit
+      t.closest('.est-input')?.classList.remove('field--error');
+      if (t.name === 'length' || t.name === 'width') {
+        usingDims = true;
+        sqftEl.value = String(currentSqft());
+      } else if (t.name === 'sqft') {
+        usingDims = false;
+      }
+      if (t.type === 'radio' && t.name === advanceField()) {
+        const owner = Number((t.closest('.est-step') as HTMLElement)?.dataset.step);
+        if (owner === step && step < TOTAL) {
+          window.clearTimeout(advanceTimer);
+          advanceTimer = window.setTimeout(() => goto(step + 1), AUTO);
+        }
+      }
+    });
+    // live sqft<->dims while typing/dragging (not just on change)
+    [lengthEl, widthEl].forEach((el) =>
+      el.addEventListener('input', () => {
+        usingDims = true;
+        sqftEl.value = String(currentSqft());
+        recalc();
+      }),
+    );
+    sqftEl.addEventListener('input', () => {
+      usingDims = false;
+      recalc();
+    });
+
+    // stepper click (mouse affordance; keyboard uses Back/Next)
+    segs.forEach((seg, i) =>
+      seg.addEventListener('click', () => {
+        const n = i + 1;
+        if (n <= maxStep) {
+          window.clearTimeout(advanceTimer);
+          goto(n);
+        }
+      }),
+    );
+
+    // ── mobile bottom-bar expand/collapse ──
+    const results = $<HTMLElement>('[data-results]');
+    const barToggle = $<HTMLButtonElement>('[data-bar-toggle]');
+    const barLabel = $<HTMLElement>('[data-bar-label]');
+    const setBar = (open: boolean) => {
+      if (open) results.removeAttribute('data-collapsed');
+      else results.setAttribute('data-collapsed', '');
+      barToggle.setAttribute('aria-expanded', String(open));
+      barLabel.textContent = open ? L.hideBreakdown : L.viewBreakdown;
+    };
+    barToggle.addEventListener('click', () => setBar(results.hasAttribute('data-collapsed')));
+    root.querySelector('[data-bar-continue]')?.addEventListener('click', () => {
+      setBar(false);
+      (step === TOTAL ? submitBtn : nextBtn).click();
+    });
+
+    // ── submit → inline success, NO redirect ──
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!validate()) return;
+      const label = submitBtn.querySelector('[data-submit-label]') as HTMLElement;
+      const arrow = submitBtn.querySelector('[data-submit-arrow]') as HTMLElement;
+      const spin = submitBtn.querySelector('[data-submit-spin]') as HTMLElement;
+      submitBtn.disabled = true;
+      label.textContent = L.sending;
+      arrow.hidden = true;
+      spin.hidden = false;
+
+      const input = buildInput();
+      const b = last || estimateBreakdown(input, cfg);
+      const breakdown = Object.fromEntries(b.lineItems.map((li) => [li.key, li.amount]));
+      const name = (form.elements.namedItem('name') as HTMLInputElement).value.trim();
+      const rec = input as unknown as Record<string, unknown>;
+      // human-readable summary of every chosen option (in the submit locale) — rendered in the emails
+      const summary: { l: string; v: string }[] = [];
+      for (const axis of Object.keys(sc().axes))
+        summary.push({ l: L.groups[axis] || axis, v: L.options[String(rec[axis])] || String(rec[axis]) });
+      if (input.mesh) summary.push({ l: L.groups.mesh, v: L.options[input.mesh] || input.mesh });
+      summary.push({ l: L.groups.material, v: L.materials[input.material] || input.material });
+      if (input.attachment) summary.push({ l: L.groups.attachment, v: L.attachments[input.attachment] || input.attachment });
+      const payload: Record<string, unknown> = {
+        name,
+        email: (form.elements.namedItem('email') as HTMLInputElement).value.trim(),
+        phone: (form.elements.namedItem('phone') as HTMLInputElement).value.trim(),
+        bestTime: (form.elements.namedItem('bestTime') as HTMLInputElement).value.trim(),
+        prefLang: val('prefLang') || root.dataset.locale,
+        consent: (form.elements.namedItem('consent') as HTMLInputElement).checked,
+        interest: L.structures[input.structure], // human product label → email subject/summary
+        structure: input.structure,
+        sqft: input.sqft,
+        dimensions: usingDims
+          ? `${parseFloat(lengthEl.value) || 0} × ${parseFloat(widthEl.value) || 0} ft (${input.sqft} sqft)`
+          : `${input.sqft} sqft`,
+        material: input.material,
+        addons: input.addOns,
+        addonLabels: input.addOns.map((k) => L.addons[k] || k),
+        summary,
+        breakdown,
+        estimateLow: b.total.low,
+        estimateHigh: b.total.high,
+      };
+      // per-product selections (roofType / operation / cageStyle / height / subtype / mesh / attachment)
+      for (const axis of Object.keys(sc().axes)) payload[axis] = rec[axis];
+      if (input.mesh) payload.mesh = input.mesh;
+      if (input.attachment) payload.attachment = input.attachment;
+
+      try {
+        const res = await fetch('/api/lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            type: 'estimator',
+            locale: root.dataset.locale,
+            sourcePage: location.pathname,
+            payload,
+            turnstileToken: tsId !== undefined ? ((window as any).turnstile?.getResponse(tsId) || '') : '',
+          }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.ok) throw new Error('bad');
+        try {
+          localStorage.removeItem(STORAGE);
+        } catch {}
+        // Carry the estimate to /thank-you (where the GTM conversion fires) and redirect.
+        try {
+          sessionStorage.setItem(
+            'ab_estimate',
+            JSON.stringify({
+              value: b.total.low,
+              total: `${formatUSD(b.total.low)} – ${formatUSD(b.total.high)}`,
+              rows: [
+                ...b.lineItems.map((li) => ({ l: L.lines[li.key], a: formatUSD(li.amount) })),
+                { l: L.subtotal, a: formatUSD(b.subtotal), sub: true },
+                ...b.addOns.map((a) => ({ l: `${L.plus} ${L.addons[a.key]}`, a: `+${formatUSD(a.amount)}`, add: true })),
+              ],
+            }),
+          );
+        } catch {}
+        window.location.href = root.dataset.locale === 'es' ? '/es/thank-you' : '/thank-you';
+      } catch {
+        errEl.textContent = L.errSubmit;
+        errEl.hidden = false;
+        submitBtn.disabled = false;
+        label.textContent = L.submitEstimate;
+        arrow.hidden = false;
+        spin.hidden = true;
+      }
+    });
+
+    // ── boot ──
+    restore();
+    // reconfigure the wizard for the (possibly restored) structure before first paint
+    applyStructure();
+    // keep sqft slider in sync with restored/initial dims
+    if (lengthEl.value && widthEl.value) {
+      usingDims = true;
+      sqftEl.value = String(currentSqft());
+    }
+    renderNav();
+    recalc(true);
+  }
+</script>

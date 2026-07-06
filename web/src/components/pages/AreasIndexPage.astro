@@ -1,0 +1,207 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { useT, localizedHref, type Lang } from '../../lib/i18n';
+import { getServiceAreas } from '../../lib/queries';
+import { groupAreasByCounty } from '../../lib/areas';
+import { SERVICES } from '../../lib/nav';
+import PageHero from '../PageHero.astro';
+import AnswerBlock from '../AnswerBlock.astro';
+import MapEmbed from '../MapEmbed.astro';
+import StatsBand from '../StatsBand.astro';
+import CtaStrip from '../CtaStrip.astro';
+import LeadSection from '../LeadSection.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+const areas = await getServiceAreas();
+const groups = groupAreasByCounty(areas);
+
+const copy = {
+  en: {
+    metaT: 'Service Areas | AB Aluminum & Screens — Miami-Dade, Broward & Palm Beach',
+    metaD:
+      'AB Aluminum & Screens installs aluminum pergolas, pool enclosures, screen rooms and louvered roofs across Miami-Dade, Broward and Palm Beach. Find your South Florida city.',
+    title: 'Service Areas Across South Florida',
+    sub: 'Licensed aluminum pergola, pool enclosure, screen room and louvered roof installation across Miami-Dade, Broward and Palm Beach. Find your city below.',
+    answerQ: 'Where does AB Aluminum & Screens install aluminum pergolas and enclosures?',
+    answerA:
+      'We design, permit and install aluminum pergolas, pool screen enclosures, screen rooms and motorized louvered roofs across all three South Florida counties — Miami-Dade, Broward and Palm Beach. Every structure is engineered to Miami-Dade HVHZ wind-load code. Find your city below, or call for a free 3D design.',
+    chips: [
+      { icon: 'map-pin', value: '3', label: 'counties served' },
+      { icon: 'wind', value: '175 mph', label: 'HVHZ wind-rated' },
+      { icon: 'home', value: '500+', label: 'local installs' },
+      { icon: 'box', value: 'Free', label: '3D design' },
+    ],
+    dirH2: 'Find Your City',
+    svcH2: 'Services We Install in Your Area',
+    mapTitle: 'AB Aluminum & Screens — South Florida service area',
+  },
+  es: {
+    metaT: 'Áreas de Servicio | AB Aluminum & Screens — Miami-Dade, Broward y Palm Beach',
+    metaD:
+      'AB Aluminum & Screens instala pérgolas, cerramientos de piscina, porches y techos de lamas en Miami-Dade, Broward y Palm Beach. Encuentra tu ciudad del sur de Florida.',
+    title: 'Áreas de Servicio en el Sur de Florida',
+    sub: 'Instalación con licencia de pérgolas, cerramientos de piscina, porches con malla y techos de lamas en Miami-Dade, Broward y Palm Beach. Encuentra tu ciudad abajo.',
+    answerQ: '¿Dónde instala AB Aluminum & Screens pérgolas y cerramientos de aluminio?',
+    answerA:
+      'Diseñamos, tramitamos permisos e instalamos pérgolas de aluminio, cerramientos de piscina, porches con malla y techos de lamas motorizados en los tres condados del sur de Florida — Miami-Dade, Broward y Palm Beach. Cada estructura cumple el código HVHZ de Miami-Dade. Encuentra tu ciudad abajo o llama por un diseño 3D gratis.',
+    chips: [
+      { icon: 'map-pin', value: '3', label: 'condados atendidos' },
+      { icon: 'wind', value: '175 mph', label: 'resistencia HVHZ' },
+      { icon: 'home', value: '500+', label: 'instalaciones locales' },
+      { icon: 'box', value: 'Gratis', label: 'diseño 3D' },
+    ],
+    dirH2: 'Encuentra Tu Ciudad',
+    svcH2: 'Servicios Que Instalamos en Tu Zona',
+    mapTitle: 'AB Aluminum & Screens — área de servicio del sur de Florida',
+  },
+};
+const c = copy[lang];
+---
+
+<BaseLayout lang={lang} title={c.metaT} description={c.metaD}>
+  <PageHero
+    lang={lang}
+    title={c.title}
+    subtitle={c.sub}
+    image="/images/residential.avif"
+    align="center"
+    badges={true}
+    ctas={[{ label: t('cta.requestEstimate'), href: localizedHref('/contact-us', lang) }]}
+  />
+
+  <AnswerBlock
+    lang={lang}
+    question={c.answerQ}
+    answer={c.answerA}
+    chips={c.chips}
+    image="/images/aluminum-patio-cover-pool-palm-trees-florida.avif"
+    imageAlt={lang === 'es'
+      ? 'Cubierta de patio de aluminio junto a una piscina con palmeras en el sur de Florida'
+      : 'Aluminum patio cover beside a pool with palm trees in South Florida'}
+  />
+
+  <section class="section section--alt">
+    <div class="container areas">
+      <div class="areas__map">
+        <MapEmbed lang={lang} query="South Florida" title={c.mapTitle} aspect="4 / 5" />
+      </div>
+      <div class="areas__dir">
+        <h2 class="areas__h2">{c.dirH2}</h2>
+        {
+          groups.map((g) => (
+            <div class="areas__county card" data-reveal>
+              <h3 class="areas__county-h">{g.county}</h3>
+              <ul>
+                {g.cities.map((city) => (
+                  <li>
+                    <a href={localizedHref('/service-areas/' + city.slug, lang)}>{city.title}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="text-center">{c.svcH2}</h2>
+      <div class="grid cols-4 area-svcs" style="margin-top:2rem;">
+        {
+          SERVICES.map((s) => (
+            <a class="card area-svc" href={localizedHref('/' + s.route, lang)} data-reveal>
+              <img src={s.thumb} alt={s.label[lang]} width="320" height="200" loading="lazy" />
+              <div class="area-svc__body">
+                <h3>{s.label[lang]}</h3>
+                <p>{s.blurb[lang]}</p>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <StatsBand lang={lang} />
+  <CtaStrip lang={lang} />
+  <LeadSection lang={lang} source="service-areas" alt={true} />
+</BaseLayout>
+
+<style>
+  .areas {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: start;
+  }
+  .areas__map {
+    position: sticky;
+    top: 90px;
+  }
+  .areas__h2 {
+    margin-bottom: 1.25rem;
+  }
+  .areas__county {
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .areas__county-h {
+    font-size: 1.0625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--red);
+  }
+  .areas__county ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+  }
+  .areas__county a {
+    font-weight: 600;
+    font-size: 0.9375rem;
+  }
+  .areas__county a:hover {
+    color: var(--red);
+  }
+  .area-svc {
+    display: flex;
+    flex-direction: column;
+  }
+  .area-svc img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+  .area-svc__body {
+    padding: 1rem 1.25rem;
+  }
+  .area-svc__body p {
+    color: var(--muted);
+    font-size: 0.9375rem;
+    margin-top: 0.5rem;
+  }
+  @media (max-width: 860px) {
+    .areas {
+      grid-template-columns: 1fr;
+    }
+    .areas__map {
+      position: static;
+    }
+  }
+  @media (max-width: 560px) {
+    .areas__county ul {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

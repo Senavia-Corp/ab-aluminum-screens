@@ -1,0 +1,148 @@
+---
+import { useT, localizedHref, type Lang } from '../lib/i18n';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Lang;
+  alt?: boolean;
+}
+const { lang, alt = false } = Astro.props;
+const t = useT(lang);
+const h = (p: string) => localizedHref(p, lang);
+
+const copy = {
+  en: {
+    eyebrow: 'About AB Aluminum & Screens',
+    h2: 'Custom Aluminum Patio Covers, Pergolas & Outdoor Structures for South Florida Homes',
+    body: 'For more than 15 years, our in-house crew has designed, engineered and installed premium aluminum outdoor structures built to withstand South Florida sun, rain and hurricane-force winds. No subcontractors — just one licensed, insured team handling your project from the first 3D design to the final inspection.',
+    points: [
+      'One licensed, insured local team — no subcontractors',
+      'Free 3D design and a clear quote before you commit',
+      'Engineered and permitted to Miami-Dade HVHZ code',
+    ],
+  },
+  es: {
+    eyebrow: 'Sobre AB Aluminum & Screens',
+    h2: 'Cubiertas, Pérgolas y Estructuras de Aluminio a Medida para Hogares del Sur de Florida',
+    body: 'Por más de 15 años, nuestro equipo propio ha diseñado, calculado e instalado estructuras de aluminio premium hechas para resistir el sol, la lluvia y los vientos huracanados del sur de Florida. Sin subcontratistas: un solo equipo con licencia y seguro maneja tu proyecto desde el primer diseño 3D hasta la inspección final.',
+    points: [
+      'Un solo equipo local con licencia y seguro — sin subcontratistas',
+      'Diseño 3D gratis y un presupuesto claro antes de comprometerte',
+      'Diseñado y permitido al código HVHZ de Miami-Dade',
+    ],
+  },
+};
+const c = copy[lang];
+
+// About collage images (SEO-friendly filenames + descriptive bilingual alt).
+const imgs = [
+  {
+    src: '/images/about-outdoor-kitchen-pergola-miami-fl.jpg',
+    alt: {
+      en: 'Wood-grain aluminum pergola with a retractable canopy over a custom outdoor kitchen in South Florida',
+      es: 'Pérgola de aluminio símil madera con toldo retráctil sobre una cocina exterior a medida en el sur de Florida',
+    },
+  },
+  {
+    src: '/images/about-pool-screen-enclosure-south-florida.jpg',
+    alt: {
+      en: 'Custom aluminum pool screen enclosure on a waterfront South Florida home',
+      es: 'Cerramiento de piscina de aluminio a medida en una casa frente al canal en el sur de Florida',
+    },
+  },
+  {
+    src: '/images/about-screened-patio-room-south-florida.jpg',
+    alt: {
+      en: 'Bronze-frame screened patio room with solid roof attached to a South Florida home',
+      es: 'Porche con malla de marco bronce y techo sólido adosado a una casa del sur de Florida',
+    },
+  },
+];
+---
+
+<section class:list={['section', { 'section--alt': alt }]} id="about">
+  <div class="container about-intro">
+    <div data-reveal>
+      <span class="eyebrow eyebrow--line">{c.eyebrow}</span>
+      <h2>{c.h2}</h2>
+      <p class="lead" style="margin-top:1rem;">{c.body}</p>
+      <ul class="about-intro__points">
+        {
+          c.points.map((p) => (
+            <li>
+              <Icon name="check" size={18} />
+              <span>{p}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <a class="btn btn--secondary" href={h('/about-us')}>
+        {t('cta.moreAboutUs')}
+        <Icon name="arrow-right" size={18} class="btn__i" />
+      </a>
+    </div>
+    <div class="about-intro__imgs" data-reveal style="--reveal-delay:120ms">
+      <div class="zoom framed about-intro__big">
+        <img src={imgs[0].src} alt={imgs[0].alt[lang]} width="560" height="320" loading="lazy" />
+      </div>
+      <div class="zoom framed">
+        <img src={imgs[1].src} alt={imgs[1].alt[lang]} width="280" height="220" loading="lazy" />
+      </div>
+      <div class="zoom framed">
+        <img src={imgs[2].src} alt={imgs[2].alt[lang]} width="280" height="220" loading="lazy" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-intro {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+    align-items: center;
+  }
+  .about-intro__points {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+    display: grid;
+    gap: 0.6rem;
+  }
+  .about-intro__points li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-weight: 600;
+  }
+  .about-intro__points :global(.icon) {
+    color: var(--red);
+    flex: none;
+    margin-top: 2px;
+  }
+  .about-intro__imgs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.85rem;
+  }
+  .about-intro__imgs > div {
+    height: 100%;
+  }
+  .about-intro__imgs img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .about-intro__big {
+    grid-column: 1 / -1;
+    height: 240px;
+  }
+  .about-intro__imgs > div:not(.about-intro__big) {
+    height: 180px;
+  }
+  @media (max-width: 860px) {
+    .about-intro {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

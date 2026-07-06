@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { useT, localizedHref, type Lang } from '../../lib/i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+---
+
+<BaseLayout lang={lang} title={`${t('notFound.title')} | AB Aluminum & Screens`} noindex={true}>
+  <section class="section text-center" style="min-height:50vh;display:flex;align-items:center;">
+    <div class="container narrow">
+      <img src="/images/Logo-Final.svg" alt="AB Aluminum & Screens" width="200" height="52" style="margin-inline:auto;margin-bottom:1.5rem;" />
+      <h1 style="font-size:clamp(3rem,8vw,5rem);">404</h1>
+      <h2>{t('notFound.title')}</h2>
+      <p class="lead" style="margin:1rem auto 2rem;">{t('notFound.body')}</p>
+      <a class="btn btn--primary btn--lg" href={localizedHref('/', lang)}>{t('notFound.cta')}</a>
+    </div>
+  </section>
+</BaseLayout>

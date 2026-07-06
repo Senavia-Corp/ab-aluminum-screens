@@ -1,0 +1,211 @@
+---
+import '@fontsource/lato/400.css';
+import '@fontsource/lato/700.css';
+import '@fontsource/lato/900.css';
+import lato700Url from '@fontsource/lato/files/lato-latin-700-normal.woff2';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { alternates, type Lang } from '../lib/i18n';
+import { BUSINESS_ID, ORG_ID } from '../lib/seo';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description?: string;
+  image?: string;
+  noindex?: boolean;
+  jsonLd?: object | object[] | string;
+  ogType?: string;
+  publishedTime?: string;
+}
+
+const { lang, title, description = '', image, noindex = false, jsonLd, ogType = 'website', publishedTime } = Astro.props;
+
+const path = Astro.url.pathname;
+const origin = Astro.site?.href ?? 'https://www.abaluminumandscreens.com/';
+const canonical = new URL(path, origin).href.replace(/\/$/, '') || origin;
+const alts = alternates(path, origin);
+const ogImage = image
+  ? new URL(image, origin).href
+  : new URL('/images/og-default.jpg', origin).href;
+
+const sameAs = [
+  'https://www.facebook.com/abaluminumamdscreens/',
+  'https://www.instagram.com/ab_aluminum/',
+  'https://www.youtube.com/@abaluminumandscreens',
+];
+
+// Site-wide entity graph: the brand Organization + the LocalBusiness, linked by @id. Per-page
+// Service/area schema references the business via { '@id': BUSINESS_ID } instead of redeclaring it.
+const localBusiness = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': ORG_ID,
+      name: 'AB Aluminum & Screens',
+      url: origin,
+      logo: { '@type': 'ImageObject', url: new URL('/images/Logo-Final.svg', origin).href },
+      sameAs,
+    },
+    {
+      '@type': 'HomeAndConstructionBusiness',
+      '@id': BUSINESS_ID,
+      name: 'AB Aluminum & Screens',
+      parentOrganization: { '@id': ORG_ID },
+      image: ogImage,
+      url: origin,
+      telephone: '+1-786-383-6066',
+      email: 'info@abaluminumandscreens.com',
+      areaServed: ['Miami-Dade County', 'Broward County', 'Palm Beach County'],
+      address: {
+        '@type': 'PostalAddress',
+        addressRegion: 'FL',
+        addressCountry: 'US',
+      },
+      openingHours: 'Mo-Fr 08:00-18:00',
+      sameAs,
+    },
+  ],
+};
+
+const extraJsonLd = jsonLd
+  ? typeof jsonLd === 'string'
+    ? jsonLd
+    : JSON.stringify(jsonLd)
+  : null;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google Tag Manager -->
+    <script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-MBXMC32G');</script>
+    <!-- End Google Tag Manager -->
+    <meta name="google-site-verification" content="wBbdv9K06wOEVLs-FsQyacBD9eo2GdhmCyGPOsZw8jU" />
+
+    <link rel="preload" href={lato700Url} as="font" type="font/woff2" crossorigin />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    {noindex && <meta name="robots" content="noindex,follow" />}
+    <link rel="canonical" href={canonical} />
+    {alts.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+
+    <link rel="icon" type="image/png" href="/favicon.png" />
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content={ogType} />
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+    <meta property="og:site_name" content="AB Aluminum & Screens" />
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content={lang === 'es' ? 'es_US' : 'en_US'} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(localBusiness)} />
+    {extraJsonLd && <script type="application/ld+json" set:html={extraJsonLd} />}
+
+    {/* Vercel Web Analytics — cookieless. Owner enables Web Analytics on the project in the Vercel
+        dashboard to start collecting; the va() shim queues custom events until then. {{PENDIENTE: enable Web Analytics in Vercel}} */}
+    <script is:inline>
+      window.va =
+        window.va ||
+        function () {
+          (window.vaq = window.vaq || []).push(arguments);
+        };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+    <script is:inline>
+      // Conversion events: tel:/mailto: clicks (delegated, catches dynamic links too).
+      // Pushes to dataLayer (GTM → GA4 + Google Ads) and to Vercel's cookieless analytics.
+      document.addEventListener('click', function (e) {
+        if (!e.target.closest) return;
+        var dl = (window.dataLayer = window.dataLayer || []);
+        var tel = e.target.closest('a[href^="tel:"]');
+        if (tel) {
+          if (window.va) window.va('event', { name: 'tel_click' });
+          dl.push({
+            event: 'tel_click',
+            phone: tel.getAttribute('href').replace('tel:', ''),
+            lang: document.documentElement.lang || 'en',
+          });
+        }
+        var mail = e.target.closest('a[href^="mailto:"]');
+        if (mail) {
+          dl.push({ event: 'email_click', email: mail.getAttribute('href').replace('mailto:', '') });
+        }
+      });
+    </script>
+    <slot name="head" />
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MBXMC32G" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header lang={lang} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+
+    <script>
+      // Scroll-reveal + animated count-up. Both honor prefers-reduced-motion.
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function runCount(el: HTMLElement) {
+        const target = parseFloat(el.dataset.count || '0');
+        const prefix = el.dataset.countPrefix || '';
+        const suffix = el.dataset.countSuffix || '';
+        const dur = 1400;
+        if (reduce) {
+          el.textContent = prefix + target + suffix;
+          return;
+        }
+        const start = performance.now();
+        function frame(now: number) {
+          const p = Math.min(1, (now - start) / dur);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = prefix + Math.round(target * eased) + suffix;
+          if (p < 1) requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+      }
+
+      const reveals = document.querySelectorAll<HTMLElement>('[data-reveal]');
+      if (reduce || !('IntersectionObserver' in window)) {
+        reveals.forEach((el) => {
+          el.classList.add('is-visible');
+          el.querySelectorAll<HTMLElement>('[data-count]').forEach(runCount);
+        });
+      } else {
+        const io = new IntersectionObserver(
+          (entries, obs) => {
+            for (const e of entries) {
+              if (!e.isIntersecting) continue;
+              const el = e.target as HTMLElement;
+              el.classList.add('is-visible');
+              el.querySelectorAll<HTMLElement>('[data-count]').forEach(runCount);
+              obs.unobserve(el);
+            }
+          },
+          { threshold: 0.18, rootMargin: '0px 0px -8% 0px' }
+        );
+        reveals.forEach((el) => io.observe(el));
+      }
+    </script>
+  </body>
+</html>

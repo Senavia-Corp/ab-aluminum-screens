@@ -1,0 +1,164 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { useT, localizedHref, type Lang } from '../../lib/i18n';
+import { GALLERY_ROUTE_TO_SLUG, GALLERY_ROUTES } from '../../lib/routes';
+import { SERVICES } from '../../lib/nav';
+import { getGalleryPreviews } from '../../lib/queries';
+import SanityImg from '../SanityImg.astro';
+import PageHero from '../PageHero.astro';
+import AnswerBlock from '../AnswerBlock.astro';
+import StatsBand from '../StatsBand.astro';
+import CtaStrip from '../CtaStrip.astro';
+import LeadSection from '../LeadSection.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+const previews = await getGalleryPreviews();
+const bySlug = new Map(previews.map((p: any) => [p.slug, p]));
+
+const copy = {
+  en: {
+    metaT: 'Our Work | AB Aluminum & Screens Project Gallery',
+    metaD: 'Browse completed aluminum pergola, pool enclosure, screen room and louvered roof projects across Miami-Dade, Broward and Palm Beach.',
+    title: 'Our Recent Projects Across South Florida',
+    sub: 'Browse completed installations across Miami-Dade, Broward and Palm Beach — pergolas, pool enclosures, screen rooms and motorized louvered roofs.',
+    answerQ: 'What kind of outdoor projects has AB Aluminum & Screens built?',
+    answerA:
+      'Browse 500+ completed aluminum pergolas, pool screen enclosures, screen rooms and motorized louvered roofs across Miami-Dade, Broward and Palm Beach. Every project shown was designed, permitted and installed by our licensed in-house crew to Miami-Dade HVHZ code. Click any service below to see its full gallery.',
+    chips: [
+      { icon: 'home', value: '500+', label: 'projects' },
+      { icon: 'layers', value: '4', label: 'services' },
+      { icon: 'map-pin', value: '3', label: 'counties' },
+      { icon: 'award', value: '15+ yrs', label: 'in business' },
+    ],
+  },
+  es: {
+    metaT: 'Nuestro Trabajo | Galería de Proyectos AB Aluminum & Screens',
+    metaD: 'Explora proyectos terminados de pérgolas, cerramientos de piscina, porches con malla y techos de lamas en Miami-Dade, Broward y Palm Beach.',
+    title: 'Nuestros Proyectos Recientes en el Sur de Florida',
+    sub: 'Explora instalaciones terminadas en Miami-Dade, Broward y Palm Beach — pérgolas, cerramientos de piscina, porches con malla y techos de lamas motorizados.',
+    answerQ: '¿Qué tipo de proyectos exteriores ha construido AB Aluminum & Screens?',
+    answerA:
+      'Explora más de 500 pérgolas de aluminio, cerramientos de piscina, porches con malla y techos de lamas motorizados terminados en Miami-Dade, Broward y Palm Beach. Cada proyecto fue diseñado, permisado e instalado por nuestro equipo propio con licencia según el código HVHZ de Miami-Dade. Haz clic en cualquier servicio para ver su galería completa.',
+    chips: [
+      { icon: 'home', value: '500+', label: 'proyectos' },
+      { icon: 'layers', value: '4', label: 'servicios' },
+      { icon: 'map-pin', value: '3', label: 'condados' },
+      { icon: 'award', value: '15+ años', label: 'de experiencia' },
+    ],
+  },
+};
+const c = copy[lang];
+
+// Card per gallery route, mapping route -> CMS slug -> preview
+const cards = GALLERY_ROUTES.map((route) => {
+  const slug = GALLERY_ROUTE_TO_SLUG[route];
+  const meta = SERVICES.find((s) => s.gallery === route)!;
+  return { route, label: meta.label[lang], preview: bySlug.get(slug) };
+});
+
+// Mixed recent photos for the masonry preview
+const mixed = previews.flatMap((p: any) => (p.preview || []).slice(0, 3));
+---
+
+<BaseLayout lang={lang} title={c.metaT} description={c.metaD}>
+  <PageHero lang={lang} title={c.title} subtitle={c.sub} image="/images/Pergolas-Gallery.avif" />
+
+  <AnswerBlock
+    lang={lang}
+    question={c.answerQ}
+    answer={c.answerA}
+    chips={c.chips}
+    alt={true}
+    image="/images/residential.avif"
+    imageAlt={lang === 'es'
+      ? 'Patio residencial moderno con pérgola de aluminio, piscina y deck en el sur de Florida'
+      : 'Modern residential patio with aluminum pergola, pool and deck in South Florida'}
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="grid cols-4">
+        {
+          cards.map((card) => (
+            <a class="work-card" href={localizedHref('/gallery/' + card.route, lang)}>
+              {card.preview?.cover ? (
+                <SanityImg image={card.preview.cover} width={420} class="work-card__img" alt={card.label} />
+              ) : (
+                <img class="work-card__img" src="/images/cover.avif" alt={card.label} width="420" height="280" loading="lazy" />
+              )}
+              <div class="work-card__body">
+                <h3>{card.label}</h3>
+                <span class="work-card__link">{t('cta.viewGallery')} →</span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {
+    mixed.length > 0 && (
+      <section class="section section--alt">
+        <div class="container">
+          <div class="work-masonry">
+            {mixed.map((img: any) => <SanityImg image={img} width={420} class="work-masonry__img" alt={img.alt || ''} />)}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <StatsBand lang={lang} />
+  <CtaStrip lang={lang} />
+  <LeadSection lang={lang} source="our-work" alt={false} />
+</BaseLayout>
+
+<style>
+  .work-card {
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: #fff;
+    display: block;
+  }
+  :global(.work-card__img) {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  .work-card:hover :global(.work-card__img) {
+    transform: scale(1.05);
+  }
+  .work-card__body {
+    padding: 1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .work-card__link {
+    color: var(--red);
+    font-weight: 700;
+    font-size: 0.875rem;
+  }
+  .work-masonry {
+    columns: 4 220px;
+    column-gap: 0.75rem;
+  }
+  :global(.work-masonry__img) {
+    width: 100%;
+    margin-bottom: 0.75rem;
+    border-radius: 8px;
+    break-inside: avoid;
+  }
+  @media (max-width: 560px) {
+    .work-masonry {
+      columns: 2 140px;
+    }
+  }
+</style>

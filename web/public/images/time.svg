@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 50 50">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+        stroke-width: 0px;
+      }
+    </style>
+  </defs>
+  <rect class="cls-1" x="11.6" y="21.7" width="5" height="5"/>
+  <rect class="cls-1" x="33.4" y="21.7" width="5" height="5"/>
+  <rect class="cls-1" x="26.1" y="21.7" width="5" height="5"/>
+  <rect class="cls-1" x="11.6" y="29.5" width="5" height="5"/>
+  <rect class="cls-1" x="26.1" y="29.5" width="5" height="5"/>
+  <rect class="cls-1" x="18.9" y="29.5" width="5" height="5"/>
+  <rect class="cls-1" x="33.4" y="37.3" width="5" height="5"/>
+  <rect class="cls-1" x="26.1" y="37.3" width="5" height="5"/>
+  <rect class="cls-1" x="18.9" y="37.3" width="5" height="5"/>
+  <path class="cls-1" d="M42.9,5.4h-4v3.9c0,1.4-1.2,2.6-2.7,2.6h-5.3c-1.5,0-2.7-1.2-2.7-2.6v-3.9h-6.6v3.8c0,1.5-1.2,2.7-2.7,2.7h-5.2c-1.5,0-2.7-1.2-2.7-2.7v-3.8h-4c-2.6,0-4.8,2.1-4.8,4.7v35.2c0,2.6,2.1,4.7,4.8,4.7h35.8c2.6,0,4.8-2.1,4.8-4.7V10.1c.1-2.6-2.1-4.7-4.7-4.7ZM44.3,45.2c0,.8-.6,1.4-1.4,1.4H7.1c-.8,0-1.4-.6-1.4-1.4v-27.8h38.5v27.8h0Z"/>
+  <path class="cls-1" d="M13.8,10h5.2c.4,0,.8-.4.8-.8V2c0-1.1-.9-2-2-2h-2.8c-1.1,0-2,.9-2,2v7.2c0,.5.4.8.8.8Z"/>
+  <path class="cls-1" d="M30.9,10h5.3c.4,0,.8-.3.8-.8V2c0-1.1-.9-2-2-2h-2.8c-1.1,0-2,.9-2,2v7.3c0,.4.3.7.7.7Z"/>
+</svg>
