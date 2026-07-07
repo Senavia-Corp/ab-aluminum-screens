@@ -125,8 +125,8 @@ const nearbyH2 = lang === 'es' ? 'Áreas Cercanas que Atendemos' : 'Nearby Areas
   <!-- City-specific intro + the services we install here (elevated for local SEO) -->
   <section class="section">
     <div class="container">
-      <h2 class="text-center">{heading || servicesH2}</h2>
-      {p2 && <p class="lead text-center area-intro">{p2}</p>}
+      <h2 class="area-head text-center">{heading || servicesH2}</h2>
+      {p2 && <p class="lead area-intro">{p2}</p>}
       <div class="grid cols-4" style="margin-top:2rem;">
         {
           SERVICES.map((s, i) => (
@@ -178,9 +178,20 @@ const nearbyH2 = lang === 'es' ? 'Áreas Cercanas que Atendemos' : 'Nearby Areas
 </BaseLayout>
 
 <style>
+  /* Heading: constrain the measure so long city names wrap into 2–3 even lines
+     instead of stretching the full container and orphaning a lone word. */
+  .area-head {
+    max-width: 34rem;
+    margin-inline: auto;
+    text-wrap: balance;
+  }
+  /* Intro: centered column, but left-aligned text so the left edge is clean at
+     any length (intros range ~135–515 chars across cities). pretty avoids orphans. */
   .area-intro {
-    max-width: 640px;
-    margin: 0.75rem auto 0;
+    max-width: 62ch;
+    margin: 1.25rem auto 0;
+    text-align: left;
+    text-wrap: pretty;
   }
   .area-svc {
     display: flex;
