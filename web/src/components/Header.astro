@@ -92,7 +92,7 @@ const about = [
     <!-- Mobile controls -->
     <div class="hdr__mobile">
       <a class="icon-btn" href={`tel:${phone.tel}`} aria-label={`Call ${phone.display}`}>
-        <img src="/images/Phone.svg" alt="" width="22" height="22" aria-hidden="true" />
+        <span class="phone-ico phone-ico--lg" aria-hidden="true"></span>
       </a>
       <button class="icon-btn burger" id="burger" aria-expanded="false" aria-controls="drawer" aria-label={t('nav.menu')}>
         <Icon name="menu" size={26} />
@@ -164,7 +164,7 @@ const about = [
 <!-- Mobile sticky bottom bar -->
 <div class="bottombar">
   <a class="bottombar__btn" href={`tel:${phone.tel}`}>
-    <img src="/images/Phone.svg" alt="" width="18" height="18" aria-hidden="true" />
+    <span class="phone-ico" aria-hidden="true"></span>
     {t('cta.call')}
   </a>
   <a class="bottombar__btn bottombar__btn--cta" href={h('/contact-us')}>{t('cta.getFreeQuote')}</a>
@@ -635,6 +635,21 @@ const about = [
   .bottombar__btn--cta {
     background: var(--red-dark);
     color: #fff;
+  }
+  /* Phone.svg has a hardcoded white fill and is an <img> (can't inherit color),
+     so mask it and paint with the brand red — visible on the light Call button. */
+  .phone-ico {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    flex: none;
+    background-color: var(--red);
+    -webkit-mask: url('/images/Phone.svg') no-repeat center / contain;
+    mask: url('/images/Phone.svg') no-repeat center / contain;
+  }
+  .phone-ico--lg {
+    width: 22px;
+    height: 22px;
   }
 
   @media (max-width: 1199px) {

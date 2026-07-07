@@ -185,12 +185,12 @@ const nearbyH2 = lang === 'es' ? 'Áreas Cercanas que Atendemos' : 'Nearby Areas
     margin-inline: auto;
     text-wrap: balance;
   }
-  /* Intro: centered column, but left-aligned text so the left edge is clean at
-     any length (intros range ~135–515 chars across cities). pretty avoids orphans. */
+  /* Intro: centered column + centered text; pretty evens the ragged edges and
+     avoids orphan last-line words across the ~135–515 char range of city intros. */
   .area-intro {
     max-width: 62ch;
     margin: 1.25rem auto 0;
-    text-align: left;
+    text-align: center;
     text-wrap: pretty;
   }
   .area-svc {
