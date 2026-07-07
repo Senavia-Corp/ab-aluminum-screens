@@ -1,7 +1,6 @@
 // County grouping for the service-area cities (the CMS has no county field).
-// Palm Beach is a real service county but has no `serviceArea` Sanity docs yet — when the owner adds
-// them, list each new slug here under 'Palm Beach' and it appears in the index + footer automatically.
-// {{PENDIENTE: Palm Beach city serviceArea docs + slugs}}
+// Each slug listed under its county renders in the index + footer automatically once its
+// `serviceArea` doc exists in Sanity. Add new city slugs to the matching county block.
 export const COUNTY_BY_SLUG: Record<string, 'Miami-Dade' | 'Broward' | 'Palm Beach'> = {
   // Miami-Dade
   aventura: 'Miami-Dade',
@@ -37,6 +36,22 @@ export const COUNTY_BY_SLUG: Record<string, 'Miami-Dade' | 'Broward' | 'Palm Bea
   'pompano-beach': 'Broward',
   sunrise: 'Broward',
   weston: 'Broward',
+  // Palm Beach
+  'west-palm-beach': 'Palm Beach',
+  'boca-raton': 'Palm Beach',
+  'boynton-beach': 'Palm Beach',
+  'delray-beach': 'Palm Beach',
+  jupiter: 'Palm Beach',
+  'palm-beach-gardens': 'Palm Beach',
+  wellington: 'Palm Beach',
+  'royal-palm-beach': 'Palm Beach',
+  'lake-worth-beach': 'Palm Beach',
+  greenacres: 'Palm Beach',
+  'riviera-beach': 'Palm Beach',
+  'palm-beach': 'Palm Beach',
+  'juno-beach': 'Palm Beach',
+  tequesta: 'Palm Beach',
+  lantana: 'Palm Beach',
 };
 
 // Palm Beach is listed so the index/footer render it in order as soon as it has cities above.
