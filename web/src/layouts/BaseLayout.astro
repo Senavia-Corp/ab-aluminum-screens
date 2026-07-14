@@ -90,6 +90,20 @@ const extraJsonLd = jsonLd
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-MBXMC32G');</script>
     <!-- End Google Tag Manager -->
+
+    <!-- Google Ads (AW-16651639489) — gtag.js base + phone-conversion number swap (EN/ES) -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=AW-16651639489"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'AW-16651639489');
+      // GFN swap — phone_conversion_number MUST match the displayed text exactly (from src/lib/nav.ts)
+      gtag('config', 'AW-16651639489/VUwpCOjwvdAcEMG1j4Q-', { 'phone_conversion_number': '(786) 383-6066' });
+      gtag('config', 'AW-16651639489/T9bmCOvwvdAcEMG1j4Q-', { 'phone_conversion_number': '(786) 340-5157' });
+    </script>
+    <!-- End Google Ads -->
+
     <meta name="google-site-verification" content="wBbdv9K06wOEVLs-FsQyacBD9eo2GdhmCyGPOsZw8jU" />
 
     <link rel="preload" href={lato700Url} as="font" type="font/woff2" crossorigin />
