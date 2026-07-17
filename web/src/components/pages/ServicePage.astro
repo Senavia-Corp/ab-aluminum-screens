@@ -242,7 +242,7 @@ const areaIntro =
     image={SVC_IMG[route]}
     imageAlt={`${meta.label[lang]} — AB Aluminum & Screens, South Florida`}
     chips={[
-      { icon: 'ruler', value: `from $${perSqft}/sq ft`, label: lang === 'es' ? 'instalado' : 'installed' },
+      { icon: 'ruler', value: lang === 'es' ? `desde $${perSqft}/pie²` : `from $${perSqft}/sq ft`, label: lang === 'es' ? 'instalado' : 'installed' },
       { icon: 'wind', value: '175 mph', label: lang === 'es' ? 'resistencia HVHZ' : 'HVHZ wind-rated' },
       { icon: 'clock', value: lang === 'es' ? '2–4 sem' : '2–4 wks', label: lang === 'es' ? 'construcción típica' : 'typical build' },
       { icon: 'box', value: lang === 'es' ? 'Gratis' : 'Free', label: lang === 'es' ? 'diseño 3D' : '3D design' },
