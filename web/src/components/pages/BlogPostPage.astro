@@ -6,6 +6,7 @@ import { ORG_ID, SITE_ORIGIN } from '../../lib/seo';
 import Breadcrumbs from '../Breadcrumbs.astro';
 import SanityImg from '../SanityImg.astro';
 import PortableText from '../PortableText.astro';
+import { SERVICES } from '../../lib/nav';
 
 interface Props {
   lang: Lang;
@@ -22,6 +23,16 @@ const cat = post?.category;
 const catTitle = cat ? loc<string>(cat, 'title', lang) || cat.title : '';
 const seo = (lang === 'es' && post?.seoEs) || post?.seo || {};
 const related = await getRelatedPosts(cat?.slug, slug, 3);
+
+// Internal link: funnel ranking blog equity to the matching service page (category slug == service slug).
+const CATEGORY_TO_SERVICE: Record<string, string> = {
+  'louvered-roofs': 'louvered-roof-system',
+  'pergolas-patio-covers': 'aluminum-pergolas',
+  'pool-enclosures': 'pool-enclosure',
+  'screen-rooms': 'patio-screens',
+};
+const svcRoute = cat?.slug ? CATEGORY_TO_SERVICE[cat.slug] : undefined;
+const svcMeta = svcRoute ? SERVICES.find((s) => s.route === svcRoute) : undefined;
 
 const author = post?.author || 'AB Aluminum & Screens Team';
 
@@ -94,6 +105,11 @@ const relatedLabel = lang === 'es' ? 'Artículos relacionados' : 'Related articl
         <div class="post__cta">
           <h3>{midCta}</h3>
           <a class="btn btn--primary" href={localizedHref('/contact-us', lang)}>{t('cta.requestEstimate')}</a>
+          {svcMeta && (
+            <a class="btn btn--secondary" href={localizedHref('/' + svcRoute, lang)} style="margin-top:0.75rem;">
+              {lang === 'es' ? `Ver nuestro servicio de ${svcMeta.label[lang]}` : `Explore our ${svcMeta.label[lang]} service`}
+            </a>
+          )}
         </div>
       </div>
     </div>

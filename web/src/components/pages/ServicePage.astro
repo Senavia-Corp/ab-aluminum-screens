@@ -13,6 +13,7 @@ import {
   type EstimateInput,
 } from '../../lib/pricing';
 import Breadcrumbs from '../Breadcrumbs.astro';
+import TrustBadges from '../TrustBadges.astro';
 import SanityImg from '../SanityImg.astro';
 import PortableText from '../PortableText.astro';
 import AnswerBlock from '../AnswerBlock.astro';
@@ -176,20 +177,20 @@ const SVC: Record<ServiceRoute, {
     },
   },
   'louvered-roof-system': {
-    serviceType: { en: 'Motorized louvered roof installation', es: 'Instalación de techos de lamas motorizados' },
-    answerQ: { en: 'How much does a motorized louvered roof cost in South Florida?', es: '¿Cuánto cuesta un techo de lamas motorizado en el sur de Florida?' },
+    serviceType: { en: 'Motorized louvered pergola installation', es: 'Instalación de pérgolas de lamas motorizadas' },
+    answerQ: { en: 'How much does a motorized louvered pergola cost in South Florida?', es: '¿Cuánto cuesta una pérgola de lamas motorizada en el sur de Florida?' },
     answerA: {
-      en: `A motorized louvered roof typically runs ${rangeText} installed, from about $${perSqft}/sq ft. The aluminum louvers tilt open for sun and close at the first drop of rain. Price includes 3D design, sealed engineering, Miami-Dade HVHZ permits and installation by our licensed in-house crew.`,
-      es: `Un techo de lamas motorizado cuesta normalmente ${rangeText} instalado, desde unos $${perSqft}/pie². Las lamas de aluminio se abren al sol y se cierran con la primera gota de lluvia. El precio incluye diseño 3D, ingeniería sellada, permisos HVHZ de Miami-Dade e instalación por nuestro equipo con licencia.`,
+      en: `A motorized louvered pergola typically runs ${rangeText} installed, from about $${perSqft}/sq ft. The aluminum louvers tilt open for sun and close at the first drop of rain. Price includes 3D design, sealed engineering, Miami-Dade HVHZ permits and installation by our licensed in-house crew.`,
+      es: `Una pérgola de lamas motorizada cuesta normalmente ${rangeText} instalada, desde unos $${perSqft}/pie². Las lamas de aluminio se abren al sol y se cierran con la primera gota de lluvia. El precio incluye diseño 3D, ingeniería sellada, permisos HVHZ de Miami-Dade e instalación por nuestro equipo con licencia.`,
     },
     faqs: {
       en: [
-        { q: 'How much does a motorized louvered roof cost?', a: `Motorized louvered roofs typically run ${rangeText} installed, from about $${perSqft} per square foot — the premium option for full sun-and-rain control. Final price depends on size, motor and add-ons, confirmed with a free 3D design.` },
+        { q: 'How much does a motorized louvered pergola cost?', a: `Motorized louvered pergolas typically run ${rangeText} installed, from about $${perSqft} per square foot — the premium option for full sun-and-rain control. Final price depends on size, motor and add-ons, confirmed with a free 3D design.` },
         { q: 'Do louvered roofs handle Florida rain and wind?', a: 'Yes. The louvers close to a sealed roof against rain and are engineered to the Miami-Dade HVHZ wind-load code. Many systems include rain sensors that close the roof automatically.' },
         { q: 'Can I add lighting or screens to a louvered roof?', a: 'Yes. Integrated LED lighting, fans and motorized or fixed screens are popular add-ons. We design the structure around the extras you want and quote it transparently.' },
       ],
       es: [
-        { q: '¿Cuánto cuesta un techo de lamas motorizado?', a: `Los techos de lamas motorizados cuestan normalmente ${rangeText} instalados, desde unos $${perSqft} por pie² — la opción premium para control total de sol y lluvia. El precio depende del tamaño, el motor y los extras, confirmado con diseño 3D gratis.` },
+        { q: '¿Cuánto cuesta una pérgola de lamas motorizada?', a: `Las pérgolas de lamas motorizadas cuestan normalmente ${rangeText} instaladas, desde unos $${perSqft} por pie² — la opción premium para control total de sol y lluvia. El precio depende del tamaño, el motor y los extras, confirmado con diseño 3D gratis.` },
         { q: '¿Resisten la lluvia y el viento de Florida?', a: 'Sí. Las lamas se cierran formando un techo sellado contra la lluvia y se calculan según el código de viento HVHZ de Miami-Dade. Muchos sistemas incluyen sensores que cierran el techo automáticamente.' },
         { q: '¿Puedo agregar iluminación o malla?', a: 'Sí. La iluminación LED integrada, los ventiladores y las mallas fijas o motorizadas son extras populares. Diseñamos la estructura según los extras que quieras y lo cotizamos con transparencia.' },
       ],
@@ -228,6 +229,7 @@ const areaIntro =
       <h1>{heroLoc.heading || meta.label[lang]}</h1>
       {heroLoc.paragraph && <p class="svc-hero__sub">{heroLoc.paragraph}</p>}
       <a class="btn btn--primary btn--lg" href={localizedHref('/contact-us', lang)}>{t('cta.requestEstimate')}</a>
+      <TrustBadges lang={lang} variant="hero" reveal={false} class="svc-hero__badges" />
     </div>
   </section>
 
@@ -240,7 +242,7 @@ const areaIntro =
     image={SVC_IMG[route]}
     imageAlt={`${meta.label[lang]} — AB Aluminum & Screens, South Florida`}
     chips={[
-      { icon: 'ruler', value: `from $${perSqft}/sq ft`, label: lang === 'es' ? 'instalado' : 'installed' },
+      { icon: 'ruler', value: lang === 'es' ? `desde $${perSqft}/pie²` : `from $${perSqft}/sq ft`, label: lang === 'es' ? 'instalado' : 'installed' },
       { icon: 'wind', value: '175 mph', label: lang === 'es' ? 'resistencia HVHZ' : 'HVHZ wind-rated' },
       { icon: 'clock', value: lang === 'es' ? '2–4 sem' : '2–4 wks', label: lang === 'es' ? 'construcción típica' : 'typical build' },
       { icon: 'box', value: lang === 'es' ? 'Gratis' : 'Free', label: lang === 'es' ? 'diseño 3D' : '3D design' },
@@ -430,6 +432,11 @@ const areaIntro =
     max-width: 600px;
     color: rgba(255, 255, 255, 0.92);
     text-wrap: pretty;
+  }
+  /* :global — the <ul> is rendered by the TrustBadges child, outside this component's scope */
+  .svc-hero :global(.svc-hero__badges) {
+    justify-content: center;
+    margin-top: 1.6rem;
   }
   :global(.svc-strip-img) {
     width: 100%;
