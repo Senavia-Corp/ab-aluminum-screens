@@ -162,13 +162,13 @@ const about = [
 </div>
 
 <!-- Mobile sticky bottom bar -->
-<div class="bottombar">
+<nav class="bottombar" aria-label={lang === 'es' ? 'Acciones rápidas' : 'Quick actions'}>
   <a class="bottombar__btn" href={`tel:${phone.tel}`}>
     <span class="phone-ico" aria-hidden="true"></span>
     {t('cta.call')}
   </a>
   <a class="bottombar__btn bottombar__btn--cta" href={h('/contact-us')}>{t('cta.getFreeQuote')}</a>
-</div>
+</nav>
 
 <style>
   .hdr {

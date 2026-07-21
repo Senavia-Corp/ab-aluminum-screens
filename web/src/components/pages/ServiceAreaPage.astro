@@ -2,7 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { useT, localizedHref, loc, type Lang } from '../../lib/i18n';
 import { SERVICES } from '../../lib/nav';
-import { getServiceArea, getServiceAreas } from '../../lib/queries';
+import { getServiceArea, getServiceAreas, getLocalServiceRoutesForCity } from '../../lib/queries';
 import { COUNTY_BY_SLUG } from '../../lib/areas';
 import { BUSINESS_ID, SITE_ORIGIN } from '../../lib/seo';
 import { DEFAULT_PRICING, estimateBreakdown, formatUSD } from '../../lib/pricing';
@@ -22,6 +22,8 @@ interface Props {
 }
 const { lang, slug } = Astro.props;
 const area = await getServiceArea(slug);
+// Services that have a dedicated landing page for THIS city → deep-link the cards to them.
+const localRoutes = new Set<string>(await getLocalServiceRoutesForCity(slug));
 const t = useT(lang);
 
 const cityName = loc<string>(area, 'title', lang) || area?.title || slug;
@@ -130,10 +132,13 @@ const nearbyH2 = lang === 'es' ? 'Áreas Cercanas que Atendemos' : 'Nearby Areas
       <div class="grid cols-4" style="margin-top:2rem;">
         {
           SERVICES.map((s, i) => (
-            <a class="card area-svc" href={localizedHref('/' + s.route, lang)}>
+            <a
+              class="card area-svc"
+              href={localizedHref(localRoutes.has(s.route) ? '/' + s.route + '/' + slug : '/' + s.route, lang)}
+            >
               <img src={s.thumb} alt={s.label[lang]} width="320" height="200" loading="lazy" />
               <div class="area-svc__body">
-                <h3>{s.label[lang]}</h3>
+                <h3>{s.label[lang]} {localRoutes.has(s.route) ? (lang === 'es' ? 'en ' + cityName : 'in ' + cityName) : ''}</h3>
                 <p>{services[i]?.paragraph || s.blurb[lang]}</p>
               </div>
             </a>

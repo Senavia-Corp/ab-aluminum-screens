@@ -27,7 +27,7 @@ const stats: {
         <div class="stat" data-reveal style={`--reveal-delay:${i * 90}ms`}>
           <Icon name={s.icon} size={28} class="stat__icon" />
           <div class="stat__num">
-            <span data-count={s.count} data-count-suffix={s.suffix}>0{s.suffix}</span>
+            <span data-count={s.count} data-count-suffix={s.suffix}>{s.count}{s.suffix}</span>
           </div>
           <div class="stat__label">{s.label[lang]}</div>
         </div>

@@ -30,6 +30,7 @@ const perPool = DEFAULT_PRICING.structures['pool-enclosure'].basePerSqft;
 const copy = {
   en: {
     title: "South Florida's Aluminum Pergola, Pool Enclosure & Screen Room Contractors",
+    metaTitle: 'Pergola & Pool Enclosure Contractors in South Florida | AB Aluminum',
     eyebrow: 'Licensed Outdoor Living Contractor · Miami-Dade · Broward · Palm Beach',
     tag: 'Financing available',
     sub: 'AB Aluminum & Screens designs, permits and installs custom aluminum pergolas, pool screen enclosures, patio screen rooms and motorized louvered roofs across South Florida. Every project starts with a free 3D design consultation.',
@@ -50,6 +51,7 @@ const copy = {
   },
   es: {
     title: 'Contratistas de Pérgolas de Aluminio, Cerramientos de Piscina y Porches en el Sur de Florida',
+    metaTitle: 'Contratistas de Pérgolas y Cerramientos de Piscina — Sur de Florida | AB Aluminum',
     eyebrow: 'Contratista con Licencia · Miami-Dade · Broward · Palm Beach',
     tag: 'Financiamiento disponible',
     sub: 'AB Aluminum & Screens diseña, tramita permisos e instala pérgolas de aluminio a medida, cerramientos de piscina, porches con malla y techos de lamas motorizados en el sur de Florida. Cada proyecto comienza con una consulta de diseño 3D gratis.',
@@ -81,7 +83,7 @@ const heroPoster = await getImage({
 });
 ---
 
-<BaseLayout lang={lang} title={`AB Aluminum & Screens | ${c.title}`} description={c.sub}>
+<BaseLayout lang={lang} title={c.metaTitle} description={c.sub}>
   <link
     slot="head"
     rel="preload"

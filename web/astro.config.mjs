@@ -43,6 +43,8 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
+      // thank-you pages are noindex conversion confirmations — keep them out of the sitemap too.
+      filter: (page) => !/\/thank-you\/?$/.test(page),
       i18n: {
         defaultLocale: 'en',
         locales: { en: 'en', es: 'es' },
