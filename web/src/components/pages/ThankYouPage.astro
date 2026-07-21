@@ -39,6 +39,16 @@ const t = useT(lang);
   <script is:inline>
     (function () {
       var dl = (window.dataLayer = window.dataLayer || []);
+      // Only fire for a genuine post-submit landing. LeadForm/Estimator set 'ab_lead' right before
+      // redirecting; consume it once so a refresh, back-button, or direct/bookmarked visit to
+      // /thank-you does NOT fire a phantom conversion. Fail-open if sessionStorage is unavailable.
+      var fire = true;
+      try {
+        fire = sessionStorage.getItem('ab_lead') === '1';
+        if (fire) sessionStorage.removeItem('ab_lead');
+      } catch (e) { fire = true; }
+      if (!fire) return;
+
       var value, isEst = false;
       try {
         var est = JSON.parse(sessionStorage.getItem('ab_estimate') || 'null');
