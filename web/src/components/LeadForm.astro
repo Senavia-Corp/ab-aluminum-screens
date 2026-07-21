@@ -190,6 +190,11 @@ const timelines = [
           }),
         });
         if (!res.ok) throw new Error('bad status');
+        // ponytail: only a genuinely saved lead returns an id. The honeypot and time-trap
+        // in api/lead.ts return 200 {ok:true} WITHOUT an id (silent bot no-op), so gating on
+        // res.ok alone redirected bots to /thank-you and fired a phantom Ads conversion.
+        const result = await res.json().catch(() => ({}));
+        if (!result.id) throw new Error('not saved');
         const home = locale === 'es' ? '/es/thank-you' : '/thank-you';
         window.location.href = home;
       } catch {
