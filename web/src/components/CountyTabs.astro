@@ -1,0 +1,397 @@
+---
+/**
+ * Directory of per-service city landing pages, organized as county tabs + a live
+ * "find your city" filter. Data-driven from groupAreasByCounty(cities) so it serves
+ * any service. Framework-free (bundled script, data-* hooks). All city links stay in
+ * the DOM (SEO + verify gate). ponytail: hidden-attr tabs, no island runtime.
+ */
+import { groupAreasByCounty } from '../lib/areas';
+import { SERVICES } from '../lib/nav';
+import { localizedHref, type Lang } from '../lib/i18n';
+import type { ServiceRoute } from '../lib/routes';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Lang;
+  route: ServiceRoute;
+  cities: { slug: string; title: string; titleEs?: string }[];
+}
+const { lang, route, cities } = Astro.props;
+const groups = groupAreasByCounty(cities);
+const svcLabel = SERVICES.find((s) => s.route === route)?.label[lang] ?? '';
+const inWord = lang === 'es' ? 'en' : 'in';
+const t = {
+  searchLabel: lang === 'es' ? 'Encuentra tu ciudad' : 'Find your city',
+  searchPh: lang === 'es' ? 'Escribe tu ciudad…' : 'Type your city…',
+  noResults: lang === 'es' ? 'No hay ciudades que coincidan con tu búsqueda.' : 'No cities match your search.',
+  tablist: lang === 'es' ? 'Ciudades por condado' : 'Cities by county',
+};
+---
+
+<div class="ctab" data-ctab data-reveal>
+  <div class="ctab__search">
+    <Icon name="search" size={18} class="ctab__search-i" />
+    <input
+      type="search"
+      class="ctab__input"
+      data-ctab-search
+      placeholder={t.searchPh}
+      aria-label={t.searchLabel}
+      autocomplete="off"
+      enterkeyhint="search"
+    />
+  </div>
+
+  <div class="ctab__tabs" role="tablist" aria-label={t.tablist} data-ctab-tabs>
+    {
+      groups.map((g, i) => (
+        <button
+          type="button"
+          role="tab"
+          id={`ctab-${route}-tab-${i}`}
+          class="ctab__tab"
+          aria-selected={i === 0 ? 'true' : 'false'}
+          aria-controls={`ctab-${route}-panel-${i}`}
+          tabindex={i === 0 ? 0 : -1}
+          data-ctab-tab={i}
+        >
+          {g.county}
+          <span class="ctab__count">{g.cities.length}</span>
+        </button>
+      ))
+    }
+  </div>
+
+  <div class="ctab__panels">
+    {
+      groups.map((g, i) => (
+        <div
+          role="tabpanel"
+          id={`ctab-${route}-panel-${i}`}
+          aria-labelledby={`ctab-${route}-tab-${i}`}
+          class="ctab__panel"
+          data-ctab-panel={i}
+          hidden={i !== 0}
+        >
+          <p class="ctab__panel-label">{g.county}</p>
+          <div class="ctab__grid">
+            {g.cities.map((c: any) => {
+              const name = (lang === 'es' && c.titleEs) || c.title;
+              return (
+                <a
+                  class="ctab-card"
+                  href={localizedHref('/' + route + '/' + c.slug, lang)}
+                  data-city={name.toLowerCase()}
+                  aria-label={`${svcLabel} ${inWord} ${name}`}
+                >
+                  <span class="ctab-card__pin">
+                    <Icon name="map-pin" size={18} />
+                  </span>
+                  <span class="ctab-card__text">
+                    <span class="ctab-card__city">{name}</span>
+                    <span class="ctab-card__svc">{svcLabel}</span>
+                  </span>
+                  <Icon name="arrow-right" size={16} class="ctab-card__arrow" />
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      ))
+    }
+    <p class="ctab__empty" data-ctab-empty hidden>{t.noResults}</p>
+  </div>
+</div>
+
+<style>
+  .ctab {
+    margin-top: 2rem;
+    text-align: left;
+  }
+
+  /* Search */
+  .ctab__search {
+    position: relative;
+    max-width: 420px;
+    margin: 0 auto 1.75rem;
+  }
+  .ctab__search-i {
+    position: absolute;
+    left: 0.9rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    pointer-events: none;
+  }
+  .ctab__input {
+    width: 100%;
+    padding: 0.72rem 1rem 0.72rem 2.7rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--text);
+    font: inherit;
+    font-size: 0.95rem;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+  }
+  .ctab__input::placeholder {
+    color: var(--muted);
+  }
+  .ctab__input:focus-visible {
+    outline: none;
+    border-color: var(--red);
+    box-shadow: var(--ring);
+  }
+
+  /* Tabs */
+  .ctab__tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-bottom: 1.9rem;
+  }
+  .ctab__tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 1.1rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--text);
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
+  }
+  .ctab__tab:hover {
+    border-color: var(--red);
+    color: var(--red);
+  }
+  .ctab__tab[aria-selected='true'] {
+    border-color: var(--red);
+    color: var(--red);
+    background: rgba(236, 60, 61, 0.08);
+  }
+  .ctab__tab:focus-visible {
+    outline: none;
+    box-shadow: var(--ring);
+  }
+  .ctab__count {
+    min-width: 1.5em;
+    height: 1.5em;
+    padding: 0 0.4em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: var(--light-gray);
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+  .ctab__tab[aria-selected='true'] .ctab__count {
+    background: var(--red);
+    color: #fff;
+  }
+
+  /* Panels + search states */
+  .ctab__panel-label {
+    display: none;
+    margin: 0 0 0.9rem;
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .ctab.is-searching .ctab__tabs {
+    display: none;
+  }
+  .ctab.is-searching .ctab__panel-label {
+    display: block;
+  }
+  .ctab.is-searching .ctab__panel + .ctab__panel {
+    margin-top: 1.75rem;
+  }
+
+  /* City card grid */
+  .ctab__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.85rem;
+  }
+  /* [hidden] must beat the author `display` below (UA [hidden] rule would otherwise lose) */
+  .ctab-card[hidden],
+  .ctab__panel[hidden] {
+    display: none;
+  }
+  .ctab-card {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.18s ease, transform 0.18s ease;
+  }
+  .ctab-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: linear-gradient(135deg, var(--red), var(--blue));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.25s var(--ease);
+    z-index: 3;
+    pointer-events: none;
+  }
+  .ctab-card:hover {
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+  }
+  .ctab-card:hover::before {
+    opacity: 1;
+  }
+  .ctab-card:focus-visible {
+    outline: none;
+    box-shadow: var(--ring);
+  }
+  .ctab-card__pin {
+    flex: none;
+    display: inline-flex;
+    color: var(--red);
+  }
+  .ctab-card__text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+  .ctab-card__city {
+    font-weight: 700;
+    font-size: 0.95rem;
+    line-height: 1.2;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .ctab-card__svc {
+    font-size: 0.78rem;
+    color: var(--muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .ctab-card__arrow {
+    flex: none;
+    color: var(--muted);
+    transition: transform 0.25s var(--ease), color 0.25s var(--ease);
+  }
+  .ctab-card:hover .ctab-card__arrow {
+    transform: translateX(3px);
+    color: var(--red);
+  }
+
+  .ctab__empty {
+    text-align: center;
+    color: var(--muted);
+    padding: 1.75rem 0;
+  }
+
+  @media (max-width: 560px) {
+    .ctab__tabs {
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 0.35rem;
+    }
+    .ctab__tab {
+      flex: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ctab-card,
+    .ctab-card::before,
+    .ctab-card__arrow,
+    .ctab__input,
+    .ctab__tab {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-ctab]').forEach((root) => {
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-ctab-tab]'));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>('[data-ctab-panel]'));
+    const tablist = root.querySelector<HTMLElement>('[data-ctab-tabs]');
+    const search = root.querySelector<HTMLInputElement>('[data-ctab-search]');
+    const empty = root.querySelector<HTMLElement>('[data-ctab-empty]');
+    const allCards = Array.from(root.querySelectorAll<HTMLElement>('.ctab-card'));
+    let active = 0;
+
+    function setActive(i: number) {
+      active = i;
+      tabs.forEach((tab, idx) => {
+        const on = idx === i;
+        tab.setAttribute('aria-selected', on ? 'true' : 'false');
+        tab.tabIndex = on ? 0 : -1;
+      });
+      panels.forEach((panel, idx) => {
+        panel.hidden = idx !== i;
+      });
+    }
+
+    tabs.forEach((tab, i) => tab.addEventListener('click', () => setActive(i)));
+
+    tablist?.addEventListener('keydown', (e) => {
+      if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(e.key)) return;
+      e.preventDefault();
+      let i = active;
+      if (e.key === 'Home') i = 0;
+      else if (e.key === 'End') i = tabs.length - 1;
+      else i = (active + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+      setActive(i);
+      tabs[i].focus();
+    });
+
+    search?.addEventListener('input', () => {
+      const q = search.value.trim().toLowerCase();
+      if (!q) {
+        root.classList.remove('is-searching');
+        allCards.forEach((c) => (c.hidden = false));
+        if (empty) empty.hidden = true;
+        setActive(active);
+        return;
+      }
+      root.classList.add('is-searching');
+      let total = 0;
+      panels.forEach((panel) => {
+        let shown = 0;
+        panel.querySelectorAll<HTMLElement>('.ctab-card').forEach((card) => {
+          const match = (card.dataset.city || '').includes(q);
+          card.hidden = !match;
+          if (match) shown++;
+        });
+        panel.hidden = shown === 0;
+        total += shown;
+      });
+      if (empty) empty.hidden = total !== 0;
+    });
+  });
+</script>
