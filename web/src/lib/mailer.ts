@@ -157,7 +157,7 @@ function internalEmail(lead: Lead, payload: Record<string, unknown>): { subject:
 
   // Any other non-empty scalar fields we don't render explicitly (arrays join; objects never dump raw).
   const known = new Set([
-    'company_url', 'name', 'fullName', 'email', 'phone', 'city', 'zip', 'interest', 'timeline', 'message',
+    'ref_id', 'name', 'fullName', 'email', 'phone', 'city', 'zip', 'interest', 'timeline', 'message',
     'structure', 'sqft', 'dimensions', 'material', 'attachment', 'roofType', 'operation', 'cageStyle',
     'height', 'subtype', 'mesh', 'addons', 'addonLabels', 'summary', 'breakdown', 'estimateLow', 'estimateHigh',
   ]);

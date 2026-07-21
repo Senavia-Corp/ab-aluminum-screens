@@ -67,8 +67,8 @@ const timelines = [
   </div>
   {/* Honeypot — hidden from humans & a11y tree; bots that fill it get a silent no-op server-side. */}
   <div class="lead-form__hp" aria-hidden="true">
-    <label for="lf-company-url">Company URL</label>
-    <input id="lf-company-url" name="company_url" type="text" tabindex="-1" autocomplete="off" />
+    <label for="lf-ref">Reference</label>
+    <input id="lf-ref" name="ref_id" type="text" tabindex="-1" autocomplete="off" />
   </div>
   {/* Cloudflare Turnstile — invisible/managed human check; injects a hidden cf-turnstile-response token. */}
   <div class="cf-turnstile lead-form__ts" data-sitekey={TURNSTILE_SITE_KEY} data-size="flexible"></div>

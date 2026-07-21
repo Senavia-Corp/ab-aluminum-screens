@@ -90,13 +90,15 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     // Honeypot: a real user never fills this hidden field. Pretend success, write nothing.
-    if (payload.company_url) {
+    // ponytail: field renamed company_url -> ref_id so password managers don't autofill it and drop a real user.
+    if (payload.ref_id) {
       return json({ ok: true });
     }
 
-    // Time-trap: humans take more than a couple seconds to fill a form; instant submits are bots.
-    // Silent no-op like the honeypot (don't tip off the bot). Only applies when the client sent timing.
-    if (elapsedMs && elapsedMs < 2500) {
+    // Time-trap: a human can't fill + submit this form in under ~1s even with autofill (still has to click);
+    // sub-1s submits are scripted bots. Silent no-op like the honeypot. Only applies when the client sent timing.
+    // ponytail: 1000ms (was 2500ms, which dropped fast autofill users); Turnstile is the real bot gate.
+    if (elapsedMs && elapsedMs < 1000) {
       return json({ ok: true });
     }
 
