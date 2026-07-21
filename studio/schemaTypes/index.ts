@@ -6,6 +6,7 @@ import {service} from './documents/service'
 import {blogPost} from './documents/blogPost'
 import {blogCategory} from './documents/blogCategory'
 import {serviceArea} from './documents/serviceArea'
+import {localService} from './documents/localService'
 import {galleryCollection} from './documents/galleryCollection'
 import {projectVideo} from './documents/projectVideo'
 import {pricingConfig} from './documents/pricingConfig'
@@ -21,6 +22,7 @@ export const schemaTypes = [
   blogPost,
   blogCategory,
   serviceArea,
+  localService,
   galleryCollection,
   projectVideo,
   pricingConfig,

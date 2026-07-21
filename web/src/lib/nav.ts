@@ -79,8 +79,8 @@ export const SYNCHRONY = 'https://www.mysynchrony.com/mmc/HQ232228300';
 export const SENAVIA = 'https://www.senaviacorp.com/';
 
 // Footer service-area columns — slugs validated against the live serviceArea docs.
-// Palm Beach is a service county but has no serviceArea docs yet — add a third { county: Palm Beach, cities }
-// block here once those docs exist (so footer links resolve, not 404). {{PENDIENTE: Palm Beach city docs}}
+// All three counties have live serviceArea docs; the full 47-city list renders on /service-areas,
+// while the footer shows a curated subset per county for link equity.
 export const FOOTER_AREAS: { county: { en: string; es: string }; cities: { slug: string; name: string }[] }[] = [
   {
     county: { en: 'Miami-Dade', es: 'Miami-Dade' },
@@ -102,6 +102,17 @@ export const FOOTER_AREAS: { county: { en: string; es: string }; cities: { slug:
       { slug: 'cooper-city', name: 'Cooper City' },
       { slug: 'plantation', name: 'Plantation' },
       { slug: 'pembroke-pines', name: 'Pembroke Pines' },
+    ],
+  },
+  {
+    county: { en: 'Palm Beach', es: 'Palm Beach' },
+    cities: [
+      { slug: 'west-palm-beach', name: 'West Palm Beach' },
+      { slug: 'boca-raton', name: 'Boca Raton' },
+      { slug: 'delray-beach', name: 'Delray Beach' },
+      { slug: 'boynton-beach', name: 'Boynton Beach' },
+      { slug: 'jupiter', name: 'Jupiter' },
+      { slug: 'wellington', name: 'Wellington' },
     ],
   },
 ];

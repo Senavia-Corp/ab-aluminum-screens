@@ -15,6 +15,7 @@ const items = TESTIMONIALS.slice(0, limit);
 const badgeText = lang === 'es' ? 'Basado en reseñas de Google' : 'Based on Google reviews';
 const prevLabel = lang === 'es' ? 'Anterior' : 'Previous';
 const nextLabel = lang === 'es' ? 'Siguiente' : 'Next';
+const trackLabel = lang === 'es' ? 'Reseñas de clientes' : 'Customer reviews';
 ---
 <section class:list={['section', { 'section--alt': alt }]}>
   <div class="container">
@@ -33,7 +34,7 @@ const nextLabel = lang === 'es' ? 'Siguiente' : 'Next';
     <div class="reviews-embed" data-reviews-widget aria-hidden="true"></div>
 
     <div class="rev" data-reveal>
-      <div class="rev-track" data-rev-track tabindex="0">
+      <div class="rev-track" data-rev-track tabindex="0" role="group" aria-label={trackLabel}>
         {
           items.map((r) => (
             <figure class="card review">

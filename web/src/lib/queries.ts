@@ -1,4 +1,5 @@
 import { sanity } from './sanity';
+import { SERVICE_ROUTE_TO_SLUG, type ServiceRoute } from './routes';
 
 // Reusable GROQ fragments
 const IMG = `{ ..., "alt": alt }`;
@@ -92,6 +93,59 @@ export function getServiceArea(slug: string) {
 export function getServiceAreas() {
   return sanity.fetch(
     `*[_type=="serviceArea"] | order(title asc){ title, titleEs, "slug": slug.current }`,
+  );
+}
+
+// ---------- Local service pages (service × city) ----------
+// One fetch: the localService copy doc + the parent `service` doc's shared images.
+export function getLocalService(route: ServiceRoute, citySlug: string) {
+  const serviceSlug = SERVICE_ROUTE_TO_SLUG[route];
+  return sanity.fetch(
+    `*[_type=="localService" && serviceRoute==$route && city->slug.current==$city][0]{
+      serviceRoute, "citySlug": city->slug.current, "cityTitle": city->title, "cityTitleEs": city->titleEs,
+      h1, h1Es, heroParagraph, heroParagraphEs, heroImageAlt, heroImageAltEs, introHeading, introHeadingEs,
+      valueParagraphs[]{ paragraph }, valueParagraphsEs[]{ paragraph }, neighborhoods,
+      permitNote, permitNoteEs, localProof, localProofEs, priceRangeNote, priceRangeNoteEs,
+      answerQuestion, answerQuestionEs, answerAnswer, answerAnswerEs,
+      faqs[]{ "q": question, "a": answer }, faqsEs[]{ "q": question, "a": answer },
+      galleryParagraph, galleryParagraphEs, ${SEO},
+      "service": *[_type=="service" && slug.current==$serviceSlug][0]{
+        hero{ heading, paragraph, image${IMG} },
+        pageImages[]${IMG},
+        featured{ heading, body, image${IMG} }, featuredEs,
+        colors{ heading, body, image${IMG} }, colorsEs,
+        contactImage${IMG}, financingImage${IMG}
+      }
+    }`,
+    { route, city: citySlug, serviceSlug },
+  );
+}
+
+// All (service, city) combos that have a localService doc — for cross-link blocks
+// (nearby-same-service, other-services-same-city). Small; fetched once per page.
+export function getLocalServiceKeys(): Promise<{ service: string; city: string }[]> {
+  return sanity.fetch(
+    `*[_type=="localService" && defined(serviceRoute) && defined(city->slug.current)]{
+       "service": serviceRoute, "city": city->slug.current }`,
+  );
+}
+
+// Cities with a localService page for one service — the per-service "areas we serve" hub.
+export function getLocalServiceCitiesForRoute(
+  route: ServiceRoute,
+): Promise<{ slug: string; title: string; titleEs?: string }[]> {
+  return sanity.fetch(
+    `*[_type=="localService" && serviceRoute==$route && defined(city->slug.current)]{
+       "slug": city->slug.current, "title": city->title, "titleEs": city->titleEs } | order(title asc)`,
+    { route },
+  );
+}
+
+// Which services have a localService page for one city — so the city page can deep-link to them.
+export function getLocalServiceRoutesForCity(citySlug: string): Promise<string[]> {
+  return sanity.fetch(
+    `*[_type=="localService" && city->slug.current==$city].serviceRoute`,
+    { city: citySlug },
   );
 }
 

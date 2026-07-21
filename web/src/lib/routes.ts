@@ -58,6 +58,20 @@ export async function areaPaths() {
   return slugs.map((slug) => ({ params: { city: slug } }));
 }
 
+// Local service (service × city) pages — one static path per localService doc, EN + ES mirrors.
+// Rolling out a service = seeding its docs; the route fans out automatically. The SERVICE_ROUTES
+// filter guards against a stray/typo'd serviceRoute ever generating a shadowing path.
+export async function localServicePaths() {
+  const rows: { service: string; city: string }[] = await sanity.fetch(
+    `*[_type=="localService" && defined(serviceRoute) && defined(city->slug.current)]{
+       "service": serviceRoute, "city": city->slug.current }`,
+  );
+  const valid = SERVICE_ROUTES as readonly string[];
+  return rows
+    .filter((r) => valid.includes(r.service))
+    .map((r) => ({ params: { service: r.service, city: r.city } }));
+}
+
 export async function videoPaths() {
   const slugs: string[] = await sanity.fetch(
     `*[_type=="projectVideo" && defined(slug.current)].slug.current`,

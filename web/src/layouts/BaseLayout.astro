@@ -56,7 +56,7 @@ const localBusiness = {
       parentOrganization: { '@id': ORG_ID },
       image: ogImage,
       url: origin,
-      telephone: '+1-786-383-6066',
+      telephone: ['+1-786-383-6066', '+1-786-340-5157'],
       email: 'info@abaluminumandscreens.com',
       areaServed: ['Miami-Dade County', 'Broward County', 'Palm Beach County'],
       address: {
@@ -127,7 +127,13 @@ const extraJsonLd = jsonLd
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:locale" content={lang === 'es' ? 'es_US' : 'en_US'} />
+    <meta property="og:locale:alternate" content={lang === 'es' ? 'en_US' : 'es_US'} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    {description && <meta name="twitter:description" content={description} />}
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="theme-color" content="#001994" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
 
     <script type="application/ld+json" set:html={JSON.stringify(localBusiness)} />
     {extraJsonLd && <script type="application/ld+json" set:html={extraJsonLd} />}

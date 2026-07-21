@@ -1,0 +1,9 @@
+---
+import LocalServicePage from '../../../components/pages/LocalServicePage.astro';
+import { localServicePaths, type ServiceRoute } from '../../../lib/routes';
+export async function getStaticPaths() {
+  return localServicePaths();
+}
+const { service, city } = Astro.params;
+---
+<LocalServicePage lang="es" route={service as ServiceRoute} citySlug={city as string} />

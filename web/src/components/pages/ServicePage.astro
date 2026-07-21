@@ -3,7 +3,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { useT, localizedHref, loc, type Lang } from '../../lib/i18n';
 import { SERVICE_ROUTE_TO_SLUG, SERVICE_TO_GALLERY, type ServiceRoute } from '../../lib/routes';
 import { SERVICES, FOOTER_AREAS } from '../../lib/nav';
-import { getServiceBySlug } from '../../lib/queries';
+import { groupAreasByCounty } from '../../lib/areas';
+import { getServiceBySlug, getLocalServiceCitiesForRoute } from '../../lib/queries';
 import { BUSINESS_ID, SITE_ORIGIN } from '../../lib/seo';
 import {
   DEFAULT_PRICING,
@@ -32,6 +33,8 @@ interface Props {
 const { lang, route } = Astro.props;
 const slug = SERVICE_ROUTE_TO_SLUG[route];
 const service = await getServiceBySlug(slug);
+// Cities with a dedicated per-service landing page — the local-SEO hub links below.
+const localCities: { slug: string; title: string; titleEs?: string }[] = await getLocalServiceCitiesForRoute(route);
 const t = useT(lang);
 const meta = SERVICES.find((s) => s.route === route)!;
 
@@ -357,22 +360,41 @@ const areaIntro =
   <FinancingTeaser lang={lang} alt={true} />
   <Reviews lang={lang} limit={3} />
 
-  <!-- In-body internal links: service ↔ service-area (real, resolving city slugs) -->
+  <!-- In-body internal links: per-service city landing pages (fallback: generic service areas) -->
   <section class="section section--alt">
     <div class="container narrow text-center">
-      <h2>{areaH2}</h2>
+      <h2>{localCities.length ? (lang === 'es' ? `${meta.label[lang]} por Ciudad` : `${meta.label[lang]} by City`) : areaH2}</h2>
       <p class="lead" style="margin-top:0.75rem;">{areaIntro}</p>
-      <ul class="svc-areas" data-reveal>
-        {
-          areaLinks.map((city) => (
-            <li>
-              <a href={localizedHref('/service-areas/' + city.slug, lang)}>
-                {meta.label[lang]} {lang === 'es' ? 'en' : 'in'} {city.name}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
+      {
+        localCities.length ? (
+          <div class="svc-hub" data-reveal>
+            {groupAreasByCounty(localCities).map((g) => (
+              <div class="svc-hub__county">
+                <h3 class="svc-hub__h">{g.county}</h3>
+                <ul class="svc-areas">
+                  {g.cities.map((c: any) => (
+                    <li>
+                      <a href={localizedHref('/' + route + '/' + c.slug, lang)}>
+                        {meta.label[lang]} {lang === 'es' ? 'en' : 'in'} {(lang === 'es' && c.titleEs) || c.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <ul class="svc-areas" data-reveal>
+            {areaLinks.map((c) => (
+              <li>
+                <a href={localizedHref('/service-areas/' + c.slug, lang)}>
+                  {meta.label[lang]} {lang === 'es' ? 'en' : 'in'} {c.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
       <a class="btn btn--ghost" href={localizedHref('/service-areas', lang)} style="margin-top:1.5rem;">
         {lang === 'es' ? 'Ver todas las áreas' : 'View all service areas'}
       </a>
@@ -479,6 +501,21 @@ const areaIntro =
   }
   .why h3 {
     margin: 0;
+  }
+  .svc-hub {
+    margin-top: 1.75rem;
+    display: grid;
+    gap: 1.5rem;
+  }
+  .svc-hub__h {
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    margin-bottom: 0.85rem;
+  }
+  .svc-hub .svc-areas {
+    margin-top: 0;
   }
   .svc-areas {
     list-style: none;
