@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import { classifySource, type Attribution } from './attribution';
 
 // Server-only. Sends FROM the admin Gmail via SMTP (App Password). NEVER import into a prerendered page.
 const USER = import.meta.env.GMAIL_USER as string | undefined;
@@ -50,6 +51,7 @@ type Lead = {
   locale: string;
   type: string;
   sourcePage: string;
+  attribution?: Partial<Attribution>;
   photos?: unknown[];
   createdAt?: string;
 };
@@ -102,9 +104,15 @@ function internalEmail(lead: Lead, payload: Record<string, unknown>): { subject:
     rows.push(`<tr><td style="padding:10px 0;${br}font-family:Arial,Helvetica,sans-serif;font-size:13px;color:${GRAY};width:130px;vertical-align:top;">${esc(k)}</td><td style="padding:10px 0;${br}font-family:Arial,Helvetica,sans-serif;font-size:13px;color:${INK};vertical-align:top;line-height:1.5;">${valueHtml}</td></tr>`);
   };
 
+  // Lead source (Google Ads vs organic/direct/referral) — from the gclid cookie / UTM / referrer.
+  const src = classifySource(lead.attribution);
+  const srcColor = src.isPaidGoogle ? '#0b8043' : GRAY;
+  const srcHtml = `<strong style="color:${srcColor};">${esc(src.label)}</strong>${src.detail ? ` <span style="color:${GRAY};">&middot; ${esc(src.detail)}</span>` : ''}`;
+
   addRow('Name', esc(lead.name));
   addRow('Email', `<a href="mailto:${esc(lead.email)}" style="color:#185fa5;text-decoration:none;">${esc(lead.email)}</a>`);
   addRow('Phone', `<a href="tel:${esc(lead.phone)}" style="color:#185fa5;text-decoration:none;">${esc(lead.phone)}</a>`);
+  addRow('Source', srcHtml);
   const cityZip = [payload.city, payload.zip].filter(Boolean).map((v) => esc(String(v))).join(' · ');
   if (cityZip) addRow('City / Zip', cityZip);
   if (payload.interest) addRow('Interest', esc(String(payload.interest)));
@@ -184,6 +192,7 @@ Type: ${lead.type} | Page: ${lead.sourcePage || '—'} | ${when}
 Name: ${lead.name}
 Email: ${lead.email}
 Phone: ${lead.phone}
+Source: ${src.label}${src.detail ? ` (${src.detail})` : ''}
 ${cityZip ? `City/Zip: ${[payload.city, payload.zip].filter(Boolean).join(' / ')}\n` : ''}${payload.interest ? `Interest: ${payload.interest}\n` : ''}${payload.timeline ? `Timeline: ${payload.timeline}\n` : ''}${lead.photos?.length ? `Photos: ${lead.photos.length} (view in Sanity)\n` : ''}${estimateText}${payload.message ? `Message: ${payload.message}\n` : ''}`;
 
   const subjectProject = payload.interest ? ` — ${payload.interest}` : '';

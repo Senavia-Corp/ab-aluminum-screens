@@ -1555,6 +1555,7 @@ const TOTAL_STEPS = 6;
 <script>
   import { estimateBreakdown, formatUSD, DEFAULT_PRICING } from '../../lib/pricing';
   import type { BreakdownResult, EstimateInput } from '../../lib/pricing';
+  import { getAttribution } from '../../lib/attribution';
 
   const root = document.querySelector<HTMLElement>('[data-est]');
   const form = document.getElementById('est-form') as HTMLFormElement | null;
@@ -2063,6 +2064,7 @@ const TOTAL_STEPS = 6;
             locale: root.dataset.locale,
             sourcePage: location.pathname,
             payload,
+            attribution: getAttribution(),
             turnstileToken: tsId !== undefined ? ((window as any).turnstile?.getResponse(tsId) || '') : '',
           }),
         });

@@ -54,6 +54,7 @@ export const POST: APIRoute = async ({ request }) => {
     let payload: Record<string, any> = {};
     let turnstileToken = '';
     let elapsedMs = 0;
+    let attribution: Record<string, unknown> = {};
     const photoRefs: { _type: 'image'; _key: string; asset: { _type: 'reference'; _ref: string } }[] = [];
 
     if (ctype.includes('multipart/form-data')) {
@@ -65,6 +66,7 @@ export const POST: APIRoute = async ({ request }) => {
       payload = raw ? JSON.parse(String(raw)) : {};
       turnstileToken = String(fd.get('turnstileToken') || '');
       elapsedMs = Number(fd.get('elapsedMs')) || 0;
+      try { attribution = fd.get('attribution') ? JSON.parse(String(fd.get('attribution'))) : {}; } catch { attribution = {}; }
       const files = fd.getAll('photos').filter((f): f is File => f instanceof File && f.size > 0);
       // ponytail: cap at 8 photos / 8MB each — enough for a lead, bounds the function.
       for (const file of files.slice(0, 8)) {
@@ -87,6 +89,7 @@ export const POST: APIRoute = async ({ request }) => {
       payload = body.payload || body || {};
       turnstileToken = String(body.turnstileToken || '');
       elapsedMs = Number(body.elapsedMs) || 0;
+      attribution = body.attribution && typeof body.attribution === 'object' ? body.attribution : {};
     }
 
     // Honeypot: a real user never fills this hidden field. Pretend success, write nothing.
@@ -115,6 +118,16 @@ export const POST: APIRoute = async ({ request }) => {
       return json({ ok: false, error: 'Verification failed. Please refresh and try again.' }, 403);
     }
 
+    // Normalize attribution to the known keys only (string-coerced + length-capped) so the lead doc
+    // stays clean and the notification email can label the source. Never affects save/email success.
+    const a = attribution as Record<string, unknown>;
+    const s = (v: unknown, max = 200) => String(v ?? '').slice(0, max);
+    const attr = {
+      gclid: s(a.gclid), wbraid: s(a.wbraid), gbraid: s(a.gbraid),
+      utm_source: s(a.utm_source), utm_medium: s(a.utm_medium), utm_campaign: s(a.utm_campaign),
+      referrer: s(a.referrer, 500), landingPath: s(a.landingPath, 500),
+    };
+
     const doc = {
       _type: 'lead',
       name: String(name),
@@ -124,6 +137,7 @@ export const POST: APIRoute = async ({ request }) => {
       type,
       sourcePage,
       payload: JSON.stringify(payload),
+      attribution: attr,
       photos: photoRefs.length ? photoRefs : undefined,
       createdAt: new Date().toISOString(),
     };

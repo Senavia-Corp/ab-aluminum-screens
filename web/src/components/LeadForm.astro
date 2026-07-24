@@ -130,6 +130,8 @@ const timelines = [
 </style>
 
 <script>
+  import { getAttribution } from '../lib/attribution';
+
   const T = {
     en: {
       required: 'Please complete the required fields.',
@@ -185,6 +187,7 @@ const timelines = [
             locale,
             sourcePage: location.pathname,
             payload: data,
+            attribution: getAttribution(),
             turnstileToken,
             elapsedMs: Date.now() - loadedAt,
           }),
