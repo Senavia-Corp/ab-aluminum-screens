@@ -19,9 +19,9 @@
     ],
     "permitNote": "Every Miami installation includes a permit through the City of Miami (or Miami-Dade RER for unincorporated areas), sealed engineering, and Miami-Dade NOA product approval — all handled in-house by AB Aluminum.",
     "localProof": "Licensed and insured with 500+ screen and aluminum projects completed across Miami-Dade, including bayfront homes near Biscayne Bay and inland neighborhoods throughout the city.",
-    "priceRangeNote": "Most Miami patio screen enclosures fall within {range} installed, with framing and mesh priced at${perSqft}/sq ftdepending on size, height, and HVHZ engineering needs — confirmed with a free 3D design and estimate.",
+    "priceRangeNote": "Most Miami patio screen enclosures fall within {range} installed, with framing and mesh priced at ${perSqft}/sq ft depending on size, height, and HVHZ engineering needs — confirmed with a free 3D design and estimate.",
     "answerQuestion": "How much does a patio screen enclosure cost in Miami?",
-    "answerAnswer": "Miami screen enclosure pricing runs${perSqft}/sq ftdepending on frame height, mesh grade, and HVHZ engineering requirements, with most projects landing in the {range} range installed. Bayfront homes near Coconut Grove often need heavier marine-grade framing, while inland enclosures may need less reinforcement. AB Aluminum's free 3D design and estimate confirm your exact number before you commit.",
+    "answerAnswer": "Miami screen enclosure pricing runs ${perSqft}/sq ft depending on frame height, mesh grade, and HVHZ engineering requirements, with most projects landing in the {range} range installed. Bayfront homes near Coconut Grove often need heavier marine-grade framing, while inland enclosures may need less reinforcement. AB Aluminum's free 3D design and estimate confirm your exact number before you commit.",
     "faqs": [
       {
         "question": "Do I need a permit for a patio screen enclosure in Miami?",
@@ -56,9 +56,9 @@
     ],
     "permitNoteEs": "Cada instalación en Miami incluye permiso por la Ciudad de Miami (o Miami-Dade RER en áreas no incorporadas), ingeniería sellada y aprobación de producto NOA de Miami-Dade — todo gestionado internamente por AB Aluminum.",
     "localProofEs": "Licenciados y asegurados, con más de 500 proyectos de malla y aluminio completados en Miami-Dade, incluyendo hogares frente a Biscayne Bay y vecindarios tierra adentro por toda la ciudad.",
-    "priceRangeNoteEs": "La mayoría de los cerramientos de patio con malla en Miami quedan dentro de {range} instalados, con estructura y malla cotizadas a${perSqft}/pie²según tamaño, altura y requisitos de ingeniería HVHZ — confirmado con un diseño 3D y estimado gratuitos.",
+    "priceRangeNoteEs": "La mayoría de los cerramientos de patio con malla en Miami quedan dentro de {range} instalados, con estructura y malla cotizadas a ${perSqft}/pie² según tamaño, altura y requisitos de ingeniería HVHZ — confirmado con un diseño 3D y estimado gratuitos.",
     "answerQuestionEs": "¿Cuánto cuesta un cerramiento de patio con malla en Miami?",
-    "answerAnswerEs": "El precio de un cerramiento de patio con malla en Miami va desde${perSqft}/pie²según la altura del marco, el tipo de malla y los requisitos de ingeniería HVHZ, y la mayoría de los proyectos quedan dentro del rango {range} instalados. Las casas frente a la bahía cerca de Coconut Grove suelen necesitar estructura marina más resistente, mientras que tierra adentro se requiere menos refuerzo. Nuestro diseño 3D y estimado gratuitos confirman tu número exacto antes de comprometerte.",
+    "answerAnswerEs": "El precio de un cerramiento de patio con malla en Miami va desde ${perSqft}/pie² según la altura del marco, el tipo de malla y los requisitos de ingeniería HVHZ, y la mayoría de los proyectos quedan dentro del rango {range} instalados. Las casas frente a la bahía cerca de Coconut Grove suelen necesitar estructura marina más resistente, mientras que tierra adentro se requiere menos refuerzo. Nuestro diseño 3D y estimado gratuitos confirman tu número exacto antes de comprometerte.",
     "faqsEs": [
       {
         "question": "¿Necesito permiso para un cerramiento de patio con malla en Miami?",
@@ -93,7 +93,7 @@
     "valueParagraphs": [
       "Steps from the Intracoastal Waterway, Aventura's waterfront lanais at Williams Island and The Waterways face relentless mosquito and no-see-um pressure blowing in off the water — plus the salt air that pits ordinary hardware within a few seasons. Our custom patio screen enclosures use marine-grade, powder-coated aluminum framing engineered specifically for that coastal exposure, so your screened lanai stays bug-free and corrosion-free year after year. You get shaded, breathable outdoor living without the humidity, pollen or debris that make an open patio unusable most of the year.",
       "Many Aventura homes near Turnberry Isle already have a covered patio, lanai or under-truss area that's begging to be enclosed — we build the screen structure to attach cleanly to your existing roofline or freestanding, with an optional screen door or pet-containment panel. Because Miami-Dade is a High-Velocity Hurricane Zone, every enclosure is engineered to 175 mph wind loads under Miami-Dade NOA product approval and permitted through Miami-Dade RER or the Aventura building department — we handle the paperwork and HOA submittal, including at gated communities like Williams Island.",
-      "AB Aluminum & Screens is licensed and insured with 15+ years and 500+ completed projects across Miami-Dade, and every Aventura enclosure starts with a free 3D design so you can see the finished screen room before we build it. Our in-house crew installs powder-coated, marine-grade aluminum framing built to last near the water, and financing is available if you'd rather spread out the cost. Most Aventura screen enclosures run {range}, priced at roughly${perSqft}/sq ftdepending on size and configuration."
+      "AB Aluminum & Screens is licensed and insured with 15+ years and 500+ completed projects across Miami-Dade, and every Aventura enclosure starts with a free 3D design so you can see the finished screen room before we build it. Our in-house crew installs powder-coated, marine-grade aluminum framing built to last near the water, and financing is available if you'd rather spread out the cost. Most Aventura screen enclosures run {range}, priced at roughly ${perSqft}/sq ft depending on size and configuration."
     ],
     "neighborhoods": [
       "Williams Island",
@@ -104,9 +104,9 @@
     ],
     "permitNote": "Aventura falls under Miami-Dade County's High-Velocity Hurricane Zone, so every screen enclosure requires a permit, sealed structural engineering and Miami-Dade NOA product approval rated to 175 mph winds. We file with Miami-Dade RER or the City of Aventura building department and handle HOA architectural review for gated communities like Williams Island and Turnberry Isle.",
     "localProof": "Licensed and insured with 15+ years in South Florida and 500+ completed projects, our in-house crew has built screen enclosures throughout Aventura — from high-rise lanais near Aventura Mall to waterfront patios on Williams Island and Hidden Bay.",
-    "priceRangeNote": "Pricing for an Aventura screen enclosure typically falls around {range}, figured at roughly${perSqft}/sq ftbased on size, screen mesh and any Florida-room upgrades — your free 3D design comes with an exact quote.",
+    "priceRangeNote": "Pricing for an Aventura screen enclosure typically falls around {range}, figured at roughly ${perSqft}/sq ft based on size, screen mesh and any Florida-room upgrades — your free 3D design comes with an exact quote.",
     "answerQuestion": "How much does a patio screen enclosure cost in Aventura, FL?",
-    "answerAnswer": "Most Aventura screen enclosures fall around {range}, with pricing figured at roughly${perSqft}/sq ftdepending on the size of your lanai, the screen mesh you choose and any Florida-room upgrades. Every quote includes a free 3D design and covers Miami-Dade engineering, NOA product approval and permitting, so the number you see is the number you pay.",
+    "answerAnswer": "Most Aventura screen enclosures fall around {range}, with pricing figured at roughly ${perSqft}/sq ft depending on the size of your lanai, the screen mesh you choose and any Florida-room upgrades. Every quote includes a free 3D design and covers Miami-Dade engineering, NOA product approval and permitting, so the number you see is the number you pay.",
     "faqs": [
       {
         "question": "Do I need a permit for a patio screen enclosure in Aventura?",
@@ -137,13 +137,13 @@
     "valueParagraphsEs": [
       "A pocos pasos del Intracoastal Waterway, los patios frente al agua de Williams Island y The Waterways en Aventura enfrentan una presión constante de mosquitos y jejenes que llegan desde el agua, además del aire salino que corroe los herrajes comunes en pocas temporadas. Nuestros cerramientos de patio con malla usan estructuras de aluminio marino con recubrimiento en polvo diseñadas específicamente para esa exposición costera, así su porche con malla se mantiene libre de insectos y de corrosión año tras año. Disfrute de un espacio exterior sombreado y ventilado, sin la humedad, el polen ni los desechos que hacen inutilizable un patio abierto la mayor parte del año.",
       "Muchas casas de Aventura cerca de Turnberry Isle ya cuentan con un patio cubierto, lanai o área bajo techo lista para convertirse en un porche con malla — construimos la estructura para que se conecte de forma limpia a su techo existente o de forma independiente, con puerta de malla opcional o panel para contener mascotas. Como Miami-Dade es una Zona de Huracanes de Alta Velocidad (HVHZ), cada cerramiento se diseña para resistir vientos de 175 mph bajo la aprobación de producto NOA de Miami-Dade y se permisa a través de Miami-Dade RER o del departamento de construcción de Aventura — nosotros gestionamos el papeleo y la aprobación de la HOA, incluso en comunidades cerradas como Williams Island.",
-      "AB Aluminum & Screens tiene licencia y seguro, más de 15 años de experiencia y más de 500 proyectos realizados en Miami-Dade, y cada cerramiento en Aventura comienza con un diseño 3D gratuito para que vea el porche con malla terminado antes de construirlo. Nuestro equipo interno instala estructuras de aluminio marino con recubrimiento en polvo, hechas para durar cerca del agua, y ofrecemos financiamiento si prefiere pagar en cuotas. La mayoría de los cerramientos en Aventura cuestan alrededor de {range}, con un precio aproximado de${perSqft}/pie²según el tamaño y la configuración."
+      "AB Aluminum & Screens tiene licencia y seguro, más de 15 años de experiencia y más de 500 proyectos realizados en Miami-Dade, y cada cerramiento en Aventura comienza con un diseño 3D gratuito para que vea el porche con malla terminado antes de construirlo. Nuestro equipo interno instala estructuras de aluminio marino con recubrimiento en polvo, hechas para durar cerca del agua, y ofrecemos financiamiento si prefiere pagar en cuotas. La mayoría de los cerramientos en Aventura cuestan alrededor de {range}, con un precio aproximado de ${perSqft}/pie² según el tamaño y la configuración."
     ],
     "permitNoteEs": "Aventura está dentro de la Zona de Huracanes de Alta Velocidad de Miami-Dade, por lo que todo cerramiento de malla requiere permiso, ingeniería estructural sellada y aprobación de producto NOA de Miami-Dade con resistencia a vientos de 175 mph. Tramitamos el permiso ante Miami-Dade RER o el departamento de construcción de Aventura, y gestionamos la revisión arquitectónica de la HOA en comunidades cerradas como Williams Island y Turnberry Isle.",
     "localProofEs": "Con licencia, seguro, más de 15 años en el sur de la Florida y más de 500 proyectos terminados, nuestro equipo interno ha construido cerramientos de malla en todo Aventura — desde lanais en torres cerca de Aventura Mall hasta patios frente al agua en Williams Island y Hidden Bay.",
-    "priceRangeNoteEs": "El precio de un cerramiento de malla en Aventura suele estar alrededor de {range}, calculado a razón de${perSqft}/pie²según el tamaño, el tipo de malla y las mejoras hacia un Florida room — su diseño 3D gratuito incluye una cotización exacta.",
+    "priceRangeNoteEs": "El precio de un cerramiento de malla en Aventura suele estar alrededor de {range}, calculado a razón de ${perSqft}/pie² según el tamaño, el tipo de malla y las mejoras hacia un Florida room — su diseño 3D gratuito incluye una cotización exacta.",
     "answerQuestionEs": "¿Cuánto cuesta un cerramiento de malla para patio en Aventura, FL?",
-    "answerAnswerEs": "La mayoría de los cerramientos de malla en Aventura rondan {range}, con un precio calculado a razón de${perSqft}/pie²según el tamaño de su lanai, el tipo de malla y las mejoras hacia un Florida room. Cada cotización incluye un diseño 3D gratuito y cubre la ingeniería, la aprobación NOA y el permiso de Miami-Dade, así que el número que ve es el que paga.",
+    "answerAnswerEs": "La mayoría de los cerramientos de malla en Aventura rondan {range}, con un precio calculado a razón de ${perSqft}/pie² según el tamaño de su lanai, el tipo de malla y las mejoras hacia un Florida room. Cada cotización incluye un diseño 3D gratuito y cubre la ingeniería, la aprobación NOA y el permiso de Miami-Dade, así que el número que ve es el que paga.",
     "faqsEs": [
       {
         "question": "¿Necesito permiso para un cerramiento de malla en un patio en Aventura?",
@@ -188,7 +188,7 @@
     ],
     "permitNote": "Coconut Grove falls under the City of Miami's building department. Permanent screen enclosures require a building permit, sealed engineering, and Miami-Dade NOA product approval, engineered to withstand 175 mph HVHZ winds — we handle the full permit process for you.",
     "localProof": "Licensed and insured with 15+ years and 500+ screen and aluminum projects completed across Miami-Dade, including homes throughout Coconut Grove's bayfront and historic pockets.",
-    "priceRangeNote": "Most Coconut Grove patio screen enclosures fall within {range}, with framing and mesh typically priced at${perSqft}/sq ft; your free 3D design includes an exact quote for your space.",
+    "priceRangeNote": "Most Coconut Grove patio screen enclosures fall within {range}, with framing and mesh typically priced at ${perSqft}/sq ft; your free 3D design includes an exact quote for your space.",
     "answerQuestion": "Can I enclose my existing covered patio or lanai in Coconut Grove with a screen system?",
     "answerAnswer": "Yes. Most Coconut Grove screen enclosures build off an existing covered patio, lanai or under-truss slab — we frame it in marine-grade aluminum and screen, engineered to 175 mph HVHZ standards with Miami-Dade NOA approval. The City of Miami permit and sealed engineering are handled for you, start to finish, backed by our free 3D design.",
     "faqs": [
@@ -225,7 +225,7 @@
     ],
     "permitNoteEs": "Coconut Grove pertenece a la jurisdicción del departamento de construcción de la Ciudad de Miami. Los cerramientos permanentes con malla requieren permiso de construcción, ingeniería sellada y aprobación de producto NOA de Miami-Dade, diseñados para resistir vientos HVHZ de 175 mph — nosotros gestionamos todo el proceso de permisos por ti.",
     "localProofEs": "Licenciados y asegurados, con más de 15 años de experiencia y más de 500 proyectos de aluminio y malla completados en todo Miami-Dade, incluyendo viviendas en las zonas frente a la bahía y los distritos históricos de Coconut Grove.",
-    "priceRangeNoteEs": "La mayoría de los cerramientos de patio con malla en Coconut Grove quedan dentro de {range}, con estructura y malla generalmente cotizadas a${perSqft}/pie²; tu diseño 3D gratuito incluye una cotización exacta para tu espacio.",
+    "priceRangeNoteEs": "La mayoría de los cerramientos de patio con malla en Coconut Grove quedan dentro de {range}, con estructura y malla generalmente cotizadas a ${perSqft}/pie²; tu diseño 3D gratuito incluye una cotización exacta para tu espacio.",
     "answerQuestionEs": "¿Puedo encerrar mi patio o lanai techado existente en Coconut Grove con un sistema de malla?",
     "answerAnswerEs": "Sí. La mayoría de los cerramientos en Coconut Grove se construyen sobre un patio, lanai o losa bajo techo ya existente — lo enmarcamos en aluminio grado marino y malla, diseñado según el estándar HVHZ de 175 mph con aprobación NOA de Miami-Dade. Gestionamos el permiso de la Ciudad de Miami y la ingeniería sellada de principio a fin, respaldado por nuestro diseño 3D gratuito.",
     "faqsEs": [
@@ -315,8 +315,8 @@
     ],
     "permitNote": "Brickell falls within Miami-Dade's High-Velocity Hurricane Zone. Every screen enclosure we build is permitted through the City of Miami building department with sealed engineering and Miami-Dade NOA product approval, rated for 175 mph winds — we manage the paperwork start to finish.",
     "permitNoteEs": "Brickell está dentro de la Zona de Huracanes de Alta Velocidad de Miami-Dade. Cada cerramiento que construimos se permisa a través del departamento de construcción de la Ciudad de Miami, con ingeniería sellada y aprobación NOA de Miami-Dade, calificada para vientos de 175 mph — nosotros gestionamos todo el papeleo de principio a fin.",
-    "priceRangeNote": "Most Brickell patio screen enclosures run {range}, with pricing around${perSqft}/sq ftdepending on size, mesh type, and the structural engineering required for HVHZ wind ratings.",
-    "priceRangeNoteEs": "La mayoría de los cerramientos de patio con malla en Brickell cuestan {range}, con precios cercanos a${perSqft}/pie²según el tamaño, el tipo de malla y la ingeniería estructural requerida para la calificación de viento HVHZ.",
+    "priceRangeNote": "Most Brickell patio screen enclosures run {range}, with pricing around ${perSqft}/sq ft depending on size, mesh type, and the structural engineering required for HVHZ wind ratings.",
+    "priceRangeNoteEs": "La mayoría de los cerramientos de patio con malla en Brickell cuestan {range}, con precios cercanos a ${perSqft}/pie² según el tamaño, el tipo de malla y la ingeniería estructural requerida para la calificación de viento HVHZ.",
     "seo": {
       "metaTitle": "Patio Screen Enclosures in Brickell, FL | AB Aluminum",
       "metaDescription": "Custom patio screen enclosures & screen rooms in Brickell, FL. Bug-free outdoor living, HVHZ 175-mph aluminum, permits handled, free 3D design."
@@ -338,8 +338,8 @@
     ]
   },
   {
-    "answerAnswer": "Most Coral Gables screen enclosures fall within {range}, with larger custom screen rooms priced around${perSqft}/sq ft. Cost depends on enclosure size, roof structure, and mesh type. Because homes here often need Board of Architects review alongside the county permit, we include a free 3D design and detailed quote before any commitment.",
-    "answerAnswerEs": "La mayoría de los cerramientos en Coral Gables están dentro de {range}, con screen rooms personalizados más grandes cerca de${perSqft}/pie². El costo depende del tamaño, la estructura del techo y el tipo de malla. Como muchas viviendas aquí requieren revisión de la Junta de Arquitectos además del permiso del condado, incluimos un diseño 3D gratuito y una cotización detallada antes de cualquier compromiso.",
+    "answerAnswer": "Most Coral Gables screen enclosures fall within {range}, with larger custom screen rooms priced around ${perSqft}/sq ft. Cost depends on enclosure size, roof structure, and mesh type. Because homes here often need Board of Architects review alongside the county permit, we include a free 3D design and detailed quote before any commitment.",
+    "answerAnswerEs": "La mayoría de los cerramientos en Coral Gables están dentro de {range}, con screen rooms personalizados más grandes cerca de ${perSqft}/pie². El costo depende del tamaño, la estructura del techo y el tipo de malla. Como muchas viviendas aquí requieren revisión de la Junta de Arquitectos además del permiso del condado, incluimos un diseño 3D gratuito y una cotización detallada antes de cualquier compromiso.",
     "answerQuestion": "How much does a patio screen enclosure cost in Coral Gables?",
     "answerQuestionEs": "¿Cuánto cuesta un cerramiento de patio con malla en Coral Gables?",
     "citySlug": "coral-gables",
@@ -401,8 +401,8 @@
     ],
     "permitNote": "A permanent patio screen enclosure in Coral Gables requires a building permit with sealed engineering and Miami-Dade NOA product approval, rated to 175 mph HVHZ wind loads; permitting runs through Miami-Dade RER or the Coral Gables building department, and many neighborhoods also require Board of Architects review for exterior changes.",
     "permitNoteEs": "Un cerramiento de patio con malla permanente en Coral Gables requiere permiso de construcción con ingeniería sellada y aprobación de producto NOA de Miami-Dade, clasificado para vientos HVHZ de 175 mph; el permiso se tramita ante Miami-Dade RER o el departamento de construcción de Coral Gables, y muchos vecindarios también requieren revisión de la Junta de Arquitectos para cambios exteriores.",
-    "priceRangeNote": "Most Coral Gables patio screen enclosures fall within {range}, depending on size and structure type; larger or fully custom screen rooms are estimated at${perSqft}/sq ft.",
-    "priceRangeNoteEs": "La mayoría de los cerramientos de patio con malla en Coral Gables están dentro de {range}, según el tamaño y el tipo de estructura; los screen rooms más grandes o totalmente personalizados se estiman en${perSqft}/pie².",
+    "priceRangeNote": "Most Coral Gables patio screen enclosures fall within {range}, depending on size and structure type; larger or fully custom screen rooms are estimated at ${perSqft}/sq ft.",
+    "priceRangeNoteEs": "La mayoría de los cerramientos de patio con malla en Coral Gables están dentro de {range}, según el tamaño y el tipo de estructura; los screen rooms más grandes o totalmente personalizados se estiman en ${perSqft}/pie².",
     "seo": {
       "metaTitle": "Patio Screen Enclosures in Coral Gables, FL | AB Aluminum",
       "metaDescription": "Custom patio screen enclosures in Coral Gables, FL. HVHZ-rated aluminum, free 3D design, licensed local crew. Permits handled — Cocoplum to the Biltmore."
@@ -485,8 +485,8 @@
     ],
     "permitNote": "Cutler Bay enclosures are permitted through the Town of Cutler Bay Building Division, which enforces Miami-Dade County's HVHZ code — sealed engineering and NOA product approval are required before work begins, and we manage the entire process for you.",
     "permitNoteEs": "Los cerramientos con malla en Cutler Bay se permisan a través de la División de Construcción del Town of Cutler Bay, que aplica el código HVHZ del Condado de Miami-Dade — se requieren planos sellados y aprobación de producto NOA antes de comenzar la obra, y nosotros gestionamos todo el proceso por ti.",
-    "priceRangeNote": "Most Cutler Bay screen enclosures run {range}, with framing and mesh typically priced at${perSqft}/sq ft; your free 3D design includes an exact quote for your patio or lanai.",
-    "priceRangeNoteEs": "La mayoría de los cerramientos con malla en Cutler Bay cuestan {range}, con estructura y malla generalmente cotizadas a${perSqft}/pie²; tu diseño 3D gratuito incluye una cotización exacta para tu patio o lanai.",
+    "priceRangeNote": "Most Cutler Bay screen enclosures run {range}, with framing and mesh typically priced at ${perSqft}/sq ft; your free 3D design includes an exact quote for your patio or lanai.",
+    "priceRangeNoteEs": "La mayoría de los cerramientos con malla en Cutler Bay cuestan {range}, con estructura y malla generalmente cotizadas a ${perSqft}/pie²; tu diseño 3D gratuito incluye una cotización exacta para tu patio o lanai.",
     "seo": {
       "metaTitle": "Patio Screen Enclosures Cutler Bay, FL | AB Aluminum",
       "metaDescription": "Custom aluminum patio screen enclosures in Cutler Bay, FL. HVHZ-rated, permitted, bug-free living near Biscayne Bay. Free 3D design, financing available."
@@ -517,7 +517,7 @@
     "valueParagraphs": [
       "Hialeah's summer sun turns an open patio into unusable space by mid-morning, and the mosquitoes breeding along the Miami Canal and nearby drainage lakes don't help after sunset. A custom screen enclosure from AB Aluminum & Screens closes in your existing lanai, porch or covered patio with powder-coated marine-grade aluminum and fine mesh, cutting UV glare and keeping no-see-ums and mosquitoes out — so families near Hialeah Park or Palm Springs Mile get their backyard back, morning through dusk.",
       "Because Hialeah sits inside Miami-Dade's High-Velocity Hurricane Zone, any permanent screen enclosure needs a permit, sealed engineering and Miami-Dade NOA product approval — not the loosely regulated screen kits sold online. Our crew pulls permits through the City of Hialeah Building Department and engineers every structure to withstand 175 mph winds, whether you're near the Palmetto Expressway or the older single-family blocks around Milander Park. You focus on the design; we handle the paperwork and inspections.",
-      "Whether you want a simple screen room over the back patio, a full Florida-room conversion with acrylic panel options, or a pet-safe enclosure around the pool deck, we design it around how your Hialeah family actually lives — pricing runs {range} depending on size and mesh, with per-square-foot estimates at${perSqft}/sq ft. Financing is available, and with 500+ South Florida projects and 15+ years in business, our in-house crew installs without subcontractors juggling your schedule."
+      "Whether you want a simple screen room over the back patio, a full Florida-room conversion with acrylic panel options, or a pet-safe enclosure around the pool deck, we design it around how your Hialeah family actually lives — pricing runs {range} depending on size and mesh, with per-square-foot estimates at ${perSqft}/sq ft. Financing is available, and with 500+ South Florida projects and 15+ years in business, our in-house crew installs without subcontractors juggling your schedule."
     ],
     "neighborhoods": [
       "Hialeah Park",
@@ -527,9 +527,9 @@
     ],
     "permitNote": "Hialeah is part of Miami-Dade County's High-Velocity Hurricane Zone, so a permanent screen enclosure requires a building permit, sealed engineering, and Miami-Dade NOA product approval rated to 175 mph winds. We pull permits through the City of Hialeah Building Department and manage inspections start to finish.",
     "localProof": "500+ screen enclosures and aluminum structures installed across Miami-Dade, including projects throughout Hialeah — licensed, insured, and backed by 15+ years of HVHZ-rated construction.",
-    "priceRangeNote": "Most Hialeah patio screen enclosures fall within {range}, with material and mesh upgrades priced at${perSqft}/sq ft— your free 3D design includes an exact quote.",
+    "priceRangeNote": "Most Hialeah patio screen enclosures fall within {range}, with material and mesh upgrades priced at ${perSqft}/sq ft — your free 3D design includes an exact quote.",
     "answerQuestion": "How much does a patio screen enclosure cost in Hialeah?",
-    "answerAnswer": "Cost depends on the size of your patio, the mesh or panel type, and whether you're converting to a full Florida room. Most Hialeah projects fall within {range}, with additional square footage priced at${perSqft}/sq ft. Every quote includes a free 3D design, permitting, and HVHZ-rated engineering, so the number you see is the number you pay.",
+    "answerAnswer": "Cost depends on the size of your patio, the mesh or panel type, and whether you're converting to a full Florida room. Most Hialeah projects fall within {range}, with additional square footage priced at ${perSqft}/sq ft. Every quote includes a free 3D design, permitting, and HVHZ-rated engineering, so the number you see is the number you pay.",
     "faqs": [
       {
         "question": "Do I need a permit for a screen enclosure in Hialeah?",
@@ -560,13 +560,13 @@
     "valueParagraphsEs": [
       "El sol del verano en Hialeah convierte un patio abierto en un espacio inutilizable antes del mediodía, y los mosquitos que se reproducen cerca del Canal de Miami y los lagos de drenaje cercanos no ayudan después del atardecer. Un cerramiento de malla a la medida de AB Aluminum & Screens encierra su lanai, porche o patio cubierto existente con aluminio de grado marino recubierto en polvo y malla fina, reduciendo el resplandor UV y manteniendo fuera a los jejenes y mosquitos — para que las familias cerca de Hialeah Park o Palm Springs Mile recuperen su patio, de la mañana al anochecer.",
       "Como Hialeah está dentro de la Zona de Huracanes de Alta Velocidad (HVHZ) de Miami-Dade, cualquier cerramiento de malla permanente requiere permiso, ingeniería sellada y aprobación de producto NOA de Miami-Dade — no los kits de malla poco regulados que se venden en línea. Nuestro equipo tramita los permisos a través del Departamento de Construcción de la Ciudad de Hialeah y diseña cada estructura para resistir vientos de 175 mph, ya sea cerca de la Palmetto Expressway o en las cuadras residenciales más antiguas alrededor de Milander Park. Usted se enfoca en el diseño; nosotros manejamos el papeleo y las inspecciones.",
-      "Ya sea que quiera un screen room sencillo sobre el patio trasero, una conversión completa a Florida room con paneles acrílicos opcionales, o un cerramiento seguro para mascotas alrededor de la piscina, diseñamos todo según cómo vive realmente su familia en Hialeah — los precios están dentro de {range} según el tamaño y la malla, con estimados por pie cuadrado en${perSqft}/pie². Hay financiamiento disponible, y con más de 500 proyectos en el sur de la Florida y más de 15 años de experiencia, nuestro equipo propio instala sin subcontratistas que compliquen su horario."
+      "Ya sea que quiera un screen room sencillo sobre el patio trasero, una conversión completa a Florida room con paneles acrílicos opcionales, o un cerramiento seguro para mascotas alrededor de la piscina, diseñamos todo según cómo vive realmente su familia en Hialeah — los precios están dentro de {range} según el tamaño y la malla, con estimados por pie cuadrado en ${perSqft}/pie². Hay financiamiento disponible, y con más de 500 proyectos en el sur de la Florida y más de 15 años de experiencia, nuestro equipo propio instala sin subcontratistas que compliquen su horario."
     ],
     "permitNoteEs": "Hialeah forma parte de la Zona de Huracanes de Alta Velocidad (HVHZ) del condado Miami-Dade, por lo que un cerramiento de malla permanente requiere permiso de construcción, ingeniería sellada y aprobación de producto NOA de Miami-Dade, clasificado para vientos de 175 mph. Tramitamos los permisos a través del Departamento de Construcción de la Ciudad de Hialeah y gestionamos las inspecciones de principio a fin.",
     "localProofEs": "Más de 500 cerramientos de malla y estructuras de aluminio instalados en todo Miami-Dade, incluyendo proyectos en Hialeah — licenciados, asegurados y respaldados por más de 15 años de construcción certificada HVHZ.",
-    "priceRangeNoteEs": "La mayoría de los cerramientos de malla en Hialeah están dentro de {range}, con actualizaciones de material y malla en${perSqft}/pie²— su diseño 3D gratuito incluye una cotización exacta.",
+    "priceRangeNoteEs": "La mayoría de los cerramientos de malla en Hialeah están dentro de {range}, con actualizaciones de material y malla en ${perSqft}/pie² — su diseño 3D gratuito incluye una cotización exacta.",
     "answerQuestionEs": "¿Cuánto cuesta un cerramiento de malla para patio en Hialeah?",
-    "answerAnswerEs": "El costo depende del tamaño de su patio, el tipo de malla o panel, y si está convirtiendo el espacio en un Florida room completo. La mayoría de los proyectos en Hialeah están dentro de {range}, con pies cuadrados adicionales en${perSqft}/pie². Cada cotización incluye diseño 3D gratuito, permisos e ingeniería certificada HVHZ, así que el número que ve es el que paga.",
+    "answerAnswerEs": "El costo depende del tamaño de su patio, el tipo de malla o panel, y si está convirtiendo el espacio en un Florida room completo. La mayoría de los proyectos en Hialeah están dentro de {range}, con pies cuadrados adicionales en ${perSqft}/pie². Cada cotización incluye diseño 3D gratuito, permisos e ingeniería certificada HVHZ, así que el número que ve es el que paga.",
     "faqsEs": [
       {
         "question": "¿Necesito permiso para un cerramiento de malla en Hialeah?",
@@ -592,8 +592,8 @@
     }
   },
   {
-    "answerAnswer": "Pricing depends on your patio's size, roof style and mesh type, but most Kendall projects fall within {range}, figured at roughly${perSqft}/sq ft. Enclosing an existing covered lanai typically costs less than a screen room built from scratch. We provide an exact, itemized quote after your free 3D design consultation — no guesswork.",
-    "answerAnswerEs": "El precio depende del tamaño de su patio, el estilo de techo y el tipo de malla, pero la mayoría de los proyectos en Kendall están dentro de {range}, calculado aproximadamente en${perSqft}/pie². Cerrar un lanai techado existente suele costar menos que construir un screen room desde cero. Le damos una cotización exacta y detallada después de su diseño 3D gratuito.",
+    "answerAnswer": "Pricing depends on your patio's size, roof style and mesh type, but most Kendall projects fall within {range}, figured at roughly ${perSqft}/sq ft. Enclosing an existing covered lanai typically costs less than a screen room built from scratch. We provide an exact, itemized quote after your free 3D design consultation — no guesswork.",
+    "answerAnswerEs": "El precio depende del tamaño de su patio, el estilo de techo y el tipo de malla, pero la mayoría de los proyectos en Kendall están dentro de {range}, calculado aproximadamente en ${perSqft}/pie². Cerrar un lanai techado existente suele costar menos que construir un screen room desde cero. Le damos una cotización exacta y detallada después de su diseño 3D gratuito.",
     "answerQuestion": "How much does a patio screen enclosure cost in Kendall?",
     "answerQuestionEs": "¿Cuánto cuesta un cerramiento de patio con malla en Kendall?",
     "citySlug": "kendall",
@@ -654,8 +654,8 @@
     ],
     "permitNote": "Kendall falls under Miami-Dade County jurisdiction, a High-Velocity Hurricane Zone. Every screen enclosure requires a building permit, sealed engineering, and Miami-Dade NOA product approval rated to 175 mph winds. We pull permits through Miami-Dade RER or your city building department and manage inspections from start to finish.",
     "permitNoteEs": "Kendall está bajo la jurisdicción del Condado Miami-Dade, una Zona de Huracanes de Alta Velocidad. Todo cerramiento de patio con malla requiere permiso de construcción, ingeniería sellada y aprobación de producto NOA de Miami-Dade con clasificación de 175 mph. Tramitamos los permisos a través de Miami-Dade RER o el departamento de construcción de su ciudad y gestionamos las inspecciones de principio a fin.",
-    "priceRangeNote": "Most Kendall screen enclosures fall in the {range} range, generally priced around${perSqft}/sq ftdepending on size, roof type and mesh selection — your free 3D design includes an itemized estimate.",
-    "priceRangeNoteEs": "La mayoría de los cerramientos de malla en Kendall están dentro del rango {range}, generalmente calculado alrededor de${perSqft}/pie²según el tamaño, el tipo de techo y la malla seleccionada. Su diseño 3D gratuito incluye un estimado detallado.",
+    "priceRangeNote": "Most Kendall screen enclosures fall in the {range} range, generally priced around ${perSqft}/sq ft depending on size, roof type and mesh selection — your free 3D design includes an itemized estimate.",
+    "priceRangeNoteEs": "La mayoría de los cerramientos de malla en Kendall están dentro del rango {range}, generalmente calculado alrededor de ${perSqft}/pie² según el tamaño, el tipo de techo y la malla seleccionada. Su diseño 3D gratuito incluye un estimado detallado.",
     "seo": {
       "metaTitle": "Patio Screen Enclosures in Kendall, FL | AB Aluminum & Screens",
       "metaDescription": "Custom patio screen enclosures in Kendall, FL, built to Miami-Dade's 175 mph hurricane code. Free 3D design, in-house crew, financing available."
@@ -739,8 +739,8 @@
     ],
     "permitNote": "A screen enclosure in Homestead is a permitted structure, not a DIY kit: it requires a permit through the City of Homestead Building Department, sealed engineering calculations, and products carrying Miami-Dade NOA approval for 175 mph HVHZ winds. AB Aluminum & Screens prepares and files that entire package for you.",
     "permitNoteEs": "Un cerramiento de malla en Homestead es una estructura permitida, no un kit para instalar usted mismo: requiere permiso del Departamento de Construcción de la Ciudad de Homestead, cálculos de ingeniería sellados y productos con aprobación NOA de Miami-Dade para vientos HVHZ de 175 mph. AB Aluminum & Screens prepara y radica todo ese paquete por usted.",
-    "priceRangeNote": "Most Homestead screen enclosures fall within {range}, depending on size, mesh type and whether you add a screen room floor; framing typically runs${perSqft}/sq ft.",
-    "priceRangeNoteEs": "La mayoría de los cerramientos de malla en Homestead quedan dentro de {range}, según el tamaño, el tipo de malla y si se agrega piso de screen room; el enmallado normalmente ronda${perSqft}/pie².",
+    "priceRangeNote": "Most Homestead screen enclosures fall within {range}, depending on size, mesh type and whether you add a screen room floor; framing typically runs ${perSqft}/sq ft.",
+    "priceRangeNoteEs": "La mayoría de los cerramientos de malla en Homestead quedan dentro de {range}, según el tamaño, el tipo de malla y si se agrega piso de screen room; el enmallado normalmente ronda ${perSqft}/pie².",
     "seo": {
       "metaTitle": "Patio Screen Enclosures Homestead, FL | AB Aluminum",
       "metaDescription": "Enclose your Homestead patio or lanai with HVHZ-rated aluminum screen. Bug-free outdoor living, free 3D design, permits handled. Get a free quote."
@@ -762,8 +762,8 @@
     ]
   },
   {
-    "answerAnswer": "Pricing depends on the size of the patio or lanai, the mesh and framing you choose, and structural requirements tied to Key Biscayne's HVHZ wind code. Most enclosures fall within {range}, with material upgrades priced at${perSqft}/sq ft. Every quote follows a free 3D design and includes Miami-Dade-compliant engineering and permitting.",
-    "answerAnswerEs": "El precio depende del tamaño del patio o lanai, la malla y el marco que elijas, y los requisitos estructurales del código HVHZ de Key Biscayne. La mayoría de los cerramientos quedan dentro de {range}, con mejoras de materiales cotizadas en${perSqft}/pie². Cada cotización incluye un diseño 3D gratuito, ingeniería y permisos conforme a Miami-Dade.",
+    "answerAnswer": "Pricing depends on the size of the patio or lanai, the mesh and framing you choose, and structural requirements tied to Key Biscayne's HVHZ wind code. Most enclosures fall within {range}, with material upgrades priced at ${perSqft}/sq ft. Every quote follows a free 3D design and includes Miami-Dade-compliant engineering and permitting.",
+    "answerAnswerEs": "El precio depende del tamaño del patio o lanai, la malla y el marco que elijas, y los requisitos estructurales del código HVHZ de Key Biscayne. La mayoría de los cerramientos quedan dentro de {range}, con mejoras de materiales cotizadas en ${perSqft}/pie². Cada cotización incluye un diseño 3D gratuito, ingeniería y permisos conforme a Miami-Dade.",
     "answerQuestion": "How much does a patio screen enclosure cost in Key Biscayne?",
     "answerQuestionEs": "¿Cuánto cuesta un cerramiento de patio con malla en Key Biscayne?",
     "citySlug": "key-biscayne",
@@ -823,8 +823,8 @@
     ],
     "permitNote": "A permanent screen enclosure in Key Biscayne requires a building permit, sealed engineering, and Miami-Dade NOA product approval rated for 175 mph winds — we handle the full permit package through the Village of Key Biscayne building department.",
     "permitNoteEs": "Un cerramiento de malla permanente en Key Biscayne requiere permiso de construcción, ingeniería sellada y aprobación de producto NOA de Miami-Dade con clasificación de 175 mph — nosotros gestionamos todo el paquete de permisos a través del departamento de construcción del Village of Key Biscayne.",
-    "priceRangeNote": "Most Key Biscayne screen enclosures fall within {range}, depending on size and structure; framing and mesh upgrades run${perSqft}/sq ft.",
-    "priceRangeNoteEs": "La mayoría de los cerramientos de malla en Key Biscayne quedan dentro de {range}, según el tamaño y la estructura; las mejoras de marco y malla se cotizan en${perSqft}/pie².",
+    "priceRangeNote": "Most Key Biscayne screen enclosures fall within {range}, depending on size and structure; framing and mesh upgrades run ${perSqft}/sq ft.",
+    "priceRangeNoteEs": "La mayoría de los cerramientos de malla en Key Biscayne quedan dentro de {range}, según el tamaño y la estructura; las mejoras de marco y malla se cotizan en ${perSqft}/pie².",
     "seo": {
       "metaTitle": "Patio Screen Enclosures in Key Biscayne, FL | AB Aluminum",
       "metaDescription": "Custom patio screen enclosures & screen rooms in Key Biscayne. HVHZ 175-mph rated, marine-grade aluminum, free 3D design, permits handled. Licensed 15+ years."
@@ -867,7 +867,7 @@
     ],
     "permitNote": "Miami Beach sits inside Miami-Dade's High-Velocity Hurricane Zone, so a permanent screen enclosure requires a building permit, sealed engineering, and Miami-Dade NOA product approval rated to 175 mph winds. AB Aluminum & Screens pulls the permit through Miami-Dade RER or the City of Miami Beach building department and manages every inspection for you.",
     "localProof": "Licensed and insured with 15+ years in business and 500+ completed projects across South Florida, our in-house crew has enclosed patios and lanais throughout Miami Beach, from Art Deco bungalows in South Beach to waterfront homes on Sunset Islands and Venetian Islands, every one engineered and permitted for HVHZ conditions.",
-    "priceRangeNote": "Most Miami Beach screen enclosures fall within {range}, with larger patio and lanai projects priced at${perSqft}/sq ft. Every quote starts with a free 3D design consultation and covers permitting, engineering, and installation.",
+    "priceRangeNote": "Most Miami Beach screen enclosures fall within {range}, with larger patio and lanai projects priced at ${perSqft}/sq ft. Every quote starts with a free 3D design consultation and covers permitting, engineering, and installation.",
     "answerQuestion": "Can I enclose my existing patio or lanai in Miami Beach with a screen enclosure?",
     "answerAnswer": "Yes. We build custom aluminum-framed screen enclosures around existing patios, lanais, porches, and under-truss areas throughout Miami Beach. Because the city sits in Miami-Dade's High-Velocity Hurricane Zone, every structure is engineered to 175 mph wind standards with Miami-Dade NOA approval, and our in-house crew handles the full permitting and installation process.",
     "faqs": [
@@ -904,7 +904,7 @@
     ],
     "permitNoteEs": "Miami Beach está dentro de la Zona de Huracanes de Alta Velocidad de Miami-Dade, por lo que un cerramiento de malla permanente requiere permiso de construcción, ingeniería sellada y aprobación de producto NOA de Miami-Dade certificada para vientos de 175 mph. AB Aluminum & Screens tramita los permisos ante Miami-Dade RER o el departamento de construcción de la ciudad de Miami Beach y se encarga de todo el proceso.",
     "localProofEs": "Con licencia y seguro, más de 15 años de experiencia y más de 500 proyectos completados en el sur de Florida, nuestro equipo interno ha instalado cerramientos de patio y lanai en todo Miami Beach, desde los bungalows Art Deco de South Beach hasta las residencias frente al agua en las islas, cada proyecto diseñado y permisado para condiciones HVHZ.",
-    "priceRangeNoteEs": "La mayoría de los cerramientos de malla en Miami Beach quedan dentro de {range}, con${perSqft}/pie²para patios y lanais más grandes. Cada cotización incluye una consulta de diseño 3D gratuita y cubre permisos, ingeniería e instalación.",
+    "priceRangeNoteEs": "La mayoría de los cerramientos de malla en Miami Beach quedan dentro de {range}, con ${perSqft}/pie² para patios y lanais más grandes. Cada cotización incluye una consulta de diseño 3D gratuita y cubre permisos, ingeniería e instalación.",
     "answerQuestionEs": "¿Puedo encerrar mi patio o lanai existente en Miami Beach con malla?",
     "answerAnswerEs": "Sí. Construimos cerramientos de aluminio con malla a medida alrededor de patios, lanais, porches y áreas bajo techo en todo Miami Beach. Como la ciudad está en la Zona de Huracanes de Alta Velocidad de Miami-Dade, cada estructura se diseña para vientos de 175 mph con aprobación NOA, y nuestro equipo interno gestiona los permisos y la instalación.",
     "faqsEs": [
@@ -932,8 +932,8 @@
     }
   },
   {
-    "answerAnswer": "Pricing depends on your patio's size, roof structure and mesh choice, but most North Miami screen enclosures fall in the {range} range, roughly${perSqft}/sq ft. HVHZ engineering, Miami-Dade NOA compliance and permitting are included. We provide a free 3D design with an itemized estimate before you commit to any work.",
-    "answerAnswerEs": "El precio depende del tamaño de su patio, la estructura del techo y el tipo de malla, pero la mayoría de los porches con malla en North Miami quedan dentro de {range}, aproximadamente${perSqft}/pie². La ingeniería HVHZ, el cumplimiento NOA de Miami-Dade y el permiso están incluidos. Ofrecemos un diseño 3D gratis con estimado detallado antes de comprometerse.",
+    "answerAnswer": "Pricing depends on your patio's size, roof structure and mesh choice, but most North Miami screen enclosures fall in the {range} range, roughly ${perSqft}/sq ft. HVHZ engineering, Miami-Dade NOA compliance and permitting are included. We provide a free 3D design with an itemized estimate before you commit to any work.",
+    "answerAnswerEs": "El precio depende del tamaño de su patio, la estructura del techo y el tipo de malla, pero la mayoría de los porches con malla en North Miami quedan dentro de {range}, aproximadamente ${perSqft}/pie². La ingeniería HVHZ, el cumplimiento NOA de Miami-Dade y el permiso están incluidos. Ofrecemos un diseño 3D gratis con estimado detallado antes de comprometerse.",
     "answerQuestion": "How much does a patio screen enclosure cost in North Miami?",
     "answerQuestionEs": "¿Cuánto cuesta un porche con malla en North Miami?",
     "citySlug": "north-miami",
@@ -993,8 +993,8 @@
     ],
     "permitNote": "Miami-Dade County is a High-Velocity Hurricane Zone, so a permanent aluminum screen enclosure in North Miami requires a building permit, sealed engineering calculations and Miami-Dade NOA (Notice of Acceptance) product approval engineered to 175 mph wind loads. We pull and manage that permit through Miami-Dade RER or the North Miami building department on your behalf, from application to final inspection.",
     "permitNoteEs": "El condado de Miami-Dade es una Zona de Huracanes de Alta Velocidad, así que un cerramiento de aluminio permanente en North Miami requiere permiso de construcción, cálculos de ingeniería sellados y aprobación de producto NOA (Notice of Acceptance) de Miami-Dade, diseñada para vientos de 175 mph. Nosotros tramitamos y gestionamos ese permiso ante Miami-Dade RER o el departamento de construcción de North Miami, desde la solicitud hasta la inspección final.",
-    "priceRangeNote": "Most North Miami patio screen enclosures fall within {range}, priced at roughly${perSqft}/sq ftdepending on enclosure size, mesh type and structural requirements — your free 3D design includes an itemized estimate.",
-    "priceRangeNoteEs": "La mayoría de los porches con malla en North Miami quedan dentro de {range}, con un precio aproximado de${perSqft}/pie²según el tamaño del cerramiento, el tipo de malla y los requisitos estructurales — su diseño 3D gratis incluye un estimado detallado.",
+    "priceRangeNote": "Most North Miami patio screen enclosures fall within {range}, priced at roughly ${perSqft}/sq ft depending on enclosure size, mesh type and structural requirements — your free 3D design includes an itemized estimate.",
+    "priceRangeNoteEs": "La mayoría de los porches con malla en North Miami quedan dentro de {range}, con un precio aproximado de ${perSqft}/pie² según el tamaño del cerramiento, el tipo de malla y los requisitos estructurales — su diseño 3D gratis incluye un estimado detallado.",
     "seo": {
       "metaTitle": "Patio Screen Enclosures in North Miami, FL | AB Aluminum",
       "metaDescription": "Custom aluminum patio screen enclosures in North Miami. Bug-free, HVHZ-rated to 175 mph, free 3D design, permits handled by our in-house crew."
@@ -1035,9 +1035,9 @@
     ],
     "permitNote": "Miami Lakes is part of Miami-Dade County's High-Velocity Hurricane Zone, so every permanent screen enclosure requires a building permit, sealed engineering, and Miami-Dade NOA product approval rated to 175 mph winds. We pull permits through the Town of Miami Lakes building department or Miami-Dade RER and handle every step of the approval process for you.",
     "localProof": "Licensed and insured with 15+ years serving Miami-Dade and 500+ completed projects, including screen enclosures throughout Miami Lakes' HOA communities near Royal Oaks and Main Street.",
-    "priceRangeNote": "Most Miami Lakes screen enclosures fall in the {range} range, with per-square-foot pricing around${perSqft}/sq ftdepending on size, screen type, and roof structure — your free 3D design includes an itemized estimate.",
+    "priceRangeNote": "Most Miami Lakes screen enclosures fall in the {range} range, with per-square-foot pricing around ${perSqft}/sq ft depending on size, screen type, and roof structure — your free 3D design includes an itemized estimate.",
     "answerQuestion": "How much does a patio screen enclosure cost in Miami Lakes?",
-    "answerAnswer": "Pricing depends on enclosure size, roof type, and screen density, but most Miami Lakes homeowners land in the {range} range, figured at roughly${perSqft}/sq ft. Because Miami-Dade's HVHZ code requires engineered, NOA-approved construction, your free 3D design and on-site measurement come with a firm, itemized quote before any permit is filed.",
+    "answerAnswer": "Pricing depends on enclosure size, roof type, and screen density, but most Miami Lakes homeowners land in the {range} range, figured at roughly ${perSqft}/sq ft. Because Miami-Dade's HVHZ code requires engineered, NOA-approved construction, your free 3D design and on-site measurement come with a firm, itemized quote before any permit is filed.",
     "faqs": [
       {
         "question": "Do I need a permit for a screen enclosure in Miami Lakes?",
@@ -1072,9 +1072,9 @@
     ],
     "permitNoteEs": "Miami Lakes forma parte de la Zona de Huracanes de Alta Velocidad (HVHZ) del condado Miami-Dade, así que todo cerramiento permanente con malla requiere permiso de construcción, ingeniería sellada y aprobación de producto Miami-Dade NOA para vientos de 175 mph. Tramitamos el permiso ante el departamento de construcción de Miami Lakes o Miami-Dade RER y manejamos cada paso del proceso por usted.",
     "localProofEs": "Con licencia y seguro, más de 15 años sirviendo a Miami-Dade y más de 500 proyectos completados, incluyendo cerramientos con malla en las comunidades de Miami Lakes cerca de Royal Oaks y Main Street.",
-    "priceRangeNoteEs": "La mayoría de los cerramientos con malla en Miami Lakes están en el rango {range}, con un precio aproximado de${perSqft}/pie² según el tamaño, el tipo de malla y la estructura del techo — su diseño 3D gratuito incluye un estimado detallado.",
+    "priceRangeNoteEs": "La mayoría de los cerramientos con malla en Miami Lakes están en el rango {range}, con un precio aproximado de ${perSqft}/pie² según el tamaño, el tipo de malla y la estructura del techo — su diseño 3D gratuito incluye un estimado detallado.",
     "answerQuestionEs": "¿Cuánto cuesta un cerramiento de patio con malla en Miami Lakes?",
-    "answerAnswerEs": "El precio depende del tamaño, el tipo de techo y la densidad de malla, pero la mayoría de los proyectos en Miami Lakes caen en el rango {range}, a razón de aproximadamente${perSqft}/pie². Como el código HVHZ de Miami-Dade exige construcción certificada con aprobación NOA, su diseño 3D gratuito incluye una cotización firme antes de tramitar el permiso.",
+    "answerAnswerEs": "El precio depende del tamaño, el tipo de techo y la densidad de malla, pero la mayoría de los proyectos en Miami Lakes caen en el rango {range}, a razón de aproximadamente ${perSqft}/pie². Como el código HVHZ de Miami-Dade exige construcción certificada con aprobación NOA, su diseño 3D gratuito incluye una cotización firme antes de tramitar el permiso.",
     "faqsEs": [
       {
         "question": "¿Necesito permiso para un cerramiento con malla en Miami Lakes?",
@@ -1119,9 +1119,9 @@
     ],
     "permitNote": "A screen enclosure in North Miami Beach requires a building permit, sealed engineering, and Miami-Dade NOA product approval rated for 175 mph winds, since the city sits in an HVHZ. We pull permits through the City of North Miami Beach Building Department and manage the whole process for you.",
     "localProof": "Licensed and insured, with over 15 years and 500+ screened patios and enclosures completed across Miami-Dade — including projects along North Miami Beach's canals and inland streets.",
-    "priceRangeNote": "Most North Miami Beach screen enclosures fall in the {range} range, with framing and screen priced around${perSqft}/sq ft, depending on size, mesh type, and any Florida-room upgrade.",
+    "priceRangeNote": "Most North Miami Beach screen enclosures fall in the {range} range, with framing and screen priced around ${perSqft}/sq ft, depending on size, mesh type, and any Florida-room upgrade.",
     "answerQuestion": "How much does a patio screen enclosure cost in North Miami Beach?",
-    "answerAnswer": "In North Miami Beach, most patio screen enclosures run {range}, with aluminum framing and screen typically priced around${perSqft}/sq ft. Exact cost depends on your patio's size, the mesh you choose, and whether you add privacy panels or upgrade to a Florida room. We provide a free 3D design and fixed quote before any work begins.",
+    "answerAnswer": "In North Miami Beach, most patio screen enclosures run {range}, with aluminum framing and screen typically priced around ${perSqft}/sq ft. Exact cost depends on your patio's size, the mesh you choose, and whether you add privacy panels or upgrade to a Florida room. We provide a free 3D design and fixed quote before any work begins.",
     "faqs": [
       {
         "question": "Do I need a permit for a patio screen enclosure in North Miami Beach?",
@@ -1156,9 +1156,9 @@
     ],
     "permitNoteEs": "Un cerramiento de malla en North Miami Beach requiere permiso de construcción, ingeniería sellada y aprobación de producto NOA de Miami-Dade para vientos de 175 mph, por tratarse de una zona HVHZ. Tramitamos el permiso a través del Departamento de Construcción de la Ciudad de North Miami Beach y manejamos todo el proceso por ti.",
     "localProofEs": "Licenciados y asegurados, con más de 15 años de experiencia y más de 500 patios y cerramientos con malla instalados en todo Miami-Dade, incluyendo proyectos junto a los canales y en las calles del interior de North Miami Beach.",
-    "priceRangeNoteEs": "La mayoría de los cerramientos de patio con malla en North Miami Beach están en el rango de {range}, con estructura y malla desde aproximadamente${perSqft}/pie², según el tamaño, el tipo de malla y si agregas una mejora a Florida room.",
+    "priceRangeNoteEs": "La mayoría de los cerramientos de patio con malla en North Miami Beach están en el rango de {range}, con estructura y malla desde aproximadamente ${perSqft}/pie², según el tamaño, el tipo de malla y si agregas una mejora a Florida room.",
     "answerQuestionEs": "¿Cuánto cuesta un cerramiento de patio con malla en North Miami Beach?",
-    "answerAnswerEs": "En North Miami Beach, la mayoría de los cerramientos de patio con malla cuestan {range}, con estructura de aluminio y malla desde aproximadamente${perSqft}/pie². El costo exacto depende del tamaño de tu patio, el tipo de malla y si agregas paneles de privacidad o lo conviertes en un Florida room. Ofrecemos diseño 3D gratis y cotización fija antes de empezar.",
+    "answerAnswerEs": "En North Miami Beach, la mayoría de los cerramientos de patio con malla cuestan {range}, con estructura de aluminio y malla desde aproximadamente ${perSqft}/pie². El costo exacto depende del tamaño de tu patio, el tipo de malla y si agregas paneles de privacidad o lo conviertes en un Florida room. Ofrecemos diseño 3D gratis y cotización fija antes de empezar.",
     "faqsEs": [
       {
         "question": "¿Necesito permiso para un cerramiento de patio con malla en North Miami Beach?",
@@ -1184,8 +1184,8 @@
     }
   },
   {
-    "answerAnswer": "Most Pinecrest patio screen enclosures fall within {range}, depending on the size of your lanai or patio, roof style and mesh type. For a quick estimate on a larger space, budget by square footage at${perSqft}/sq ft. Every quote includes free 3D design, in-house installation and Miami-Dade HVHZ-engineered permitting handled for you.",
-    "answerAnswerEs": "La mayoría de los cerramientos de patio con malla en Pinecrest quedan dentro de {range}, según el tamaño de tu lanai o patio, el estilo de techo y el tipo de malla. Para un estimado rápido en espacios más grandes, puedes calcular por pie cuadrado con${perSqft}/pie². Cada cotización incluye diseño 3D gratis, instalación con equipo propio y permisos con ingeniería HVHZ de Miami-Dade ya gestionados.",
+    "answerAnswer": "Most Pinecrest patio screen enclosures fall within {range}, depending on the size of your lanai or patio, roof style and mesh type. For a quick estimate on a larger space, budget by square footage at ${perSqft}/sq ft. Every quote includes free 3D design, in-house installation and Miami-Dade HVHZ-engineered permitting handled for you.",
+    "answerAnswerEs": "La mayoría de los cerramientos de patio con malla en Pinecrest quedan dentro de {range}, según el tamaño de tu lanai o patio, el estilo de techo y el tipo de malla. Para un estimado rápido en espacios más grandes, puedes calcular por pie cuadrado con ${perSqft}/pie². Cada cotización incluye diseño 3D gratis, instalación con equipo propio y permisos con ingeniería HVHZ de Miami-Dade ya gestionados.",
     "answerQuestion": "What does a patio screen enclosure cost in Pinecrest, FL?",
     "answerQuestionEs": "¿Cuánto cuesta un cerramiento de patio con malla en Pinecrest, FL?",
     "citySlug": "pinecrest",
@@ -1244,8 +1244,8 @@
     ],
     "permitNote": "Permanent screen enclosures in Pinecrest are permitted through the Village of Pinecrest Building Department under Miami-Dade County's HVHZ code — sealed engineering, Miami-Dade NOA product approval, and inspections are required. We manage the entire permit process for you.",
     "permitNoteEs": "Los cerramientos de malla permanentes en Pinecrest se permisan a través del Departamento de Construcción del Village of Pinecrest bajo el código HVHZ del condado Miami-Dade — se requiere ingeniería sellada, aprobación de producto NOA de Miami-Dade e inspecciones. Nosotros gestionamos todo el proceso de permisos por ti.",
-    "priceRangeNote": "Most Pinecrest screen enclosures fall within {range}, depending on size and roof type; homeowners can also estimate by square footage at${perSqft}/sq ft. Financing is available.",
-    "priceRangeNoteEs": "La mayoría de los cerramientos de patio con malla en Pinecrest quedan dentro de {range}, según el tamaño y el tipo de techo; también puedes estimar el costo por pie cuadrado en${perSqft}/pie². Hay financiamiento disponible.",
+    "priceRangeNote": "Most Pinecrest screen enclosures fall within {range}, depending on size and roof type; homeowners can also estimate by square footage at ${perSqft}/sq ft. Financing is available.",
+    "priceRangeNoteEs": "La mayoría de los cerramientos de patio con malla en Pinecrest quedan dentro de {range}, según el tamaño y el tipo de techo; también puedes estimar el costo por pie cuadrado en ${perSqft}/pie². Hay financiamiento disponible.",
     "seo": {
       "metaTitle": "Patio Screen Enclosures in Pinecrest, FL | AB Aluminum",
       "metaDescription": "Custom aluminum patio screen enclosures in Pinecrest, FL. HVHZ-engineered, permits handled, free 3D design. Licensed, insured, 15+ years experience."
@@ -1287,9 +1287,9 @@
     ],
     "permitNote": "Coral Springs sits inside Broward County's High-Velocity Hurricane Zone, so any permanent screen enclosure requires a building permit through the City of Coral Springs Building Department, sealed engineering, and Miami-Dade NOA or Florida Product Approval rated to 175 mph winds. AB Aluminum & Screens pulls and manages every permit in-house, including any HOA architectural review your community requires.",
     "localProof": "Licensed and insured with 15+ years building HVHZ-rated aluminum structures across Broward County, AB Aluminum & Screens has completed 500+ projects — including screen enclosures throughout Coral Springs neighborhoods like Eagle Trace, The Cascades and Ramblewood — all designed, permitted and built by our own in-house crew.",
-    "priceRangeNote": "Most Coral Springs patio screen enclosures fall within {range}, with framing and mesh typically priced around${perSqft}/sq ft; your free 3D design includes an exact quote based on size, mesh type and structure.",
+    "priceRangeNote": "Most Coral Springs patio screen enclosures fall within {range}, with framing and mesh typically priced around ${perSqft}/sq ft; your free 3D design includes an exact quote based on size, mesh type and structure.",
     "answerQuestion": "How much does a patio screen enclosure cost in Coral Springs?",
-    "answerAnswer": "Pricing depends on size, roof structure and mesh type, but most Coral Springs screen enclosures fall within {range}, figured around${perSqft}/sq ft. Factors include whether you're screening an existing covered lanai or building a new aluminum frame, HVHZ engineering requirements, and mesh upgrades. Your free 3D design includes an exact, itemized quote.",
+    "answerAnswer": "Pricing depends on size, roof structure and mesh type, but most Coral Springs screen enclosures fall within {range}, figured around ${perSqft}/sq ft. Factors include whether you're screening an existing covered lanai or building a new aluminum frame, HVHZ engineering requirements, and mesh upgrades. Your free 3D design includes an exact, itemized quote.",
     "faqs": [
       {
         "question": "Do I need a permit for a screen enclosure in Coral Springs?",
@@ -1324,9 +1324,9 @@
     ],
     "permitNoteEs": "Coral Springs está dentro de la Zona de Huracanes de Alta Velocidad de Broward, así que todo cerramiento permanente requiere permiso de construcción del Departamento de Construcción de la Ciudad de Coral Springs, ingeniería sellada y aprobación NOA de Miami-Dade o Florida Product Approval clasificada para vientos de 175 mph. AB Aluminum & Screens gestiona cada permiso internamente, incluida la revisión arquitectónica de tu HOA si tu comunidad lo exige.",
     "localProofEs": "Licenciados y asegurados, con más de 15 años construyendo estructuras de aluminio clasificadas para HVHZ en todo el condado de Broward, AB Aluminum & Screens ha completado más de 500 proyectos — incluyendo cerramientos de malla en comunidades de Coral Springs como Eagle Trace, The Cascades y Ramblewood — todos diseñados, permisados y construidos por nuestro propio equipo interno.",
-    "priceRangeNoteEs": "La mayoría de los cerramientos de malla en Coral Springs quedan dentro de {range}, con estructura y malla generalmente calculadas alrededor de${perSqft}/pie²; tu diseño 3D gratuito incluye una cotización exacta según el tamaño, tipo de malla y estructura.",
+    "priceRangeNoteEs": "La mayoría de los cerramientos de malla en Coral Springs quedan dentro de {range}, con estructura y malla generalmente calculadas alrededor de ${perSqft}/pie²; tu diseño 3D gratuito incluye una cotización exacta según el tamaño, tipo de malla y estructura.",
     "answerQuestionEs": "¿Cuánto cuesta un cerramiento de malla para patio en Coral Springs?",
-    "answerAnswerEs": "El precio depende del tamaño, la estructura del techo y el tipo de malla, pero la mayoría de los cerramientos en Coral Springs quedan dentro de {range}, calculados alrededor de${perSqft}/pie². Influye si vas a cerrar un lanai cubierto existente o construir un marco de aluminio nuevo, los requisitos de ingeniería HVHZ y las mejoras de malla. Tu diseño 3D gratuito incluye una cotización exacta.",
+    "answerAnswerEs": "El precio depende del tamaño, la estructura del techo y el tipo de malla, pero la mayoría de los cerramientos en Coral Springs quedan dentro de {range}, calculados alrededor de ${perSqft}/pie². Influye si vas a cerrar un lanai cubierto existente o construir un marco de aluminio nuevo, los requisitos de ingeniería HVHZ y las mejoras de malla. Tu diseño 3D gratuito incluye una cotización exacta.",
     "faqsEs": [
       {
         "question": "¿Necesito permiso para un cerramiento de malla en Coral Springs?",
@@ -1352,8 +1352,8 @@
     }
   },
   {
-    "answerAnswer": "Pricing depends on the size of your patio, the height of the enclosure, and whether you choose a standard screen cage or a full screen room with a solid roof. Most Cooper City projects fall within {range}, and screen room conversions are typically quoted at${perSqft}/sq ft. Every quote includes a free 3D design.",
-    "answerAnswerEs": "El precio depende del tamaño de su patio, la altura del cerramiento y si elige una jaula de malla estándar o un screen room completo con techo sólido. La mayoría de los proyectos en Cooper City se ubican dentro de {range}, y las conversiones a screen room se cotizan típicamente a${perSqft}/pie². Cada cotización incluye un diseño 3D gratis.",
+    "answerAnswer": "Pricing depends on the size of your patio, the height of the enclosure, and whether you choose a standard screen cage or a full screen room with a solid roof. Most Cooper City projects fall within {range}, and screen room conversions are typically quoted at ${perSqft}/sq ft. Every quote includes a free 3D design.",
+    "answerAnswerEs": "El precio depende del tamaño de su patio, la altura del cerramiento y si elige una jaula de malla estándar o un screen room completo con techo sólido. La mayoría de los proyectos en Cooper City se ubican dentro de {range}, y las conversiones a screen room se cotizan típicamente a ${perSqft}/pie². Cada cotización incluye un diseño 3D gratis.",
     "answerQuestion": "How much does a screen enclosure cost for a Cooper City patio?",
     "answerQuestionEs": "¿Cuánto cuesta un cerramiento de malla para un patio en Cooper City?",
     "citySlug": "cooper-city",
@@ -1413,8 +1413,8 @@
     ],
     "permitNote": "Screen enclosures in Cooper City require a building permit through the City of Cooper City Building Department, sealed engineering, and Miami-Dade NOA / Florida Product Approval rated for 175 mph HVHZ winds — we manage the entire permitting process for you, including HOA architectural review submittals where required.",
     "permitNoteEs": "Los cerramientos de patio en Cooper City requieren un permiso de construcción a través del Departamento de Construcción de la Ciudad de Cooper City, ingeniería sellada y aprobación Miami-Dade NOA / Florida Product Approval con clasificación HVHZ de 175 mph — nosotros gestionamos todo el proceso de permisos, incluyendo las solicitudes de revisión arquitectónica del HOA cuando se requieran.",
-    "priceRangeNote": "Most Cooper City patio screen enclosures fall within {range}, depending on size and enclosure type, with screen room upgrades priced at${perSqft}/sq ft.",
-    "priceRangeNoteEs": "La mayoría de los cerramientos de patio en Cooper City se ubican dentro de {range}, según el tamaño y el tipo de cerramiento, con actualizaciones a screen room cotizadas a${perSqft}/pie².",
+    "priceRangeNote": "Most Cooper City patio screen enclosures fall within {range}, depending on size and enclosure type, with screen room upgrades priced at ${perSqft}/sq ft.",
+    "priceRangeNoteEs": "La mayoría de los cerramientos de patio en Cooper City se ubican dentro de {range}, según el tamaño y el tipo de cerramiento, con actualizaciones a screen room cotizadas a ${perSqft}/pie².",
     "seo": {
       "metaTitle": "Patio Screen Enclosures in Cooper City, FL | AB Aluminum",
       "metaDescription": "Custom patio screen enclosures & screen rooms in Cooper City, FL. HVHZ-rated aluminum, bug-free outdoor living, free 3D design. Licensed & insured."
@@ -1436,8 +1436,8 @@
     ]
   },
   {
-    "answerAnswer": "In Doral, patio screen enclosures typically run {range}, or about${perSqft}/sq ft, depending on size, screen mesh type and whether the structure ties into an existing roofline. Miami-Dade HVHZ engineering and NOA approval are included in every quote. AB Aluminum & Screens provides a free 3D design with an exact price before any permit is filed.",
-    "answerAnswerEs": "En Doral, los porches con malla suelen costar {range}, o cerca de${perSqft}/pie², dependiendo del tamaño, el tipo de malla y si la estructura se conecta a un techo existente. La ingeniería HVHZ y la aprobación NOA de Miami-Dade están incluidas en cada cotización. AB Aluminum & Screens ofrece un diseño 3D gratis con el precio exacto antes de tramitar el permiso.",
+    "answerAnswer": "In Doral, patio screen enclosures typically run {range}, or about ${perSqft}/sq ft, depending on size, screen mesh type and whether the structure ties into an existing roofline. Miami-Dade HVHZ engineering and NOA approval are included in every quote. AB Aluminum & Screens provides a free 3D design with an exact price before any permit is filed.",
+    "answerAnswerEs": "En Doral, los porches con malla suelen costar {range}, o cerca de ${perSqft}/pie², dependiendo del tamaño, el tipo de malla y si la estructura se conecta a un techo existente. La ingeniería HVHZ y la aprobación NOA de Miami-Dade están incluidas en cada cotización. AB Aluminum & Screens ofrece un diseño 3D gratis con el precio exacto antes de tramitar el permiso.",
     "answerQuestion": "How much does a patio screen enclosure cost in Doral, FL?",
     "answerQuestionEs": "¿Cuánto cuesta un porche con malla en Doral, FL?",
     "citySlug": "doral",
@@ -1498,8 +1498,8 @@
     ],
     "permitNote": "In Doral, a permanent screen enclosure needs a building permit, sealed engineering and Miami-Dade NOA approval rated to 175 mph HVHZ winds — permitted through Miami-Dade RER or the City of Doral. HOA communities typically require architectural review first, and we manage the entire process for you.",
     "permitNoteEs": "En Doral, un cerramiento de malla permanente necesita permiso de construcción, ingeniería sellada y aprobación NOA de Miami-Dade, certificada para vientos HVHZ de 175 mph — tramitado ante Miami-Dade RER o la Ciudad de Doral. Las comunidades con HOA normalmente exigen revisión arquitectónica primero, y nosotros gestionamos todo el proceso por ti.",
-    "priceRangeNote": "Most Doral patio screen enclosures fall around {range}, roughly${perSqft}/sq ft, depending on size, screen type and finishes — your free 3D design includes an exact quote.",
-    "priceRangeNoteEs": "La mayoría de los porches con malla en Doral caen alrededor de {range}, aproximadamente${perSqft}/pie², dependiendo del tamaño, el tipo de malla y los acabados — tu diseño 3D gratis incluye una cotización exacta.",
+    "priceRangeNote": "Most Doral patio screen enclosures fall around {range}, roughly ${perSqft}/sq ft, depending on size, screen type and finishes — your free 3D design includes an exact quote.",
+    "priceRangeNoteEs": "La mayoría de los porches con malla en Doral caen alrededor de {range}, aproximadamente ${perSqft}/pie², dependiendo del tamaño, el tipo de malla y los acabados — tu diseño 3D gratis incluye una cotización exacta.",
     "seo": {
       "metaTitle": "Patio Screen Enclosures in Doral, FL | AB Aluminum & Screens",
       "metaDescription": "Custom patio screen enclosures in Doral, FL. Bug-free outdoor living, HVHZ-rated aluminum, permits handled, free 3D design. Licensed & insured, 15+ years."
@@ -1540,9 +1540,9 @@
     ],
     "permitNote": "Sunny Isles Beach sits in Miami-Dade's High-Velocity Hurricane Zone. Every permanent screen enclosure requires a building permit, sealed engineering, and Miami-Dade NOA product approval — filed through the city building department or Miami-Dade RER — and we manage that process for you.",
     "localProof": "Licensed and insured, with 15+ years and 500+ completed South Florida projects — including barrier island properties from Collins Avenue oceanfront towers to Intracoastal canal homes in Sunny Isles Beach.",
-    "priceRangeNote": "Most Sunny Isles Beach patio screen enclosures fall within {range}, with framing typically priced around${perSqft}/sq ft depending on size, mesh type, and HVHZ engineering requirements.",
+    "priceRangeNote": "Most Sunny Isles Beach patio screen enclosures fall within {range}, with framing typically priced around ${perSqft}/sq ft depending on size, mesh type, and HVHZ engineering requirements.",
     "answerQuestion": "How much does a patio screen enclosure cost in Sunny Isles Beach?",
-    "answerAnswer": "Pricing depends on the enclosure's size, screen mesh type, and structural engineering needed to meet Miami-Dade's 175 mph HVHZ standard. Most Sunny Isles Beach projects fall in the {range} range, with framing priced around${perSqft}/sq ft. We provide a free 3D design and itemized quote before any commitment.",
+    "answerAnswer": "Pricing depends on the enclosure's size, screen mesh type, and structural engineering needed to meet Miami-Dade's 175 mph HVHZ standard. Most Sunny Isles Beach projects fall in the {range} range, with framing priced around ${perSqft}/sq ft. We provide a free 3D design and itemized quote before any commitment.",
     "faqs": [
       {
         "question": "Do I need a permit for a screen enclosure in Sunny Isles Beach?",
@@ -1577,9 +1577,9 @@
     ],
     "permitNoteEs": "Sunny Isles Beach está en la Zona de Alta Velocidad de Huracanes de Miami-Dade. Todo cerramiento de malla permanente requiere permiso de construcción, ingeniería sellada y aprobación de producto NOA de Miami-Dade, trámite que se hace ante el departamento de construcción de la ciudad o Miami-Dade RER — nosotros gestionamos ese proceso por usted.",
     "localProofEs": "Licenciados y asegurados, con más de 15 años de experiencia y más de 500 proyectos completados en el sur de la Florida, incluyendo propiedades de isla de barrera desde las torres frente al mar en Collins Avenue hasta las casas junto al canal en Sunny Isles Beach.",
-    "priceRangeNoteEs": "La mayoría de los cerramientos de patio con malla en Sunny Isles Beach están dentro de {range}, con un precio de estructura de aproximadamente${perSqft}/pie², según el tamaño, el tipo de malla y los requisitos de ingeniería HVHZ.",
+    "priceRangeNoteEs": "La mayoría de los cerramientos de patio con malla en Sunny Isles Beach están dentro de {range}, con un precio de estructura de aproximadamente ${perSqft}/pie², según el tamaño, el tipo de malla y los requisitos de ingeniería HVHZ.",
     "answerQuestionEs": "¿Cuánto cuesta un cerramiento de patio con malla en Sunny Isles Beach?",
-    "answerAnswerEs": "El precio depende del tamaño del cerramiento, el tipo de malla y la ingeniería estructural necesaria para cumplir el estándar HVHZ de 175 mph de Miami-Dade. La mayoría de los proyectos en Sunny Isles Beach quedan dentro de {range}, con estructura alrededor de${perSqft}/pie². Ofrecemos diseño 3D gratuito y cotización detallada antes de comprometerse.",
+    "answerAnswerEs": "El precio depende del tamaño del cerramiento, el tipo de malla y la ingeniería estructural necesaria para cumplir el estándar HVHZ de 175 mph de Miami-Dade. La mayoría de los proyectos en Sunny Isles Beach quedan dentro de {range}, con estructura alrededor de ${perSqft}/pie². Ofrecemos diseño 3D gratuito y cotización detallada antes de comprometerse.",
     "faqsEs": [
       {
         "question": "¿Necesito permiso para un cerramiento de malla en Sunny Isles Beach?",
@@ -1614,7 +1614,7 @@
     "valueParagraphs": [
       "Along the Intracoastal in Las Olas Isles, Rio Vista and Harbor Beach, salt air corrodes ordinary screen frames within a few seasons. We build every enclosure from powder-coated marine-grade aluminum designed to resist that corrosion, so your screened lanai stays rust-free through Fort Lauderdale's humid summers and storm seasons. Whether you're enclosing a waterfront pool deck or a covered porch off the canal, the frame is engineered to the same HVHZ standard as the rest of your home.",
       "Inland in neighborhoods like Coral Ridge and Victoria Park, the challenge shifts from salt to sun — relentless UV and afternoon heat that can make an open patio unusable by midday. A custom screen enclosure cuts glare and heat gain while keeping mosquitoes and no-see-ums out, turning that space into a shaded room you actually use. Many Fort Lauderdale HOAs require architectural review for exterior additions; our free 3D design renders the finished enclosure for board approval before permitting even starts.",
-      "Every enclosure is engineered to Broward's High-Velocity Hurricane Zone code — 175 mph wind rating, sealed engineering, and Miami-Dade NOA or Florida Product Approval on every component. We handle permitting through the City of Fort Lauderdale or Broward County directly, so you're not chasing paperwork. Enclose an existing covered patio or lanai as a straightforward screen room, or build out a full Florida room with a solid roof later — our in-house crew installs it right the first time, at${perSqft}/sq ft."
+      "Every enclosure is engineered to Broward's High-Velocity Hurricane Zone code — 175 mph wind rating, sealed engineering, and Miami-Dade NOA or Florida Product Approval on every component. We handle permitting through the City of Fort Lauderdale or Broward County directly, so you're not chasing paperwork. Enclose an existing covered patio or lanai as a straightforward screen room, or build out a full Florida room with a solid roof later — our in-house crew installs it right the first time, at ${perSqft}/sq ft."
     ],
     "neighborhoods": [
       "Las Olas Isles",
@@ -1625,9 +1625,9 @@
     ],
     "permitNote": "Fort Lauderdale sits in Broward County's High-Velocity Hurricane Zone, so any permanent screen enclosure needs a building permit with sealed engineering and Miami-Dade NOA or Florida Product Approval, rated to 175 mph winds. We pull permits through the City of Fort Lauderdale or Broward County Building Department and manage the entire process for you.",
     "localProof": "Licensed and insured with 15+ years building screen enclosures across Broward County and 500+ completed projects, including waterfront lanais along the Intracoastal in Fort Lauderdale.",
-    "priceRangeNote": "Most Fort Lauderdale patio screen enclosures run {range}, depending on size, mesh type and structural requirements, with pricing around${perSqft}/sq ft.",
+    "priceRangeNote": "Most Fort Lauderdale patio screen enclosures run {range}, depending on size, mesh type and structural requirements, with pricing around ${perSqft}/sq ft.",
     "answerQuestion": "How much does a patio screen enclosure cost in Fort Lauderdale?",
-    "answerAnswer": "Pricing typically falls in the {range} range, depending on enclosure size, mesh type, and whether the structure ties into an existing roofline or requires new HVHZ-rated framing. Coastal properties near the Intracoastal may need additional corrosion protection. Request a free 3D design and on-site measurement for an exact quote at${perSqft}/sq ft.",
+    "answerAnswer": "Pricing typically falls in the {range} range, depending on enclosure size, mesh type, and whether the structure ties into an existing roofline or requires new HVHZ-rated framing. Coastal properties near the Intracoastal may need additional corrosion protection. Request a free 3D design and on-site measurement for an exact quote at ${perSqft}/sq ft.",
     "faqs": [
       {
         "question": "Do I need a permit for a patio screen enclosure in Fort Lauderdale?",
@@ -1658,13 +1658,13 @@
     "valueParagraphsEs": [
       "A lo largo del Intracoastal en Las Olas Isles, Rio Vista y Harbor Beach, el aire salino corroe los marcos de malla comunes en pocas temporadas. Fabricamos cada cerramiento en aluminio marino con acabado en polvo diseñado para resistir esa corrosión, así su lanai enmallado se mantiene libre de óxido durante los húmedos veranos y la temporada de huracanes de Fort Lauderdale. Ya sea que encierre una terraza frente al agua o un porche cubierto junto al canal, el marco está diseñado bajo el mismo estándar HVHZ que el resto de su casa.",
       "Tierra adentro, en zonas como Coral Ridge y Victoria Park, el reto cambia de la sal al sol — un calor intenso y rayos UV constantes que pueden hacer que un patio abierto sea inutilizable al mediodía. Un cerramiento de malla a medida reduce el resplandor y el calor mientras mantiene fuera a mosquitos y jejenes, convirtiendo ese espacio en una habitación con sombra que realmente usará. Muchas asociaciones de propietarios en Fort Lauderdale exigen revisión arquitectónica para adiciones exteriores; nuestro diseño 3D gratuito presenta el cerramiento terminado para su aprobación antes de iniciar el trámite de permisos.",
-      "Cada cerramiento se diseña conforme al código de Zona de Huracanes de Alta Velocidad de Broward — clasificación de 175 mph, ingeniería sellada y Aprobación de Producto de Florida o NOA de Miami-Dade en cada componente. Gestionamos el permiso directamente ante la Ciudad de Fort Lauderdale o el Condado de Broward, para que usted no tenga que lidiar con el papeleo. Encierre un patio o lanai cubierto existente como un porche con malla sencillo, o conviértalo más adelante en un Florida room con techo sólido — nuestro equipo propio lo instala bien desde la primera vez, a${perSqft}/pie²."
+      "Cada cerramiento se diseña conforme al código de Zona de Huracanes de Alta Velocidad de Broward — clasificación de 175 mph, ingeniería sellada y Aprobación de Producto de Florida o NOA de Miami-Dade en cada componente. Gestionamos el permiso directamente ante la Ciudad de Fort Lauderdale o el Condado de Broward, para que usted no tenga que lidiar con el papeleo. Encierre un patio o lanai cubierto existente como un porche con malla sencillo, o conviértalo más adelante en un Florida room con techo sólido — nuestro equipo propio lo instala bien desde la primera vez, a ${perSqft}/pie²."
     ],
     "permitNoteEs": "Fort Lauderdale está en la Zona de Huracanes de Alta Velocidad del Condado de Broward, así que todo cerramiento de malla permanente necesita un permiso de construcción con ingeniería sellada y Aprobación de Producto de Florida o NOA de Miami-Dade, clasificado para vientos de 175 mph. Tramitamos el permiso ante la Ciudad de Fort Lauderdale o el Departamento de Construcción del Condado de Broward y gestionamos todo el proceso por usted.",
     "localProofEs": "Licenciados y asegurados, con más de 15 años construyendo cerramientos de malla en todo el Condado de Broward y más de 500 proyectos completados, incluyendo lanais frente al agua a lo largo del Intracoastal en Fort Lauderdale.",
-    "priceRangeNoteEs": "La mayoría de los cerramientos de malla para patio en Fort Lauderdale cuestan entre {range}, según el tamaño, el tipo de malla y los requisitos estructurales, con precios cercanos a${perSqft}/pie².",
+    "priceRangeNoteEs": "La mayoría de los cerramientos de malla para patio en Fort Lauderdale cuestan entre {range}, según el tamaño, el tipo de malla y los requisitos estructurales, con precios cercanos a ${perSqft}/pie².",
     "answerQuestionEs": "¿Cuánto cuesta un cerramiento de malla para patio en Fort Lauderdale?",
-    "answerAnswerEs": "El precio generalmente está dentro del rango {range}, según el tamaño del cerramiento, el tipo de malla y si la estructura se integra a un techo existente o requiere un marco nuevo clasificado HVHZ. Las propiedades costeras cerca del Intracoastal pueden necesitar protección adicional contra la corrosión. Solicite un diseño 3D gratuito y una medición en sitio para una cotización exacta a${perSqft}/pie².",
+    "answerAnswerEs": "El precio generalmente está dentro del rango {range}, según el tamaño del cerramiento, el tipo de malla y si la estructura se integra a un techo existente o requiere un marco nuevo clasificado HVHZ. Las propiedades costeras cerca del Intracoastal pueden necesitar protección adicional contra la corrosión. Solicite un diseño 3D gratuito y una medición en sitio para una cotización exacta a ${perSqft}/pie².",
     "faqsEs": [
       {
         "question": "¿Necesito un permiso para un cerramiento de malla de patio en Fort Lauderdale?",
@@ -1699,7 +1699,7 @@
     "valueParagraphs": [
       "Homes along Old Cutler Road and the canal-front lots near Biscayne Bay face constant salt-air exposure that pits standard screen frames within a few seasons. We build every Palmetto Bay enclosure from marine-grade, powder-coated aluminum that shrugs off corrosion, so your screened lanai or Florida room stays rust-free through humid summers and salty bay breezes for decades, not years.",
       "Farther inland, around Franjo Road and the neighborhoods near Palmetto Bay Village Center, the challenge shifts from salt to sun and swarms: intense UV that fades furniture and mosquito pressure from the greenbelt near Deering Estate. A screened enclosure blocks no-see-ums and biting insects while cutting glare and heat, and our design team handles HOA architectural submittals so your project clears review without delay.",
-      "Every permanent enclosure we install in Palmetto Bay is engineered and permitted through Miami-Dade RER, with product approved under a current Miami-Dade NOA, built to the county's 175 mph HVHZ standard — no shortcuts, no unpermitted additions to flag at resale. Choose a full screen room, a solid-roof Florida room conversion, or a simple rescreen; we quote by${perSqft}/sq ftand offer financing so the upgrade fits your budget."
+      "Every permanent enclosure we install in Palmetto Bay is engineered and permitted through Miami-Dade RER, with product approved under a current Miami-Dade NOA, built to the county's 175 mph HVHZ standard — no shortcuts, no unpermitted additions to flag at resale. Choose a full screen room, a solid-roof Florida room conversion, or a simple rescreen; we quote by ${perSqft}/sq ft and offer financing so the upgrade fits your budget."
     ],
     "neighborhoods": [
       "Old Cutler Road",
@@ -1710,9 +1710,9 @@
     ],
     "permitNote": "A permanent screen enclosure in Palmetto Bay needs a building permit through Miami-Dade RER, sealed engineering, and Miami-Dade NOA approval rated for 175 mph HVHZ winds. We handle the entire permit process for you.",
     "localProof": "Licensed, insured, and building HVHZ-rated screen enclosures across Miami-Dade for 15+ years, with 500+ completed projects and an in-house crew serving Palmetto Bay from Old Cutler Road to Franjo Road.",
-    "priceRangeNote": "Palmetto Bay screen enclosures typically run {range}, priced at${perSqft}/sq ftbased on the size of your patio or lanai, screen mesh grade, and whether you add a solid roof or Florida room conversion; every quote includes a free 3D design.",
+    "priceRangeNote": "Palmetto Bay screen enclosures typically run {range}, priced at ${perSqft}/sq ft based on the size of your patio or lanai, screen mesh grade, and whether you add a solid roof or Florida room conversion; every quote includes a free 3D design.",
     "answerQuestion": "How much does a patio screen enclosure cost in Palmetto Bay, FL?",
-    "answerAnswer": "Most Palmetto Bay screen enclosures fall in the {range} range, with pricing figured at${perSqft}/sq ftdepending on enclosure size, screen mesh type, and roof style. Waterfront lots near Old Cutler Road may need heavier-gauge framing for salt-air resistance. Every quote includes a free 3D design and covers Miami-Dade permitting and NOA-approved engineering.",
+    "answerAnswer": "Most Palmetto Bay screen enclosures fall in the {range} range, with pricing figured at ${perSqft}/sq ft depending on enclosure size, screen mesh type, and roof style. Waterfront lots near Old Cutler Road may need heavier-gauge framing for salt-air resistance. Every quote includes a free 3D design and covers Miami-Dade permitting and NOA-approved engineering.",
     "faqs": [
       {
         "question": "Do I need a permit for a screen enclosure in Palmetto Bay?",
@@ -1743,13 +1743,13 @@
     "valueParagraphsEs": [
       "Las viviendas junto a Old Cutler Road y los lotes frente a los canales cerca de la Bahía de Biscayne enfrentan una exposición constante al aire salino que corroe los marcos de malla estándar en pocas temporadas. En Palmetto Bay construimos cada cerramiento con aluminio de grado marino y acabado electrostático que resiste la corrosión, para que tu lanai enmallado o Florida room se mantenga libre de óxido durante décadas, no solo años.",
       "Más hacia el interior, cerca de Franjo Road y los barrios próximos al Palmetto Bay Village Center, el reto cambia de la sal al sol y a los insectos: rayos UV intensos que decoloran los muebles y presión de mosquitos proveniente de la zona verde cerca de Deering Estate. Un cerramiento con malla bloquea los jejenes y mosquitos mientras reduce el resplandor y el calor, y nuestro equipo de diseño gestiona las aprobaciones de la HOA para que tu proyecto avance sin demoras.",
-      "Todo cerramiento permanente que instalamos en Palmetto Bay se diseña y permisa a través de Miami-Dade RER, con productos aprobados bajo una NOA vigente de Miami-Dade, construidos según el estándar HVHZ de 175 mph del condado, sin atajos ni adiciones sin permiso que compliquen la venta de tu casa. Elige un screen room completo, una conversión a Florida room con techo sólido, o un simple remallado; cotizamos por${perSqft}/pie²y ofrecemos financiamiento para que la mejora se ajuste a tu presupuesto."
+      "Todo cerramiento permanente que instalamos en Palmetto Bay se diseña y permisa a través de Miami-Dade RER, con productos aprobados bajo una NOA vigente de Miami-Dade, construidos según el estándar HVHZ de 175 mph del condado, sin atajos ni adiciones sin permiso que compliquen la venta de tu casa. Elige un screen room completo, una conversión a Florida room con techo sólido, o un simple remallado; cotizamos por ${perSqft}/pie² y ofrecemos financiamiento para que la mejora se ajuste a tu presupuesto."
     ],
     "permitNoteEs": "Un cerramiento de malla permanente en Palmetto Bay requiere permiso de construcción a través de Miami-Dade RER, ingeniería sellada y aprobación de producto NOA de Miami-Dade, clasificada para vientos HVHZ de 175 mph. Nosotros gestionamos todo el proceso de permisos por ti.",
     "localProofEs": "Con licencia, asegurados y más de 15 años construyendo cerramientos con malla clasificados HVHZ en todo Miami-Dade, con más de 500 proyectos completados y equipo propio que atiende Palmetto Bay desde Old Cutler Road hasta Franjo Road.",
-    "priceRangeNoteEs": "Los cerramientos de patio con malla en Palmetto Bay suelen costar entre {range}, cotizados a${perSqft}/pie²según el tamaño de tu patio o lanai, el tipo de malla y si agregas techo sólido o conversión a Florida room; cada cotización incluye diseño 3D gratuito.",
+    "priceRangeNoteEs": "Los cerramientos de patio con malla en Palmetto Bay suelen costar entre {range}, cotizados a ${perSqft}/pie² según el tamaño de tu patio o lanai, el tipo de malla y si agregas techo sólido o conversión a Florida room; cada cotización incluye diseño 3D gratuito.",
     "answerQuestionEs": "¿Cuánto cuesta un cerramiento de patio con malla en Palmetto Bay, FL?",
-    "answerAnswerEs": "La mayoría de los cerramientos con malla en Palmetto Bay están en el rango de {range}, cotizados a${perSqft}/pie²según el tamaño del cerramiento, el tipo de malla y el estilo de techo. Los lotes frente al agua cerca de Old Cutler Road pueden requerir estructura más resistente por el aire salino. Cada cotización incluye diseño 3D gratuito y cubre permisos e ingeniería aprobada por NOA en Miami-Dade.",
+    "answerAnswerEs": "La mayoría de los cerramientos con malla en Palmetto Bay están en el rango de {range}, cotizados a ${perSqft}/pie² según el tamaño del cerramiento, el tipo de malla y el estilo de techo. Los lotes frente al agua cerca de Old Cutler Road pueden requerir estructura más resistente por el aire salino. Cada cotización incluye diseño 3D gratuito y cubre permisos e ingeniería aprobada por NOA en Miami-Dade.",
     "faqsEs": [
       {
         "question": "¿Necesito permiso para un cerramiento de malla en Palmetto Bay?",
@@ -1775,8 +1775,8 @@
     }
   },
   {
-    "answerAnswer": "Pricing depends on your patio's size, screen mesh type, and the HVHZ engineering required in Broward County, but most Hallandale Beach screen enclosures fall within {range}, typically figured around${perSqft}/sq ft. Coastal, marine-grade aluminum framing and Miami-Dade NOA-rated screens add durability against salt air without inflating the base cost much.",
-    "answerAnswerEs": "El precio depende del tamaño de su patio, el tipo de malla y la ingeniería HVHZ requerida en el Condado de Broward, pero la mayoría de los cerramientos en Hallandale Beach están dentro de {range}, calculado típicamente alrededor de${perSqft}/pie². El aluminio marino y las mallas aprobadas NOA de Miami-Dade agregan durabilidad frente al aire salino sin aumentar mucho el costo base.",
+    "answerAnswer": "Pricing depends on your patio's size, screen mesh type, and the HVHZ engineering required in Broward County, but most Hallandale Beach screen enclosures fall within {range}, typically figured around ${perSqft}/sq ft. Coastal, marine-grade aluminum framing and Miami-Dade NOA-rated screens add durability against salt air without inflating the base cost much.",
+    "answerAnswerEs": "El precio depende del tamaño de su patio, el tipo de malla y la ingeniería HVHZ requerida en el Condado de Broward, pero la mayoría de los cerramientos en Hallandale Beach están dentro de {range}, calculado típicamente alrededor de ${perSqft}/pie². El aluminio marino y las mallas aprobadas NOA de Miami-Dade agregan durabilidad frente al aire salino sin aumentar mucho el costo base.",
     "answerQuestion": "How much does a patio screen enclosure cost in Hallandale Beach, FL?",
     "answerQuestionEs": "¿Cuánto cuesta un cerramiento de patio con malla en Hallandale Beach, FL?",
     "citySlug": "hallandale-beach",
@@ -1836,8 +1836,8 @@
     ],
     "permitNote": "A permanent screen enclosure in Hallandale Beach requires a building permit through the City of Hallandale Beach Building Department, plus sealed engineering and Miami-Dade NOA or Florida Product Approval — since Broward County sits inside the High-Velocity Hurricane Zone. We handle the entire permit and engineering package for you.",
     "permitNoteEs": "Un cerramiento de patio permanente en Hallandale Beach requiere un permiso de construcción ante el Departamento de Construcción de la Ciudad de Hallandale Beach, además de ingeniería sellada y aprobación NOA de Miami-Dade o Florida Product Approval, ya que el Condado de Broward está dentro de la Zona de Huracanes de Alta Velocidad. Nosotros gestionamos todo el paquete de permisos e ingeniería por usted.",
-    "priceRangeNote": "Most Hallandale Beach patio screen enclosures fall in the {range} range, generally priced around${perSqft}/sq ft, depending on enclosure size, screen type, and structural engineering requirements for HVHZ compliance.",
-    "priceRangeNoteEs": "La mayoría de los cerramientos de patio con malla en Hallandale Beach están dentro del rango {range}, generalmente calculado alrededor de${perSqft}/pie², según el tamaño del cerramiento, el tipo de malla y los requisitos de ingeniería para cumplir con la HVHZ.",
+    "priceRangeNote": "Most Hallandale Beach patio screen enclosures fall in the {range} range, generally priced around ${perSqft}/sq ft, depending on enclosure size, screen type, and structural engineering requirements for HVHZ compliance.",
+    "priceRangeNoteEs": "La mayoría de los cerramientos de patio con malla en Hallandale Beach están dentro del rango {range}, generalmente calculado alrededor de ${perSqft}/pie², según el tamaño del cerramiento, el tipo de malla y los requisitos de ingeniería para cumplir con la HVHZ.",
     "seo": {
       "metaTitle": "Patio Screen Enclosures in Hallandale Beach, FL | AB Aluminum",
       "metaDescription": "Custom patio screen enclosures for Hallandale Beach homes — bug-free outdoor living, HVHZ 175 mph-rated aluminum, permits handled, free 3D design."
@@ -1879,7 +1879,7 @@
     ],
     "permitNote": "Broward County is a High-Velocity Hurricane Zone, so every enclosure we install is engineered to 175 mph wind loads with Miami-Dade NOA product approval, permitted through the Town of Davie building department — we handle the paperwork and HOA architectural submittals for you.",
     "localProof": "Licensed and insured with 15+ years serving Broward County and 500+ completed projects, including screen enclosures across Davie's horse-country and golf-course communities.",
-    "priceRangeNote": "Most Davie screen enclosures fall in the {range} range, with per-square-foot pricing around${perSqft}/sq ftdepending on size, mesh type, and frame configuration — get an exact number with a free 3D design consultation.",
+    "priceRangeNote": "Most Davie screen enclosures fall in the {range} range, with per-square-foot pricing around ${perSqft}/sq ft depending on size, mesh type, and frame configuration — get an exact number with a free 3D design consultation.",
     "answerQuestion": "Do I need a permit to add a screen enclosure to my patio in Davie?",
     "answerAnswer": "Yes. Broward County is a High-Velocity Hurricane Zone, so any permanent aluminum screen enclosure needs a building permit, sealed engineering, and Miami-Dade NOA wind-rated approval before construction. We pull the permit through the Town of Davie building department, handle HOA architectural review where required, and manage every step so you don't have to.",
     "faqs": [
@@ -1916,7 +1916,7 @@
     ],
     "permitNoteEs": "El Condado de Broward es Zona de Huracanes de Alta Velocidad, así que todo cerramiento que instalamos está diseñado para vientos de 175 mph con aprobación NOA de Miami-Dade, permisado a través del departamento de construcción del Municipio de Davie — nosotros gestionamos el papeleo y las solicitudes de la HOA por ti.",
     "localProofEs": "Licenciados y asegurados con más de 15 años sirviendo al Condado de Broward y más de 500 proyectos completados, incluyendo cerramientos de malla en las comunidades ecuestres y de campo de golf de Davie.",
-    "priceRangeNoteEs": "La mayoría de los cerramientos de patio en Davie están en el rango de {range}, con precios por pie cuadrado alrededor de${perSqft}/pie²según el tamaño, el tipo de malla y la configuración del marco — obtén un número exacto con una consulta de diseño 3D gratuita.",
+    "priceRangeNoteEs": "La mayoría de los cerramientos de patio en Davie están en el rango de {range}, con precios por pie cuadrado alrededor de ${perSqft}/pie² según el tamaño, el tipo de malla y la configuración del marco — obtén un número exacto con una consulta de diseño 3D gratuita.",
     "answerQuestionEs": "¿Necesito un permiso para agregar un cerramiento de malla a mi patio en Davie?",
     "answerAnswerEs": "Sí. El Condado de Broward es Zona de Huracanes de Alta Velocidad, así que todo cerramiento de aluminio permanente necesita permiso de construcción, ingeniería sellada y aprobación NOA de Miami-Dade con clasificación de viento antes de construir. Tramitamos el permiso a través del Municipio de Davie, gestionamos la revisión arquitectónica de la HOA cuando aplica, y manejamos cada paso por ti.",
     "faqsEs": [
@@ -1963,9 +1963,9 @@
     ],
     "permitNote": "Screen enclosures in Deerfield Beach require a permit through the city's Building Department, with sealed engineering and Miami-Dade NOA product approval rated to withstand 175 mph HVHZ winds — required whether you're in The Cove or Century Village. We prepare and file the full permit package, including HOA architectural review documents where applicable.",
     "localProof": "Licensed, insured, and building HVHZ-rated aluminum structures across Broward County for 15+ years, with 500+ completed projects from coastal canal homes to inland golf communities.",
-    "priceRangeNote": "Most Deerfield Beach patio screen enclosures run {range}, with screen-only projects priced around${perSqft}/sq ftdepending on size, mesh type, and roof configuration; every quote follows a free 3D design and on-site measurement.",
+    "priceRangeNote": "Most Deerfield Beach patio screen enclosures run {range}, with screen-only projects priced around ${perSqft}/sq ft depending on size, mesh type, and roof configuration; every quote follows a free 3D design and on-site measurement.",
     "answerQuestion": "How much does a patio screen enclosure cost in Deerfield Beach?",
-    "answerAnswer": "Most Deerfield Beach screen enclosures fall in the {range} range, with screen-only conversions priced around${perSqft}/sq ft. Final cost depends on enclosure size, mesh type (standard, no-see-um, or pet-resistant), roof style, and whether you're adding a screen door or converting a covered patio. We provide a free 3D design and firm quote before any permit work begins.",
+    "answerAnswer": "Most Deerfield Beach screen enclosures fall in the {range} range, with screen-only conversions priced around ${perSqft}/sq ft. Final cost depends on enclosure size, mesh type (standard, no-see-um, or pet-resistant), roof style, and whether you're adding a screen door or converting a covered patio. We provide a free 3D design and firm quote before any permit work begins.",
     "faqs": [
       {
         "question": "Do I need a permit for a screen enclosure in Deerfield Beach?",
@@ -2000,9 +2000,9 @@
     ],
     "permitNoteEs": "Los porches con malla en Deerfield Beach requieren permiso a través del Departamento de Construcción de la ciudad, con ingeniería sellada y aprobación NOA de Miami-Dade certificada para vientos de 175 mph — ya sea en The Cove o en Century Village. Preparamos y tramitamos todo el paquete de permisos, incluyendo los documentos de revisión arquitectónica que exigen algunas HOA.",
     "localProofEs": "Licenciados, asegurados y construyendo estructuras de aluminio certificadas para HVHZ en todo el condado de Broward desde hace más de 15 años, con más de 500 proyectos completados, desde casas frente a canales hasta comunidades de golf tierra adentro.",
-    "priceRangeNoteEs": "La mayoría de los porches con malla en Deerfield Beach cuestan entre {range}, con proyectos de solo malla desde aproximadamente${perSqft}/pie²según el tamaño, el tipo de malla y el diseño del techo; cada cotización incluye un diseño 3D gratuito y medición en sitio.",
+    "priceRangeNoteEs": "La mayoría de los porches con malla en Deerfield Beach cuestan entre {range}, con proyectos de solo malla desde aproximadamente ${perSqft}/pie² según el tamaño, el tipo de malla y el diseño del techo; cada cotización incluye un diseño 3D gratuito y medición en sitio.",
     "answerQuestionEs": "¿Cuánto cuesta un porche con malla en Deerfield Beach?",
-    "answerAnswerEs": "La mayoría de los cerramientos de patio con malla en Deerfield Beach están en el rango de {range}, con conversiones de solo malla desde${perSqft}/pie². El costo depende del tamaño, el tipo de malla, el estilo del techo y si agrega una puerta. Ofrecemos diseño 3D gratuito y cotización firme antes del permiso.",
+    "answerAnswerEs": "La mayoría de los cerramientos de patio con malla en Deerfield Beach están en el rango de {range}, con conversiones de solo malla desde ${perSqft}/pie². El costo depende del tamaño, el tipo de malla, el estilo del techo y si agrega una puerta. Ofrecemos diseño 3D gratuito y cotización firme antes del permiso.",
     "faqsEs": [
       {
         "question": "¿Necesito permiso para un porche con malla en Deerfield Beach?",
@@ -2046,9 +2046,9 @@
     ],
     "permitNote": "Screen enclosures in Hollywood require a building permit through the City of Hollywood Building Division, with engineering sealed to Broward's 175 mph HVHZ standard. We handle the full process.",
     "localProof": "Licensed and insured with 15+ years and 500+ aluminum and screen projects completed across Broward County, including work along Hollywood's canals.",
-    "priceRangeNote": "Most Hollywood patio screen enclosures fall within {range}, depending on size and screen type, with larger conversions running around${perSqft}/sq ft.",
+    "priceRangeNote": "Most Hollywood patio screen enclosures fall within {range}, depending on size and screen type, with larger conversions running around ${perSqft}/sq ft.",
     "answerQuestion": "How much does a patio screen enclosure cost in Hollywood, FL?",
-    "answerAnswer": "Most Hollywood patio screen enclosures cost {range}, depending on size, screen type, and roof structure, with larger projects and Florida room conversions priced around${perSqft}/sq ft. Every quote includes a free 3D design, HVHZ-rated 175 mph engineering, and full permitting through the City of Hollywood — so the price you see is what you pay.",
+    "answerAnswer": "Most Hollywood patio screen enclosures cost {range}, depending on size, screen type, and roof structure, with larger projects and Florida room conversions priced around ${perSqft}/sq ft. Every quote includes a free 3D design, HVHZ-rated 175 mph engineering, and full permitting through the City of Hollywood — so the price you see is what you pay.",
     "faqs": [
       {
         "question": "Do I need a permit for a patio screen enclosure in Hollywood?",
@@ -2083,9 +2083,9 @@
     ],
     "permitNoteEs": "Los cerramientos con malla en Hollywood requieren permiso de construcción a través del Departamento de Construcción de la Ciudad de Hollywood, con ingeniería sellada según el estándar HVHZ de Broward de 175 mph. Nosotros gestionamos todo el proceso por ti.",
     "localProofEs": "Licenciados y asegurados, con más de 15 años de experiencia y más de 500 proyectos de aluminio y malla completados en el Condado de Broward, incluyendo trabajos a lo largo de los canales de Hollywood.",
-    "priceRangeNoteEs": "La mayoría de los cerramientos de patio con malla en Hollywood cuestan {range}, según el tamaño y el tipo de malla, con conversiones más grandes cotizadas alrededor de${perSqft}/pie².",
+    "priceRangeNoteEs": "La mayoría de los cerramientos de patio con malla en Hollywood cuestan {range}, según el tamaño y el tipo de malla, con conversiones más grandes cotizadas alrededor de ${perSqft}/pie².",
     "answerQuestionEs": "¿Cuánto cuesta un cerramiento de patio con malla en Hollywood, FL?",
-    "answerAnswerEs": "La mayoría de los porches con malla en Hollywood cuestan {range}, según el tamaño, el tipo de malla y la estructura del techo, con proyectos más grandes o conversiones a Florida room cotizados alrededor de${perSqft}/pie². Cada cotización incluye diseño 3D gratuito, ingeniería certificada para 175 mph y todos los permisos ante la Ciudad de Hollywood — así que el precio que ves es el que pagas.",
+    "answerAnswerEs": "La mayoría de los porches con malla en Hollywood cuestan {range}, según el tamaño, el tipo de malla y la estructura del techo, con proyectos más grandes o conversiones a Florida room cotizados alrededor de ${perSqft}/pie². Cada cotización incluye diseño 3D gratuito, ingeniería certificada para 175 mph y todos los permisos ante la Ciudad de Hollywood — así que el precio que ves es el que pagas.",
     "faqsEs": [
       {
         "question": "¿Necesito permiso para un cerramiento de patio con malla en Hollywood?",
@@ -2471,9 +2471,9 @@
     ],
     "permitNote": "Screen enclosures in Weston require a City of Weston building permit, sealed engineering, and aluminum systems carrying Miami-Dade NOA or Florida Product Approval to meet Broward's 175 mph HVHZ wind standard. We prepare and submit the full permit package, including HOA or CDD architectural review where your community requires it.",
     "localProof": "15+ years and 500+ screen enclosures installed across Broward County, including projects throughout Weston's gated communities — all built by our own licensed, in-house crew, not subcontractors.",
-    "priceRangeNote": "Most Weston screen enclosures fall in the {range} range depending on size, screen height, and mesh type — figure roughly${perSqft}/sq ftfor standard screen, more for a Florida room upgrade. Every quote includes a free 3D design and full permit handling.",
+    "priceRangeNote": "Most Weston screen enclosures fall in the {range} range depending on size, screen height, and mesh type — figure roughly ${perSqft}/sq ft for standard screen, more for a Florida room upgrade. Every quote includes a free 3D design and full permit handling.",
     "answerQuestion": "How much does a patio screen enclosure cost in Weston, FL?",
-    "answerAnswer": "Most Weston screen enclosures run {range}, or about${perSqft}/sq ft, depending on size, screen height, and whether you choose standard mesh or a Florida room upgrade with acrylic panels. Every quote from AB Aluminum & Screens includes a free 3D design, City of Weston permitting, and engineering sealed to Broward's 175 mph wind code.",
+    "answerAnswer": "Most Weston screen enclosures run {range}, or about ${perSqft}/sq ft, depending on size, screen height, and whether you choose standard mesh or a Florida room upgrade with acrylic panels. Every quote from AB Aluminum & Screens includes a free 3D design, City of Weston permitting, and engineering sealed to Broward's 175 mph wind code.",
     "faqs": [
       {
         "question": "Do I need a permit to add a screen enclosure in Weston?",
@@ -2508,9 +2508,9 @@
     ],
     "permitNoteEs": "Los cerramientos con malla en Weston requieren un permiso de construcción de la Ciudad de Weston, ingeniería sellada y sistemas de aluminio con Aprobación NOA de Miami-Dade o Aprobación de Producto de Florida para cumplir con el estándar HVHZ de 175 mph de Broward. Preparamos y tramitamos todo el paquete, incluyendo la revisión arquitectónica de la HOA o el CDD cuando tu comunidad lo exige.",
     "localProofEs": "Más de 15 años y 500 cerramientos con malla instalados en el Condado de Broward, incluyendo proyectos en las comunidades cerradas de Weston — todos construidos por nuestro propio equipo interno con licencia, sin subcontratistas.",
-    "priceRangeNoteEs": "La mayoría de los cerramientos con malla en Weston están en el rango de {range}, según el tamaño, la altura y el tipo de malla — calcula aproximadamente${perSqft}/pie²para malla estándar, más si conviertes a Florida room. Cada cotización incluye diseño 3D gratuito y trámite completo de permisos.",
+    "priceRangeNoteEs": "La mayoría de los cerramientos con malla en Weston están en el rango de {range}, según el tamaño, la altura y el tipo de malla — calcula aproximadamente ${perSqft}/pie² para malla estándar, más si conviertes a Florida room. Cada cotización incluye diseño 3D gratuito y trámite completo de permisos.",
     "answerQuestionEs": "¿Cuánto cuesta un cerramiento de patio con malla en Weston, FL?",
-    "answerAnswerEs": "La mayoría de los cerramientos con malla en Weston cuestan {range}, o cerca de${perSqft}/pie², según el tamaño, la altura de la malla y si eliges malla estándar o una mejora a Florida room con paneles de acrílico. Cada cotización de AB Aluminum & Screens incluye diseño 3D gratuito, permiso de la Ciudad de Weston e ingeniería sellada para el código de viento de 175 mph de Broward.",
+    "answerAnswerEs": "La mayoría de los cerramientos con malla en Weston cuestan {range}, o cerca de ${perSqft}/pie², según el tamaño, la altura de la malla y si eliges malla estándar o una mejora a Florida room con paneles de acrílico. Cada cotización de AB Aluminum & Screens incluye diseño 3D gratuito, permiso de la Ciudad de Weston e ingeniería sellada para el código de viento de 175 mph de Broward.",
     "faqsEs": [
       {
         "question": "¿Necesito un permiso para instalar un cerramiento con malla en Weston?",
@@ -2641,7 +2641,7 @@
     ],
     "permitNote": "A screen enclosure over an existing patio or lanai in Miramar is a permanent structure, so it needs a building permit and sealed engineering, not just a handshake install. Because Broward is inside the High-Velocity Hurricane Zone, we design every frame to Miami-Dade NOA / Florida Product Approval standards for 175 mph winds and file the paperwork with the City of Miramar Building Division ourselves.",
     "localProof": "AB Aluminum & Screens is a licensed and insured Florida contractor with 15+ years and 500+ completed projects across Broward and Miami-Dade, serving Miramar homeowners from Silver Lakes and Sunset Lakes to Riviera Isles and Grand Palms. Every project starts with a free 3D design, so you see the finished screen room before we pull a permit, and our in-house crew — not a rotating cast of subcontractors — handles the install start to finish.",
-    "priceRangeNote": "Most Miramar patio screen enclosures fall in the {range} range depending on size, mesh type, and whether we're screening a simple rectangle or wrapping an L-shaped lanai; larger screen rooms and pool-cage-style enclosures are quoted at${perSqft}/sq ft. Every estimate includes permitting, engineering, and installation — no separate change orders once the 3D design is approved.",
+    "priceRangeNote": "Most Miramar patio screen enclosures fall in the {range} range depending on size, mesh type, and whether we're screening a simple rectangle or wrapping an L-shaped lanai; larger screen rooms and pool-cage-style enclosures are quoted at ${perSqft}/sq ft. Every estimate includes permitting, engineering, and installation — no separate change orders once the 3D design is approved.",
     "answerQuestion": "What is a patio screen enclosure, and does it work for Miramar's climate?",
     "answerAnswer": "A patio screen enclosure is an aluminum-framed structure with fine mesh panels that closes in an existing patio, lanai, or covered porch. In Miramar's inland heat and heavy mosquito pressure, it turns that space into a shaded, bug-free room you can use daily — engineered to 175 mph HVHZ wind standards and permitted through the city.",
     "faqs": [
@@ -2678,7 +2678,7 @@
     ],
     "permitNoteEs": "Un cerramiento de malla sobre un patio o lanai existente en Miramar es una estructura permanente, así que necesita permiso de construcción e ingeniería sellada, no solo una instalación informal. Como Broward está dentro de la Zona de Huracanes de Alta Velocidad, diseñamos cada marco bajo los estándares NOA de Miami-Dade / Aprobación de Producto de Florida para vientos de 175 mph, y tramitamos el papeleo con la División de Construcción de la Ciudad de Miramar nosotros mismos.",
     "localProofEs": "AB Aluminum & Screens es un contratista de Florida licenciado y asegurado, con más de 15 años y más de 500 proyectos completados en Broward y Miami-Dade, sirviendo a propietarios de Miramar desde Silver Lakes y Sunset Lakes hasta Riviera Isles y Grand Palms. Cada proyecto comienza con un diseño 3D gratuito, para que usted vea el screen room terminado antes de tramitar el permiso, y nuestro equipo propio, no una rotación de subcontratistas, se encarga de la instalación de principio a fin.",
-    "priceRangeNoteEs": "La mayoría de los cerramientos de malla para patio en Miramar caen dentro del rango {range}, según el tamaño, el tipo de malla y si se trata de un rectángulo simple o un lanai en forma de L; los screen rooms más grandes y los cerramientos tipo jaula de piscina suelen cotizarse en${perSqft}/pie². Cada estimado incluye permiso, ingeniería e instalación, sin cargos adicionales una vez aprobado el diseño 3D.",
+    "priceRangeNoteEs": "La mayoría de los cerramientos de malla para patio en Miramar caen dentro del rango {range}, según el tamaño, el tipo de malla y si se trata de un rectángulo simple o un lanai en forma de L; los screen rooms más grandes y los cerramientos tipo jaula de piscina suelen cotizarse en ${perSqft}/pie². Cada estimado incluye permiso, ingeniería e instalación, sin cargos adicionales una vez aprobado el diseño 3D.",
     "answerQuestionEs": "¿Qué es un cerramiento de malla para patio y funciona con el clima de Miramar?",
     "answerAnswerEs": "Un cerramiento de malla para patio es una estructura de aluminio con paneles de malla fina que encierra un patio, lanai o porche cubierto existente. Con el calor y la presión de mosquitos de Miramar, convierte ese espacio en un cuarto con sombra y sin insectos que puede usar a diario, diseñado para vientos de 175 mph bajo normas HVHZ y permitido a través de la ciudad.",
     "faqsEs": [
@@ -2812,9 +2812,9 @@
     ],
     "permitNote": "Pembroke Pines falls under Broward County's High-Velocity Hurricane Zone rules: a permanent screen enclosure requires a building permit, sealed engineering and Miami-Dade NOA or Florida Product Approval rated to 175 mph, filed through the City of Pembroke Pines Building Department. We prepare and submit the full package, plus any HOA drawings your community requires.",
     "localProof": "Licensed and insured with 15+ years building screen enclosures across Broward and 500+ completed projects, our in-house crew has enclosed patios and lanais throughout Pembroke Pines, from Chapel Trail to Century Village, each engineered to HVHZ code and HOA-ready.",
-    "priceRangeNote": "Most Pembroke Pines screen enclosures run {range} installed, with rescreen and screen-door add-ons priced at${perSqft}/sq ft; your free 3D design confirms an exact number for your patio's footprint.",
+    "priceRangeNote": "Most Pembroke Pines screen enclosures run {range} installed, with rescreen and screen-door add-ons priced at ${perSqft}/sq ft; your free 3D design confirms an exact number for your patio's footprint.",
     "answerQuestion": "How much does a patio screen enclosure cost in Pembroke Pines?",
-    "answerAnswer": "Pricing depends on the size of the area, roof style and mesh type, but most Pembroke Pines screen enclosures fall around {range} installed, with rescreening priced at${perSqft}/sq ft. HVHZ engineering, the city permit and HOA-ready drawings are included, with an exact quote after your free 3D design visit.",
+    "answerAnswer": "Pricing depends on the size of the area, roof style and mesh type, but most Pembroke Pines screen enclosures fall around {range} installed, with rescreening priced at ${perSqft}/sq ft. HVHZ engineering, the city permit and HOA-ready drawings are included, with an exact quote after your free 3D design visit.",
     "faqs": [
       {
         "question": "Do I need a permit for a patio screen enclosure in Pembroke Pines?",
@@ -2849,9 +2849,9 @@
     ],
     "permitNoteEs": "Pembroke Pines cae bajo las reglas de la Zona de Huracanes de Alta Velocidad del condado de Broward: un cerramiento de patio permanente requiere permiso de construcción, ingeniería sellada y Aprobación NOA de Miami-Dade o Florida Product Approval certificada para 175 mph, tramitado a través del Departamento de Construcción de la Ciudad de Pembroke Pines. Preparamos y presentamos todo el paquete, además de los planos que tu HOA requiera.",
     "localProofEs": "Licenciados y asegurados, con más de 15 años construyendo cerramientos de patio en Broward y más de 500 proyectos completados, nuestro equipo interno ha cerrado patios y lanais por todo Pembroke Pines, desde Chapel Trail hasta Century Village, cada uno calculado según el código HVHZ y listo para HOA.",
-    "priceRangeNoteEs": "La mayoría de los cerramientos de patio en Pembroke Pines cuestan {range} instalados, con remallado y puertas de malla cotizados a${perSqft}/pie²; tu diseño 3D gratuito confirma un número exacto para el área de tu patio.",
+    "priceRangeNoteEs": "La mayoría de los cerramientos de patio en Pembroke Pines cuestan {range} instalados, con remallado y puertas de malla cotizados a ${perSqft}/pie²; tu diseño 3D gratuito confirma un número exacto para el área de tu patio.",
     "answerQuestionEs": "¿Cuánto cuesta un cerramiento de patio con malla en Pembroke Pines?",
-    "answerAnswerEs": "El precio depende del tamaño del área, el estilo de techo y el tipo de malla, pero la mayoría de los cerramientos en Pembroke Pines cuestan alrededor de {range} instalados, con remallado cotizado a${perSqft}/pie². La ingeniería HVHZ, el permiso de la ciudad y los planos listos para HOA están incluidos, con cotización exacta tras tu visita de diseño 3D gratuita.",
+    "answerAnswerEs": "El precio depende del tamaño del área, el estilo de techo y el tipo de malla, pero la mayoría de los cerramientos en Pembroke Pines cuestan alrededor de {range} instalados, con remallado cotizado a ${perSqft}/pie². La ingeniería HVHZ, el permiso de la ciudad y los planos listos para HOA están incluidos, con cotización exacta tras tu visita de diseño 3D gratuita.",
     "faqsEs": [
       {
         "question": "¿Necesito permiso para un cerramiento de patio con malla en Pembroke Pines?",
@@ -2896,9 +2896,9 @@
     ],
     "permitNote": "A patio screen enclosure is a permanent structure, so it requires a building permit, sealed engineering, and Florida Product Approval submitted to the Village of Royal Palm Beach Building Division. Palm Beach County lies in the state's Wind-Borne Debris Region, with design winds reaching roughly 165–175 mph near the coast, and AB builds to Miami-Dade HVHZ standards that exceed it. We handle the permit paperwork for you.",
     "localProof": "With 15+ years and 500+ screen enclosures, patios, and pergolas built across Palm Beach County, our in-house crew knows western communities like Counterpoint Estates and Victoria Groves — and the Village permitting and HOA review process that comes with building there.",
-    "priceRangeNote": "Most patio screen enclosures in Royal Palm Beach run {range} installed, or about${perSqft}/sq ft, depending on size, roof style, and mesh selection. Financing is available, and every free 3D design comes with a firm written quote.",
+    "priceRangeNote": "Most patio screen enclosures in Royal Palm Beach run {range} installed, or about ${perSqft}/sq ft, depending on size, roof style, and mesh selection. Financing is available, and every free 3D design comes with a firm written quote.",
     "answerQuestion": "How much does a patio screen enclosure cost in Royal Palm Beach?",
-    "answerAnswer": "Most patio screen enclosures in Royal Palm Beach run {range} installed, roughly${perSqft}/sq ft. Price depends on the patio's footprint, roof style — screen roof or solid panel — and mesh type, from standard to no-see-um weave. Every quote includes the free 3D design, sealed engineering, and permit paperwork, with financing available.",
+    "answerAnswer": "Most patio screen enclosures in Royal Palm Beach run {range} installed, roughly ${perSqft}/sq ft. Price depends on the patio's footprint, roof style — screen roof or solid panel — and mesh type, from standard to no-see-um weave. Every quote includes the free 3D design, sealed engineering, and permit paperwork, with financing available.",
     "faqs": [
       {
         "question": "Do I need a permit for a patio screen enclosure in Royal Palm Beach?",
@@ -2933,9 +2933,9 @@
     ],
     "permitNoteEs": "Un cerramiento de patio con malla es una estructura permanente, así que requiere un permiso de construcción, ingeniería sellada y Aprobación de Producto de Florida presentados ante la División de Construcción del Village of Royal Palm Beach. El condado de Palm Beach está en la Región de Escombros por Viento del estado, con vientos de diseño de hasta 165–175 mph cerca de la costa, y AB construye según los estándares HVHZ de Miami-Dade que los superan. Nosotros gestionamos el permiso por usted.",
     "localProofEs": "Con más de 15 años y 500+ cerramientos, patios y pérgolas construidos en todo el condado de Palm Beach, nuestro equipo propio conoce las comunidades del oeste como Counterpoint Estates y Victoria Groves — y el proceso de permisos del Village y revisión del HOA que conlleva construir ahí.",
-    "priceRangeNoteEs": "La mayoría de los cerramientos de patio con malla en Royal Palm Beach cuestan {range} instalados, o alrededor de${perSqft}/pie², según el tamaño, el estilo de techo y el tipo de malla. Hay financiamiento disponible, y cada diseño 3D gratis viene con una cotización escrita en firme.",
+    "priceRangeNoteEs": "La mayoría de los cerramientos de patio con malla en Royal Palm Beach cuestan {range} instalados, o alrededor de ${perSqft}/pie², según el tamaño, el estilo de techo y el tipo de malla. Hay financiamiento disponible, y cada diseño 3D gratis viene con una cotización escrita en firme.",
     "answerQuestionEs": "¿Cuánto cuesta un cerramiento de patio con malla en Royal Palm Beach?",
-    "answerAnswerEs": "La mayoría de los cerramientos de patio con malla en Royal Palm Beach cuestan {range} instalados, alrededor de${perSqft}/pie². El precio depende del tamaño del patio, el estilo de techo —de malla o panel sólido— y el tipo de malla, desde estándar hasta no-see-um. Cada cotización incluye el diseño 3D gratis, la ingeniería sellada y los trámites del permiso, con financiamiento disponible.",
+    "answerAnswerEs": "La mayoría de los cerramientos de patio con malla en Royal Palm Beach cuestan {range} instalados, alrededor de ${perSqft}/pie². El precio depende del tamaño del patio, el estilo de techo —de malla o panel sólido— y el tipo de malla, desde estándar hasta no-see-um. Cada cotización incluye el diseño 3D gratis, la ingeniería sellada y los trámites del permiso, con financiamiento disponible.",
     "faqsEs": [
       {
         "question": "¿Necesito un permiso para un cerramiento de patio con malla en Royal Palm Beach?",
@@ -3019,9 +3019,9 @@
     ],
     "permitNoteEs": "Un porche con malla es una estructura permanente, así que necesita permiso de construcción, ingeniería sellada y Aprobación de Producto de Florida — revisados por la División de Construcción de la Ciudad de Boynton Beach, o por Palm Beach County PZB en parcelas no incorporadas. Nosotros tramitamos todo el proceso de permisos por ti.",
     "localProofEs": "Desde casas junto al Intracostero en Harbor Estates hasta patios de campo de golf en Hunters Run, los propietarios de Boynton Beach confían en AB Aluminum & Screens para cerramientos libres de insectos que resisten el salitre, el sol y la temporada de tormentas — licenciados, asegurados, con más de 15 años y más de 500 proyectos completados.",
-    "priceRangeNoteEs": "La mayoría de los porches con malla en Boynton Beach cuestan {range} instalados, desde unos ${perSqft}/pie²por pie², según el tamaño, el tipo de malla y los requisitos estructurales — confirmado con un diseño 3D gratis. Hay financiamiento disponible.",
+    "priceRangeNoteEs": "La mayoría de los porches con malla en Boynton Beach cuestan {range} instalados, desde unos ${perSqft}/pie² por pie², según el tamaño, el tipo de malla y los requisitos estructurales — confirmado con un diseño 3D gratis. Hay financiamiento disponible.",
     "answerQuestionEs": "¿Cuánto cuesta un porche con malla en Boynton Beach?",
-    "answerAnswerEs": "La mayoría de los porches con malla en Boynton Beach cuestan {range}, o cerca de ${perSqft}/pie²por pie², según el tamaño del patio o lanai, el tipo de malla y si agregas una puerta con malla o pasas a un Florida room completo. Los permisos e ingeniería del condado de Palm Beach están incluidos en tu diseño 3D gratuito.",
+    "answerAnswerEs": "La mayoría de los porches con malla en Boynton Beach cuestan {range}, o cerca de ${perSqft}/pie² por pie², según el tamaño del patio o lanai, el tipo de malla y si agregas una puerta con malla o pasas a un Florida room completo. Los permisos e ingeniería del condado de Palm Beach están incluidos en tu diseño 3D gratuito.",
     "faqsEs": [
       {
         "question": "¿Necesito permiso para un porche con malla en Boynton Beach?",
@@ -3069,9 +3069,9 @@
     ],
     "permitNote": "A permanent patio screen enclosure in Palm Beach Gardens requires a building permit, sealed engineering, and Florida Product Approval, filed with the City of Palm Beach Gardens Building Division. We manage the full permit and HOA review package for you.",
     "localProof": "Licensed and insured with 15+ years and 500+ screen and aluminum projects completed across Palm Beach County, including homes throughout Palm Beach Gardens' PGA Boulevard corridor and surrounding golf communities.",
-    "priceRangeNote": "Most Palm Beach Gardens patio screen enclosures fall in the {range} range, or roughly${perSqft}/sq ft, depending on size, mesh type, and whether you add a Florida room package. Every quote includes a free 3D design, with financing options available.",
+    "priceRangeNote": "Most Palm Beach Gardens patio screen enclosures fall in the {range} range, or roughly ${perSqft}/sq ft, depending on size, mesh type, and whether you add a Florida room package. Every quote includes a free 3D design, with financing options available.",
     "answerQuestion": "How much does a patio screen enclosure cost in Palm Beach Gardens?",
-    "answerAnswer": "Most Palm Beach Gardens screen enclosures fall in the {range} range, or about${perSqft}/sq ft, depending on size, screen type, and structural requirements. Golf-community projects with HOA-specified finishes or larger under-truss areas run higher. Every quote follows a free 3D design and on-site measurement, so pricing reflects your actual patio and mesh choice.",
+    "answerAnswer": "Most Palm Beach Gardens screen enclosures fall in the {range} range, or about ${perSqft}/sq ft, depending on size, screen type, and structural requirements. Golf-community projects with HOA-specified finishes or larger under-truss areas run higher. Every quote follows a free 3D design and on-site measurement, so pricing reflects your actual patio and mesh choice.",
     "faqs": [
       {
         "question": "Do I need a permit for a screen enclosure in Palm Beach Gardens?",
@@ -3106,9 +3106,9 @@
     ],
     "permitNoteEs": "Un cerramiento de patio con malla permanente en Palm Beach Gardens requiere permiso de construcción, ingeniería sellada y Aprobación de Producto de Florida, tramitado ante la División de Construcción de la Ciudad de Palm Beach Gardens. Nosotros gestionamos todo el paquete de permisos y revisión del HOA por usted.",
     "localProofEs": "Con licencia y seguro, más de 15 años de experiencia y más de 500 proyectos de malla y aluminio completados en todo el Condado de Palm Beach, incluyendo casas a lo largo del corredor de PGA Boulevard y las comunidades de golf de Palm Beach Gardens.",
-    "priceRangeNoteEs": "La mayoría de los cerramientos de patio con malla en Palm Beach Gardens quedan en el rango {range}, o aproximadamente${perSqft}/pie², según el tamaño, el tipo de malla y si se agrega un paquete de Florida room. Cada cotización incluye un diseño 3D gratis, con opciones de financiamiento disponibles.",
+    "priceRangeNoteEs": "La mayoría de los cerramientos de patio con malla en Palm Beach Gardens quedan en el rango {range}, o aproximadamente ${perSqft}/pie², según el tamaño, el tipo de malla y si se agrega un paquete de Florida room. Cada cotización incluye un diseño 3D gratis, con opciones de financiamiento disponibles.",
     "answerQuestionEs": "¿Cuánto cuesta un cerramiento de patio con malla en Palm Beach Gardens?",
-    "answerAnswerEs": "La mayoría de los cerramientos de patio con malla en Palm Beach Gardens quedan en el rango {range}, o cerca de${perSqft}/pie², según el tamaño, el tipo de malla y los requisitos estructurales. Los proyectos en comunidades de golf con acabados exigidos por el HOA o áreas grandes bajo techo cuestan más. Cada cotización parte de un diseño 3D gratis y una medición en sitio.",
+    "answerAnswerEs": "La mayoría de los cerramientos de patio con malla en Palm Beach Gardens quedan en el rango {range}, o cerca de ${perSqft}/pie², según el tamaño, el tipo de malla y los requisitos estructurales. Los proyectos en comunidades de golf con acabados exigidos por el HOA o áreas grandes bajo techo cuestan más. Cada cotización parte de un diseño 3D gratis y una medición en sitio.",
     "faqsEs": [
       {
         "question": "¿Necesito permiso para un cerramiento con malla en Palm Beach Gardens?",
@@ -3153,7 +3153,7 @@
     ],
     "permitNote": "Permanent patio screen enclosures in Jupiter require sealed engineering, Florida Product Approval and a building permit — processed through Palm Beach County PZB for unincorporated areas or the Town of Jupiter for in-town addresses. AB Aluminum prepares and files the full permit package for you.",
     "localProof": "Licensed and insured with 500+ aluminum enclosures completed across South Florida, including screened lanais and patios from Jupiter Island to Abacoa.",
-    "priceRangeNote": "Most Jupiter patio screen enclosures run {range}, depending on size, roof style and mesh type, or${perSqft}/sq ftfor larger screen rooms.",
+    "priceRangeNote": "Most Jupiter patio screen enclosures run {range}, depending on size, roof style and mesh type, or ${perSqft}/sq ft for larger screen rooms.",
     "answerQuestion": "Do I need a permit for a patio screen enclosure in Jupiter, FL?",
     "answerAnswer": "Yes. Palm Beach County is a Wind-Borne Debris Region, so any permanent aluminum screen enclosure needs sealed engineering, Florida Product Approval and a building permit through Palm Beach County PZB or the Town of Jupiter. AB Aluminum prepares and files the full permit package, building every frame to Miami-Dade HVHZ standards, which exceed local requirements.",
     "faqs": [
@@ -3190,7 +3190,7 @@
     ],
     "permitNoteEs": "Los cerramientos de patio con malla permanentes en Jupiter requieren ingeniería sellada, Aprobación de Producto de Florida y un permiso de construcción — tramitado a través de Palm Beach County PZB para áreas no incorporadas o del Town of Jupiter para direcciones dentro de la ciudad. AB Aluminum prepara y tramita todo el paquete de permisos por usted.",
     "localProofEs": "Con licencia y seguro, y más de 500 cerramientos de aluminio completados en el sur de la Florida, incluyendo lanais y patios con malla desde Jupiter Island hasta Abacoa.",
-    "priceRangeNoteEs": "La mayoría de los porches con malla en Jupiter cuestan {range}, según el tamaño, el estilo de techo y el tipo de malla, o${perSqft}/pie²para screen rooms más grandes.",
+    "priceRangeNoteEs": "La mayoría de los porches con malla en Jupiter cuestan {range}, según el tamaño, el estilo de techo y el tipo de malla, o ${perSqft}/pie² para screen rooms más grandes.",
     "answerQuestionEs": "¿Necesito un permiso para un porche con malla en Jupiter, FL?",
     "answerAnswerEs": "Sí. El condado de Palm Beach es una Región de Escombros por Viento, así que todo cerramiento de patio con malla permanente necesita ingeniería sellada, Aprobación de Producto de Florida y un permiso a través de Palm Beach County PZB o el Town of Jupiter. AB Aluminum prepara y tramita todo el paquete de permisos, y construimos bajo los estándares HVHZ de Miami-Dade, que superan lo exigido localmente.",
     "faqsEs": [
@@ -3239,9 +3239,9 @@
     ],
     "permitNote": "A permanent screen enclosure in Delray Beach is a structure — it needs a building permit, sealed engineering, and Florida Product Approval. City-limit homes permit through the City of Delray Beach Building Division; unincorporated areas west of town go through Palm Beach County PZB, and historic districts like Del-Ida Park also need Historic Preservation Board sign-off. Palm Beach County is a Wind-Borne Debris Region with coastal design winds near 165–175 mph — we build to Miami-Dade HVHZ product standards, Florida's strictest, well past that mark. AB pulls the permit and handles every inspection.",
     "localProof": "AB Aluminum & Screens has enclosed patios, porches, and lanais across Delray Beach and eastern Palm Beach County for 15+ years and 500+ projects — licensed, insured, never a subcontractor.",
-    "priceRangeNote": "Most Delray Beach patio screen enclosures fall in the {range} installed range, or around${perSqft}/sq ft, depending on footprint and mesh choice. AB gives a fixed, itemized quote after a free 3D design, before anything is signed.",
+    "priceRangeNote": "Most Delray Beach patio screen enclosures fall in the {range} installed range, or around ${perSqft}/sq ft, depending on footprint and mesh choice. AB gives a fixed, itemized quote after a free 3D design, before anything is signed.",
     "answerQuestion": "How much does a patio screen enclosure cost in Delray Beach?",
-    "answerAnswer": "Most Delray Beach patio screen enclosures run in the {range} installed range, or about${perSqft}/sq ft, depending on size, screen roof style, and mesh type. AB Aluminum & Screens provides a free 3D design and a fixed, itemized quote before signing anything, with financing available for qualified homeowners.",
+    "answerAnswer": "Most Delray Beach patio screen enclosures run in the {range} installed range, or about ${perSqft}/sq ft, depending on size, screen roof style, and mesh type. AB Aluminum & Screens provides a free 3D design and a fixed, itemized quote before signing anything, with financing available for qualified homeowners.",
     "faqs": [
       {
         "question": "Do I need a permit to add a screen enclosure in Delray Beach?",
@@ -3276,9 +3276,9 @@
     ],
     "permitNoteEs": "Un porche con malla permanente en Delray Beach es una estructura — requiere permiso de construcción, ingeniería sellada y Aprobación de Producto de Florida. Las casas dentro de los límites de la ciudad tramitan el permiso con la Ciudad de Delray Beach; las zonas no incorporadas al oeste lo tramitan con Palm Beach County PZB, y los distritos históricos como Del-Ida Park también necesitan la aprobación de la Junta de Preservación Histórica. El condado de Palm Beach es una Zona de Escombros por Viento con vientos de diseño de hasta 165–175 mph cerca de la costa — construimos según los estándares HVHZ de Miami-Dade, los más exigentes de Florida, muy por encima de ese requisito. AB tramita el permiso y todas las inspecciones.",
     "localProofEs": "AB Aluminum & Screens ha cerrado patios, porches y lanais en Delray Beach y el este del condado de Palm Beach durante más de 15 años y 500+ proyectos — con licencia, asegurados, nunca subcontratada.",
-    "priceRangeNoteEs": "La mayoría de los porches con malla en Delray Beach caen dentro del rango {range} instalado, o alrededor de${perSqft}/pie², según el tamaño y el tipo de malla. AB le da una cotización fija y detallada después de un diseño 3D gratuito.",
+    "priceRangeNoteEs": "La mayoría de los porches con malla en Delray Beach caen dentro del rango {range} instalado, o alrededor de ${perSqft}/pie², según el tamaño y el tipo de malla. AB le da una cotización fija y detallada después de un diseño 3D gratuito.",
     "answerQuestionEs": "¿Cuánto cuesta un porche con malla en Delray Beach?",
-    "answerAnswerEs": "La mayoría de los porches con malla en Delray Beach cuestan dentro del rango {range} instalado, o alrededor de${perSqft}/pie², según el tamaño, el estilo de techo y el tipo de malla. AB Aluminum & Screens ofrece diseño 3D gratuito y una cotización fija y detallada antes de firmar, con financiamiento disponible para quienes califiquen.",
+    "answerAnswerEs": "La mayoría de los porches con malla en Delray Beach cuestan dentro del rango {range} instalado, o alrededor de ${perSqft}/pie², según el tamaño, el estilo de techo y el tipo de malla. AB Aluminum & Screens ofrece diseño 3D gratuito y una cotización fija y detallada antes de firmar, con financiamiento disponible para quienes califiquen.",
     "faqsEs": [
       {
         "question": "¿Necesito permiso para agregar un porche con malla en Delray Beach?",
@@ -3323,9 +3323,9 @@
     ],
     "permitNote": "A permanent screen enclosure in Greenacres requires a building permit with sealed engineering and Florida Product Approval, submitted through the City of Greenacres building division or Palm Beach County PZB. AB handles the drawings, the submittal and every inspection, so you never have to navigate the process yourself.",
     "localProof": "AB Aluminum & Screens has completed hundreds of screen enclosures throughout Palm Beach County, from River Bridge to the Melaleuca Lane corridor, backed by 15+ years in business and a licensed, insured, in-house crew.",
-    "priceRangeNote": "Most Greenacres screen enclosures fall in the {range} range, with per-square-foot pricing around${perSqft}/sq ftdepending on size, screen mesh type, and roof configuration — every free 3D design comes back with an itemized quote so there are no surprises later.",
+    "priceRangeNote": "Most Greenacres screen enclosures fall in the {range} range, with per-square-foot pricing around ${perSqft}/sq ft depending on size, screen mesh type, and roof configuration — every free 3D design comes back with an itemized quote so there are no surprises later.",
     "answerQuestion": "How much does a patio screen enclosure cost in Greenacres, FL?",
-    "answerAnswer": "Most Greenacres patio screen enclosures fall around {range}, with per-square-foot pricing near${perSqft}/sq ftdepending on size, screen density and whether you add a roof or kick panels. Every project starts with a free 3D design and itemized quote, so you know the exact cost before AB pulls your permit.",
+    "answerAnswer": "Most Greenacres patio screen enclosures fall around {range}, with per-square-foot pricing near ${perSqft}/sq ft depending on size, screen density and whether you add a roof or kick panels. Every project starts with a free 3D design and itemized quote, so you know the exact cost before AB pulls your permit.",
     "faqs": [
       {
         "question": "Do I need a permit to build a screen enclosure in Greenacres?",
@@ -3360,9 +3360,9 @@
     ],
     "permitNoteEs": "Un cerramiento de malla permanente en Greenacres requiere permiso de construcción con ingeniería sellada y Aprobación de Producto de Florida, tramitado ante la División de Construcción de la Ciudad de Greenacres o ante Palm Beach County PZB. AB prepara los planos, hace el trámite y gestiona cada inspección para que tú no tengas que lidiar con el proceso.",
     "localProofEs": "AB Aluminum & Screens ha completado cientos de cerramientos de malla en todo el Condado de Palm Beach, desde River Bridge hasta el corredor de Melaleuca Lane, respaldados por más de 15 años de experiencia y una cuadrilla propia, licenciada y asegurada.",
-    "priceRangeNoteEs": "La mayoría de los cerramientos de malla en Greenacres quedan dentro del rango {range}, con un precio por pie cuadrado cercano a${perSqft}/pie²según el tamaño, el tipo de malla y la configuración del techo — cada diseño 3D gratuito incluye una cotización detallada, sin sorpresas después.",
+    "priceRangeNoteEs": "La mayoría de los cerramientos de malla en Greenacres quedan dentro del rango {range}, con un precio por pie cuadrado cercano a ${perSqft}/pie² según el tamaño, el tipo de malla y la configuración del techo — cada diseño 3D gratuito incluye una cotización detallada, sin sorpresas después.",
     "answerQuestionEs": "¿Cuánto cuesta un cerramiento de malla para patio en Greenacres, FL?",
-    "answerAnswerEs": "La mayoría de los cerramientos de malla en Greenacres rondan el {range}, con un precio por pie cuadrado cercano a${perSqft}/pie²según el tamaño, la densidad de la malla y si agregas techo o paneles inferiores. Cada proyecto comienza con un diseño 3D gratuito y una cotización detallada, para que sepas el costo exacto antes de tramitar el permiso.",
+    "answerAnswerEs": "La mayoría de los cerramientos de malla en Greenacres rondan el {range}, con un precio por pie cuadrado cercano a ${perSqft}/pie² según el tamaño, la densidad de la malla y si agregas techo o paneles inferiores. Cada proyecto comienza con un diseño 3D gratuito y una cotización detallada, para que sepas el costo exacto antes de tramitar el permiso.",
     "faqsEs": [
       {
         "question": "¿Necesito permiso para construir un cerramiento de malla en Greenacres?",
@@ -3397,7 +3397,7 @@
     "valueParagraphs": [
       "Lake Worth Beach's warm, humid climate means mosquitoes and no-see-ums are a year-round nuisance, especially near the Intracoastal and Bryant Park's waterfront green space. A custom screen enclosure turns your existing patio, lanai, or covered porch into usable living space you can enjoy without a single bite. Our powder-coated aluminum frames resist the humidity and salt air common near downtown and the Lake Worth Municipal Beach on A1A.",
       "Homes along the Intracoastal and anyone close to the Lake Worth Beach Casino Complex on A1A face constant salt spray that pits and corrodes hardware — we spec marine-grade aluminum and stainless fasteners so your enclosure looks new for years. Farther inland, in College Park and the Old Lucerne Historic District, UV exposure is the bigger challenge, and homes inside the historic boundary need architectural review for any visible structure. We design frame profiles and screen colors that read as period-appropriate on a historic bungalow and hold up to summer sun.",
-      "Every enclosure we build in Lake Worth Beach is engineered to Palm Beach County's wind-borne debris standards — routinely 165 to 175 mph near the coast — and we hold every job to Miami-Dade HVHZ product approval, the strictest standard in Florida, exceeding what the city's building department requires. Our in-house crew handles the sealed engineering, permit submittal, and inspections. Most enclosures run {range}, or${perSqft}/sq ftfor larger screen rooms, with financing available and a free 3D design so you see the space before we build it."
+      "Every enclosure we build in Lake Worth Beach is engineered to Palm Beach County's wind-borne debris standards — routinely 165 to 175 mph near the coast — and we hold every job to Miami-Dade HVHZ product approval, the strictest standard in Florida, exceeding what the city's building department requires. Our in-house crew handles the sealed engineering, permit submittal, and inspections. Most enclosures run {range}, or ${perSqft}/sq ft for larger screen rooms, with financing available and a free 3D design so you see the space before we build it."
     ],
     "neighborhoods": [
       "College Park",
@@ -3408,9 +3408,9 @@
     ],
     "permitNote": "A screen enclosure is a permanent structure, so it needs a permit from the City of Lake Worth Beach building department, plus sealed engineering and Florida Product Approval. We handle the full permit package and inspections for you.",
     "localProof": "AB Aluminum & Screens has completed 500+ screen and aluminum projects across Palm Beach County in over 15 years in business, with licensed, insured crews who understand the wind-load and salt-air realities of building this close to the Intracoastal and the Atlantic.",
-    "priceRangeNote": "Most Lake Worth Beach screen enclosures fall in the {range} range, with larger screen rooms and Florida room conversions priced at${perSqft}/sq ft. Your free 3D design comes with an exact quote for your patio's dimensions.",
+    "priceRangeNote": "Most Lake Worth Beach screen enclosures fall in the {range} range, with larger screen rooms and Florida room conversions priced at ${perSqft}/sq ft. Your free 3D design comes with an exact quote for your patio's dimensions.",
     "answerQuestion": "How much does a patio screen enclosure cost in Lake Worth Beach, FL?",
-    "answerAnswer": "Most Lake Worth Beach patio screen enclosures cost {range}, depending on size, screen mesh type, and whether you add a screen door or convert to a Florida room. Larger screen rooms are typically priced at${perSqft}/sq ft. AB Aluminum & Screens provides a free 3D design and exact quote before any work begins.",
+    "answerAnswer": "Most Lake Worth Beach patio screen enclosures cost {range}, depending on size, screen mesh type, and whether you add a screen door or convert to a Florida room. Larger screen rooms are typically priced at ${perSqft}/sq ft. AB Aluminum & Screens provides a free 3D design and exact quote before any work begins.",
     "faqs": [
       {
         "question": "Do I need a permit for a patio screen enclosure in Lake Worth Beach?",
@@ -3441,13 +3441,13 @@
     "valueParagraphsEs": [
       "El clima cálido y húmedo de Lake Worth Beach hace que los mosquitos y los jejenes sean una molestia todo el año, especialmente cerca del Intracostero y del área verde de Bryant Park frente al agua. Un cerramiento de malla hecho a la medida convierte su patio, lanai o porche techado existente en un espacio habitable que puede disfrutar sin una sola picadura. Nuestros marcos de aluminio con pintura electrostática resisten la humedad y la brisa salina comunes cerca del centro y de la playa municipal de Lake Worth sobre la A1A.",
       "Las casas junto al Intracostero y cerca del Casino Complex de Lake Worth Beach sobre la A1A reciben salpicaduras de sal constantes que oxidan y desgastan la herrería — por eso usamos aluminio de grado marino y tornillería de acero inoxidable, para que su cerramiento se vea nuevo por años. Tierra adentro, en College Park y el Distrito Histórico Old Lucerne, el reto principal es la intensa exposición al sol, y las casas dentro del distrito histórico requieren revisión arquitectónica de cualquier estructura visible. Diseñamos perfiles y colores de malla que combinan con una casa histórica y resisten el sol del verano.",
-      "Cada cerramiento que construimos en Lake Worth Beach se diseña según las normas de zona de escombros por viento del Condado de Palm Beach — vientos de diseño de aproximadamente 165 a 175 mph cerca de la costa — y además cumplimos con los estándares de aprobación de producto HVHZ de Miami-Dade, los más exigentes de Florida, superando lo que exige el departamento de construcción de la ciudad. Nuestro equipo interno se encarga de la ingeniería sellada, el trámite del permiso y las inspecciones. La mayoría de los cerramientos cuestan {range}, o${perSqft}/pie²para porches más grandes, con financiamiento disponible y un diseño 3D gratis para ver su espacio antes de construir."
+      "Cada cerramiento que construimos en Lake Worth Beach se diseña según las normas de zona de escombros por viento del Condado de Palm Beach — vientos de diseño de aproximadamente 165 a 175 mph cerca de la costa — y además cumplimos con los estándares de aprobación de producto HVHZ de Miami-Dade, los más exigentes de Florida, superando lo que exige el departamento de construcción de la ciudad. Nuestro equipo interno se encarga de la ingeniería sellada, el trámite del permiso y las inspecciones. La mayoría de los cerramientos cuestan {range}, o ${perSqft}/pie² para porches más grandes, con financiamiento disponible y un diseño 3D gratis para ver su espacio antes de construir."
     ],
     "permitNoteEs": "Un cerramiento de malla es una estructura permanente, por lo que requiere un permiso del departamento de construcción de la Ciudad de Lake Worth Beach, además de ingeniería sellada y Aprobación de Producto de Florida. Nosotros preparamos el permiso completo y coordinamos las inspecciones por usted.",
     "localProofEs": "AB Aluminum & Screens ha completado más de 500 proyectos de malla y aluminio en el Condado de Palm Beach en más de 15 años de experiencia, con equipos licenciados y asegurados que entienden las exigencias de viento y corrosión salina de construir tan cerca del Intracostero y del Atlántico.",
-    "priceRangeNoteEs": "La mayoría de los cerramientos de malla en Lake Worth Beach cuestan {range}, y los porches más grandes o conversiones a Florida room se cotizan a${perSqft}/pie². Su diseño 3D gratis incluye una cotización exacta para las medidas de su patio.",
+    "priceRangeNoteEs": "La mayoría de los cerramientos de malla en Lake Worth Beach cuestan {range}, y los porches más grandes o conversiones a Florida room se cotizan a ${perSqft}/pie². Su diseño 3D gratis incluye una cotización exacta para las medidas de su patio.",
     "answerQuestionEs": "¿Cuánto cuesta un cerramiento de patio con malla en Lake Worth Beach, FL?",
-    "answerAnswerEs": "La mayoría de los cerramientos de patio con malla en Lake Worth Beach cuestan {range}, según el tamaño, el tipo de malla y si agrega una puerta con mosquitero o convierte el espacio en un Florida room. Los porches más grandes suelen cotizarse a${perSqft}/pie². AB Aluminum & Screens ofrece un diseño 3D gratis y una cotización exacta antes de comenzar.",
+    "answerAnswerEs": "La mayoría de los cerramientos de patio con malla en Lake Worth Beach cuestan {range}, según el tamaño, el tipo de malla y si agrega una puerta con mosquitero o convierte el espacio en un Florida room. Los porches más grandes suelen cotizarse a ${perSqft}/pie². AB Aluminum & Screens ofrece un diseño 3D gratis y una cotización exacta antes de comenzar.",
     "faqsEs": [
       {
         "question": "¿Necesito un permiso para un cerramiento de patio con malla en Lake Worth Beach?",
@@ -3493,9 +3493,9 @@
     ],
     "permitNote": "Wellington sits in Palm Beach County's Wind-Borne Debris Region, with design wind speeds up to 175 mph near the coast tapering inland. Every AB screen enclosure ships with sealed engineering and Florida Product Approval, and we handle the permit through the Village of Wellington's Building Division — plans, inspections, and HOA paperwork included.",
     "localProof": "AB Aluminum & Screens has completed more than 500 enclosures across Palm Beach County, from equestrian estates near Wellington International to family homes in South Shore — all backed by 15+ years of licensed, insured craftsmanship and an in-house crew that shows up when scheduled.",
-    "priceRangeNote": "Wellington screen enclosures typically run {range}, or about${perSqft}/sq ft, depending on frame height, mesh grade, and whether you're screening an existing patio or building a full screen room. Every estimate includes a free 3D design.",
+    "priceRangeNote": "Wellington screen enclosures typically run {range}, or about ${perSqft}/sq ft, depending on frame height, mesh grade, and whether you're screening an existing patio or building a full screen room. Every estimate includes a free 3D design.",
     "answerQuestion": "How much does a patio screen enclosure cost in Wellington, FL?",
-    "answerAnswer": "Most Wellington patio screen enclosures cost {range}, with per-square-foot pricing near${perSqft}/sq ftdepending on enclosure size, screen mesh type, and roof style. Factors like converting to a Florida room or adding a screen door affect the total. AB provides a free 3D design and itemized quote before any work begins.",
+    "answerAnswer": "Most Wellington patio screen enclosures cost {range}, with per-square-foot pricing near ${perSqft}/sq ft depending on enclosure size, screen mesh type, and roof style. Factors like converting to a Florida room or adding a screen door affect the total. AB provides a free 3D design and itemized quote before any work begins.",
     "faqs": [
       {
         "question": "Do I need a permit for a patio screen enclosure in Wellington?",
@@ -3530,9 +3530,9 @@
     ],
     "permitNoteEs": "Wellington está en la Zona de Escombros por Viento del Condado de Palm Beach, con vientos de diseño de hasta 175 mph cerca de la costa. Cada cerramiento de AB incluye ingeniería sellada y Aprobación de Producto de la Florida, y tramitamos el permiso ante la División de Construcción del Village of Wellington — planos, inspecciones y cartas de aprobación de la HOA incluidos.",
     "localProofEs": "AB Aluminum & Screens ha completado más de 500 cerramientos en todo el Condado de Palm Beach, desde fincas ecuestres cerca de Wellington International hasta hogares familiares en South Shore — todo respaldado por más de 15 años de trabajo con licencia, seguro y una cuadrilla propia que llega cuando promete.",
-    "priceRangeNoteEs": "Los cerramientos de patio en Wellington suelen costar {range}, o cerca de${perSqft}/pie², según la altura del marco, el tipo de malla y si se trata de cerrar un patio existente o construir un screen room completo. Cada estimado incluye diseño 3D gratis.",
+    "priceRangeNoteEs": "Los cerramientos de patio en Wellington suelen costar {range}, o cerca de ${perSqft}/pie², según la altura del marco, el tipo de malla y si se trata de cerrar un patio existente o construir un screen room completo. Cada estimado incluye diseño 3D gratis.",
     "answerQuestionEs": "¿Cuánto cuesta un cerramiento de patio con malla en Wellington, FL?",
-    "answerAnswerEs": "La mayoría de los cerramientos de patio en Wellington cuestan {range}, con un precio por pie cuadrado cercano a${perSqft}/pie²según el tamaño, el tipo de malla y el estilo del techo. Convertirlo en Florida room o agregar una puerta con malla cambia el total. AB entrega diseño 3D y cotización gratis antes de comenzar.",
+    "answerAnswerEs": "La mayoría de los cerramientos de patio en Wellington cuestan {range}, con un precio por pie cuadrado cercano a ${perSqft}/pie² según el tamaño, el tipo de malla y el estilo del techo. Convertirlo en Florida room o agregar una puerta con malla cambia el total. AB entrega diseño 3D y cotización gratis antes de comenzar.",
     "faqsEs": [
       {
         "question": "¿Necesito permiso para un cerramiento de patio con malla en Wellington?",
@@ -3579,7 +3579,7 @@
     ],
     "permitNote": "Riviera Beach requires a building permit for any permanent screen enclosure, backed by sealed engineering and Florida Product Approval. We prepare and file the full package with the City of Riviera Beach Building Division and manage every inspection, so you never deal with paperwork or code language.",
     "localProof": "Licensed and insured, AB Aluminum & Screens has completed 500+ projects across South Florida over 15+ years, including screen enclosures on Singer Island homes built to withstand direct Atlantic and Intracoastal exposure.",
-    "priceRangeNote": "Most Riviera Beach patio screen enclosures fall within {range}, depending on size, screen mesh grade and structural requirements, with aluminum framing typically priced around${perSqft}/sq ft. Financing is available, and your free 3D design includes an exact quote before you commit to anything.",
+    "priceRangeNote": "Most Riviera Beach patio screen enclosures fall within {range}, depending on size, screen mesh grade and structural requirements, with aluminum framing typically priced around ${perSqft}/sq ft. Financing is available, and your free 3D design includes an exact quote before you commit to anything.",
     "answerQuestion": "What is a patio screen enclosure?",
     "answerAnswer": "A patio screen enclosure is an aluminum-framed structure that encloses an existing patio, lanai, porch or under-truss area in fine mesh screening, keeping mosquitoes, no-see-ums, pollen and debris out while letting breezes through. In Riviera Beach, we build them in marine-grade, powder-coated aluminum engineered for coastal wind and salt-air exposure.",
     "faqs": [
@@ -3616,7 +3616,7 @@
     ],
     "permitNoteEs": "Riviera Beach exige permiso de construcción para cualquier cerramiento de malla permanente, respaldado por ingeniería sellada y aprobación de producto de Florida. Nosotros preparamos y radicamos todo el expediente ante el Departamento de Construcción de la Ciudad de Riviera Beach y gestionamos cada inspección, para que tú no tengas que lidiar con papeleo ni lenguaje técnico.",
     "localProofEs": "Con licencia y seguro, AB Aluminum & Screens ha completado más de 500 proyectos en el sur de la Florida en más de 15 años, incluyendo cerramientos de patio en casas de Singer Island construidos para resistir la exposición directa al Atlántico y al Intracoastal.",
-    "priceRangeNoteEs": "La mayoría de los cerramientos de patio con malla en Riviera Beach caen dentro de {range}, según el tamaño, el tipo de malla y los requisitos estructurales, con el aluminio cotizado alrededor de${perSqft}/pie². Hay financiamiento disponible, y tu diseño 3D gratis incluye una cotización exacta antes de que te comprometas a algo.",
+    "priceRangeNoteEs": "La mayoría de los cerramientos de patio con malla en Riviera Beach caen dentro de {range}, según el tamaño, el tipo de malla y los requisitos estructurales, con el aluminio cotizado alrededor de ${perSqft}/pie². Hay financiamiento disponible, y tu diseño 3D gratis incluye una cotización exacta antes de que te comprometas a algo.",
     "answerQuestionEs": "¿Qué es un cerramiento de patio con malla?",
     "answerAnswerEs": "Un cerramiento de patio con malla es una estructura de aluminio que encierra un patio, lanai, porche o área bajo techo existente con malla fina, manteniendo fuera mosquitos, jejenes, polen y escombros mientras deja pasar la brisa. En Riviera Beach los construimos en aluminio marino con recubrimiento en polvo, diseñado para el viento costero y el salitre.",
     "faqsEs": [
@@ -3706,8 +3706,8 @@
     ],
     "permitNote": "A permanent aluminum screen enclosure in Palm Beach requires a building permit, sealed engineering and Florida Product Approval. We prepare and submit the full package to the Town of Palm Beach Building Department and its Architectural Commission on your behalf, building every project to Miami-Dade HVHZ product standards — well beyond the county's wind-borne debris requirements.",
     "permitNoteEs": "Un cerramiento de aluminio permanente en Palm Beach requiere permiso de construcción, ingeniería certificada y aprobación de producto de la Florida. Preparamos y presentamos todo el expediente ante el Departamento de Construcción del Municipio de Palm Beach y su Comisión de Arquitectura, construyendo cada proyecto según los estándares HVHZ de Miami-Dade, muy por encima de lo que exige el condado.",
-    "priceRangeNote": "Most Palm Beach patio screen enclosures fall within {range}, depending on size, height and mesh selection; larger structures and screen rooms are typically quoted at${perSqft}/sq ft. Financing is available, and every estimate includes a free 3D design and a detailed, itemized proposal.",
-    "priceRangeNoteEs": "La mayoría de los porches con malla en Palm Beach quedan dentro de {range}, según el tamaño, la altura y el tipo de malla; las estructuras más grandes y los screen rooms suelen cotizarse a${perSqft}/pie². Ofrecemos financiamiento, y cada estimado incluye un diseño 3D gratis y una propuesta detallada.",
+    "priceRangeNote": "Most Palm Beach patio screen enclosures fall within {range}, depending on size, height and mesh selection; larger structures and screen rooms are typically quoted at ${perSqft}/sq ft. Financing is available, and every estimate includes a free 3D design and a detailed, itemized proposal.",
+    "priceRangeNoteEs": "La mayoría de los porches con malla en Palm Beach quedan dentro de {range}, según el tamaño, la altura y el tipo de malla; las estructuras más grandes y los screen rooms suelen cotizarse a ${perSqft}/pie². Ofrecemos financiamiento, y cada estimado incluye un diseño 3D gratis y una propuesta detallada.",
     "seo": {
       "metaTitle": "Patio Screen Enclosures in Palm Beach, FL | AB Aluminum",
       "metaDescription": "Custom patio screen enclosures in Palm Beach, FL — HVHZ-grade for salt air and coastal wind. Free 3D design, in-house crew, permits handled."
@@ -3748,9 +3748,9 @@
     ],
     "permitNote": "A permanent screen enclosure in Lantana requires a building permit, sealed engineering and Florida Product Approval, filed through Palm Beach County PZB or the Town of Lantana depending on your address. We handle the entire permitting and engineering process in-house.",
     "localProof": "Licensed and insured with 15+ years and 500+ screen and aluminum projects completed across Palm Beach County, including waterfront homes on Hypoluxo Island. Every enclosure is built and installed by our in-house crew — no subcontractors.",
-    "priceRangeNote": "Pricing for a Lantana screen enclosure typically falls within {range}, with compact lanai conversions at the lower end and full wraparound or under-truss enclosures at the higher end; framed sections generally run${perSqft}/sq ft. We confirm your exact number with a free 3D design before you commit to anything.",
+    "priceRangeNote": "Pricing for a Lantana screen enclosure typically falls within {range}, with compact lanai conversions at the lower end and full wraparound or under-truss enclosures at the higher end; framed sections generally run ${perSqft}/sq ft. We confirm your exact number with a free 3D design before you commit to anything.",
     "answerQuestion": "What does a patio screen enclosure cost in Lantana, FL?",
-    "answerAnswer": "Most Lantana screen enclosures cost {range}, depending on size, mesh type and roof condition, with material typically running${perSqft}/sq ft. Coastal-grade aluminum for Hypoluxo Island and waterfront homes can run slightly higher due to marine-grade hardware. AB Aluminum & Screens provides a free 3D design and fixed quote before any work begins.",
+    "answerAnswer": "Most Lantana screen enclosures cost {range}, depending on size, mesh type and roof condition, with material typically running ${perSqft}/sq ft. Coastal-grade aluminum for Hypoluxo Island and waterfront homes can run slightly higher due to marine-grade hardware. AB Aluminum & Screens provides a free 3D design and fixed quote before any work begins.",
     "faqs": [
       {
         "question": "Do I need a permit for a patio screen enclosure in Lantana?",
@@ -3785,9 +3785,9 @@
     ],
     "permitNoteEs": "Un cerramiento de malla permanente en Lantana requiere permiso de construcción, ingeniería sellada y Aprobación de Producto de Florida, tramitado ante Palm Beach County PZB o el Municipio de Lantana según su dirección. Nosotros gestionamos todo el proceso de permisos e ingeniería.",
     "localProofEs": "Con licencia y seguro, más de 15 años de experiencia y más de 500 proyectos de malla y aluminio realizados en todo el Condado de Palm Beach, incluyendo casas frente al agua en Hypoluxo Island. Cada cerramiento lo instala nuestro propio equipo, sin subcontratistas.",
-    "priceRangeNoteEs": "El precio de un cerramiento de patio en Lantana suele caer dentro de {range}, con conversiones sencillas de lanai en el rango más bajo y cerramientos completos o bajo techo en el rango más alto; las secciones enmalladas suelen costar${perSqft}/pie². Confirmamos su número exacto con un diseño 3D gratuito antes de que usted se comprometa a nada.",
+    "priceRangeNoteEs": "El precio de un cerramiento de patio en Lantana suele caer dentro de {range}, con conversiones sencillas de lanai en el rango más bajo y cerramientos completos o bajo techo en el rango más alto; las secciones enmalladas suelen costar ${perSqft}/pie². Confirmamos su número exacto con un diseño 3D gratuito antes de que usted se comprometa a nada.",
     "answerQuestionEs": "¿Cuánto cuesta un cerramiento de patio con malla en Lantana, FL?",
-    "answerAnswerEs": "La mayoría de los cerramientos en Lantana cuestan {range}, según el tamaño, el tipo de malla y el estado del techo, con material calculado en${perSqft}/pie². El aluminio marino para Hypoluxo Island puede costar un poco más por sus herrajes reforzados. AB Aluminum & Screens ofrece diseño 3D gratuito y cotización fija antes de empezar.",
+    "answerAnswerEs": "La mayoría de los cerramientos en Lantana cuestan {range}, según el tamaño, el tipo de malla y el estado del techo, con material calculado en ${perSqft}/pie². El aluminio marino para Hypoluxo Island puede costar un poco más por sus herrajes reforzados. AB Aluminum & Screens ofrece diseño 3D gratuito y cotización fija antes de empezar.",
     "faqsEs": [
       {
         "question": "¿Necesito permiso para un cerramiento de patio con malla en Lantana?",
@@ -3831,9 +3831,9 @@
     ],
     "permitNote": "A permanent screen enclosure in Tequesta requires a building permit, sealed engineering and Florida Product Approval, submitted through the Village of Tequesta's building department (or Palm Beach County PZB for unincorporated parcels nearby). We prepare and file the full package for you, engineered to Miami-Dade HVHZ product standards.",
     "localProof": "Licensed and insured with 500+ completed projects across South Florida, AB Aluminum & Screens brings that same powder-coated aluminum craftsmanship to riverfront homes near the Loxahatchee and golf-course properties throughout Tequesta.",
-    "priceRangeNote": "Typical Tequesta patio screen enclosures fall in the {range} range, with per-square-foot pricing near${perSqft}/sq ftdepending on enclosure size, screen type and wind-load engineering — financing is available.",
+    "priceRangeNote": "Typical Tequesta patio screen enclosures fall in the {range} range, with per-square-foot pricing near ${perSqft}/sq ft depending on enclosure size, screen type and wind-load engineering — financing is available.",
     "answerQuestion": "What does a patio screen enclosure cost in Tequesta, FL?",
-    "answerAnswer": "Most Tequesta screen enclosures run {range}, priced near${perSqft}/sq ftdepending on size, screen density and the engineering needed to meet Palm Beach County's wind-borne debris standards. Every quote includes a free 3D design, in-house installation and full permit handling through the Village of Tequesta — no hidden costs after signing.",
+    "answerAnswer": "Most Tequesta screen enclosures run {range}, priced near ${perSqft}/sq ft depending on size, screen density and the engineering needed to meet Palm Beach County's wind-borne debris standards. Every quote includes a free 3D design, in-house installation and full permit handling through the Village of Tequesta — no hidden costs after signing.",
     "faqs": [
       {
         "question": "Do I need a permit for a screen enclosure in Tequesta?",
@@ -3868,9 +3868,9 @@
     ],
     "permitNoteEs": "Un cerramiento de malla permanente en Tequesta requiere permiso de construcción, ingeniería sellada y aprobación de producto de Florida, trámite que se presenta ante el departamento de construcción del Village of Tequesta (o ante Palm Beach County PZB en parcelas no incorporadas cercanas). Nosotros preparamos y radicamos todo el paquete, con ingeniería bajo estándares HVHZ de Miami-Dade.",
     "localProofEs": "Con licencia y seguro, y más de 500 proyectos completados en el sur de Florida, AB Aluminum & Screens trae ese mismo nivel de trabajo en aluminio con recubrimiento en polvo a las viviendas junto al río Loxahatchee y a las propiedades de golf en todo Tequesta.",
-    "priceRangeNoteEs": "La mayoría de los cerramientos de patio con malla en Tequesta caen en el rango {range}, con precios calculados cerca de${perSqft}/pie²según los pies cuadrados, la densidad de malla y los requisitos de ingeniería para cumplir con la norma de escombros por viento — contamos con opciones de financiamiento.",
+    "priceRangeNoteEs": "La mayoría de los cerramientos de patio con malla en Tequesta caen en el rango {range}, con precios calculados cerca de ${perSqft}/pie² según los pies cuadrados, la densidad de malla y los requisitos de ingeniería para cumplir con la norma de escombros por viento — contamos con opciones de financiamiento.",
     "answerQuestionEs": "¿Cuánto cuesta un cerramiento de patio con malla en Tequesta, FL?",
-    "answerAnswerEs": "La mayoría de los cerramientos en Tequesta caen en el rango {range}, con precio cercano a${perSqft}/pie²según el tamaño, la densidad de malla y la ingeniería necesaria para cumplir con los estándares de escombros por viento de Palm Beach County. Cada cotización incluye diseño 3D gratis, instalación con equipo propio y permisos completos ante el Village of Tequesta.",
+    "answerAnswerEs": "La mayoría de los cerramientos en Tequesta caen en el rango {range}, con precio cercano a ${perSqft}/pie² según el tamaño, la densidad de malla y la ingeniería necesaria para cumplir con los estándares de escombros por viento de Palm Beach County. Cada cotización incluye diseño 3D gratis, instalación con equipo propio y permisos completos ante el Village of Tequesta.",
     "faqsEs": [
       {
         "question": "¿Necesito permiso para un cerramiento con malla en Tequesta?",
@@ -3914,7 +3914,7 @@
     ],
     "permitNote": "Juno Beach requires a permit for any permanent screen enclosure, including sealed engineering and Florida Product Approval, whether the review runs through Palm Beach County PZB or the town directly. We prepare and handle the entire permit package in-house.",
     "localProof": "Licensed and insured with 500+ screen enclosures built across Palm Beach County over 15+ years, including projects along the Juno Beach coastline.",
-    "priceRangeNote": "Most Juno Beach screen enclosures fall within {range}, depending on size and screen type, or budget around${perSqft}/sq ftfor larger under-truss conversions.",
+    "priceRangeNote": "Most Juno Beach screen enclosures fall within {range}, depending on size and screen type, or budget around ${perSqft}/sq ft for larger under-truss conversions.",
     "answerQuestion": "What is a patio screen enclosure?",
     "answerAnswer": "A patio screen enclosure frames your existing lanai, patio, or porch in powder-coated aluminum and stretches insect screening across the walls and roofline, closing it in without blocking airflow or light. In Juno Beach, it turns an open patio into bug-free, shaded living space year-round, built to withstand salt air and coastal wind.",
     "faqs": [
@@ -3951,7 +3951,7 @@
     ],
     "permitNoteEs": "Juno Beach exige permiso para cualquier cerramiento de malla permanente, incluyendo ingeniería sellada y Aprobación de Producto de Florida, ya sea que la revisión la haga el Condado de Palm Beach (PZB) o el pueblo directamente. Nosotros preparamos y gestionamos todo el trámite de permisos.",
     "localProofEs": "Licenciados y asegurados, con más de 500 cerramientos con malla construidos en todo el Condado de Palm Beach en más de 15 años, incluyendo proyectos en la costa de Juno Beach.",
-    "priceRangeNoteEs": "La mayoría de los cerramientos con malla en Juno Beach quedan dentro de {range}, según el tamaño y el tipo de malla, o calcule alrededor de${perSqft}/pie²para conversiones más grandes bajo techo existente.",
+    "priceRangeNoteEs": "La mayoría de los cerramientos con malla en Juno Beach quedan dentro de {range}, según el tamaño y el tipo de malla, o calcule alrededor de ${perSqft}/pie² para conversiones más grandes bajo techo existente.",
     "answerQuestionEs": "¿Qué es un cerramiento de patio con malla?",
     "answerAnswerEs": "Un cerramiento de patio con malla enmarca su lanai, patio o porche existente en aluminio con acabado en polvo y extiende malla contra insectos por las paredes y el techo, cerrando el espacio sin bloquear el aire ni la luz. En Juno Beach, convierte un patio abierto en un espacio con sombra y sin insectos todo el año, resistente al aire salino y al viento costero.",
     "faqsEs": [

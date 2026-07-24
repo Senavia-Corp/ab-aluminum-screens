@@ -696,9 +696,9 @@
     ],
     "permitNote": "Every Aventura pool enclosure ships with sealed engineering and Miami-Dade NOA product approval rated to 175 mph, and we file and manage the permit through Miami-Dade RER (or your city's building department) from start to final inspection — you don't touch the paperwork.",
     "localProof": "Licensed and insured with 15+ years and 500+ completed enclosures across South Florida, we design, engineer, and install every Aventura pool cage with our own in-house crew — powder-coated marine-grade aluminum framing built to hold up against Intracoastal salt air.",
-    "priceRangeNote": "Aventura pool enclosures typically fall in the {range} range depending on screen-roof style and mesh choice, with per-square-foot pricing starting around ${perSqft} — get an exact number from your free 3D design consultation.",
+    "priceRangeNote": "Aventura pool enclosures typically fall in the {range} range depending on screen-roof style and mesh choice, with per-square-foot pricing starting around ${perSqft}/sq ft — get an exact number from your free 3D design consultation.",
     "answerQuestion": "How much does an aluminum pool enclosure cost in Aventura, FL?",
-    "answerAnswer": "Pricing depends on footprint, screen-roof style, and mesh upgrade, but most Aventura pool enclosures fall in the {range} range, with per-square-foot pricing around ${perSqft}. Waterfront homes near Williams Island or The Waterways often add marine-grade upgrades for salt-air resistance. We provide a free 3D design and exact quote before you commit.",
+    "answerAnswer": "Pricing depends on footprint, screen-roof style, and mesh upgrade, but most Aventura pool enclosures fall in the {range} range, with per-square-foot pricing around ${perSqft}/sq ft. Waterfront homes near Williams Island or The Waterways often add marine-grade upgrades for salt-air resistance. We provide a free 3D design and exact quote before you commit.",
     "faqs": [
       {
         "question": "Do I need a permit for a pool enclosure in Aventura?",
@@ -733,9 +733,9 @@
     ],
     "permitNoteEs": "Cada cerramiento de piscina en Aventura incluye ingeniería sellada y aprobación de producto NOA de Miami-Dade con clasificación de 175 mph, y nosotros tramitamos y gestionamos el permiso ante Miami-Dade RER (o el departamento de construcción de su ciudad) hasta la inspección final — usted no tiene que lidiar con el papeleo.",
     "localProofEs": "Con licencia y seguro, más de 15 años de experiencia y más de 500 proyectos completados en el sur de Florida, diseñamos, ingeniamos e instalamos cada cerramiento de piscina en Aventura con nuestro propio equipo — estructuras de aluminio marino con acabado en polvo, construidas para resistir la brisa salina del Intracostero.",
-    "priceRangeNoteEs": "Los cerramientos de piscina en Aventura suelen estar dentro del rango {range}, según el estilo de techo de malla y el tipo de mesh elegido, con precios por pie cuadrado desde aproximadamente ${perSqft} — obtenga un número exacto con su diseño 3D gratuito.",
+    "priceRangeNoteEs": "Los cerramientos de piscina en Aventura suelen estar dentro del rango {range}, según el estilo de techo de malla y el tipo de mesh elegido, con precios por pie cuadrado desde aproximadamente ${perSqft}/pie² — obtenga un número exacto con su diseño 3D gratuito.",
     "answerQuestionEs": "¿Cuánto cuesta un cerramiento de aluminio para piscina en Aventura, FL?",
-    "answerAnswerEs": "El precio depende del tamaño, el estilo de techo y el tipo de mesh, pero la mayoría de los cerramientos en Aventura caen dentro del rango {range}, con precios por pie cuadrado cerca de ${perSqft}. Las propiedades frente al agua cerca de Williams Island suelen requerir aluminio marino adicional. Ofrecemos diseño 3D gratuito y cotización exacta.",
+    "answerAnswerEs": "El precio depende del tamaño, el estilo de techo y el tipo de mesh, pero la mayoría de los cerramientos en Aventura caen dentro del rango {range}, con precios por pie cuadrado cerca de ${perSqft}/pie². Las propiedades frente al agua cerca de Williams Island suelen requerir aluminio marino adicional. Ofrecemos diseño 3D gratuito y cotización exacta.",
     "faqsEs": [
       {
         "question": "¿Necesito un permiso para un cerramiento de piscina en Aventura?",
@@ -2516,7 +2516,7 @@
     ],
     "permitNote": "Pompano Beach pool enclosures require a permit through the City of Pompano Beach Building Department (or Broward County for unincorporated areas), sealed engineering, and product approval rated for 175 mph HVHZ winds — we handle the entire permit package.",
     "permitNoteEs": "Los cerramientos de piscina en Pompano Beach requieren permiso a través del Departamento de Construcción de la ciudad (o del Condado de Broward en zonas no incorporadas), ingeniería sellada y aprobación clasificada para vientos HVHZ de 175 mph — nosotros gestionamos todo el trámite del permiso.",
-    "priceRangeNote": "Pompano Beach pool enclosures typically run {range}, with per-square-foot pricing around ${perSqft} depending on screen mesh, roof style, and enclosure size.",
+    "priceRangeNote": "Pompano Beach pool enclosures typically run {range}, with per-square-foot pricing around ${perSqft}/sq ft depending on screen mesh, roof style, and enclosure size.",
     "priceRangeNoteEs": "Los cerramientos de piscina en Pompano Beach suelen costar entre {range}, con un precio aproximado de ${perSqft}/pie² según el tipo de malla, el estilo del techo y el tamaño del cerramiento.",
     "seo": {
       "metaTitle": "Aluminum Pool Enclosures in Pompano Beach, FL | AB Aluminum",
@@ -2681,7 +2681,7 @@
     ],
     "permitNoteEs": "Sunrise está tierra adentro, pero sigue dentro de la Zona de Huracanes de Alta Velocidad de Broward, así que todo cerramiento de piscina requiere permiso de construcción con ingeniería sellada y aprobación NOA de Miami-Dade o Florida Product Approval certificada para vientos de 175 mph. Preparamos y presentamos todo el paquete ante el Departamento de Construcción de la Ciudad de Sunrise (y ante la revisión arquitectónica del HOA cuando aplique) para que usted no tenga que hacerlo.",
     "localProofEs": "Más de 500 cerramientos de piscina construidos en todo Broward, incluyendo muchos en las comunidades de Welleby, Sawgrass y Sunrise Lakes, respaldados por más de 15 años de instalaciones licenciadas, aseguradas y con ingeniería HVHZ.",
-    "priceRangeNoteEs": "El precio de un cerramiento de piscina en Sunrise suele estar entre {range}, con estimados por pie cuadrado alrededor de ${perSqft} según el tipo de malla, el estilo de techo y el tamaño del cerramiento — obtenga un número exacto con nuestro diseño 3D gratuito.",
+    "priceRangeNoteEs": "El precio de un cerramiento de piscina en Sunrise suele estar entre {range}, con estimados por pie cuadrado alrededor de ${perSqft}/pie² según el tipo de malla, el estilo de techo y el tamaño del cerramiento — obtenga un número exacto con nuestro diseño 3D gratuito.",
     "answerQuestionEs": "¿Cuánto cuesta un cerramiento de piscina en Sunrise, FL?",
     "answerAnswerEs": "El precio depende del tamaño de su piscina, el estilo del techo de malla (plano, a dos aguas, mansarda o domo) y el tipo de malla — estándar, super-screen o para mascotas. La mayoría de los proyectos en Sunrise están entre {range}, o aproximadamente ${perSqft}/pie². Ofrecemos un diseño 3D gratuito y una cotización exacta después de medir su deck.",
     "faqsEs": [
@@ -2963,7 +2963,7 @@
   },
   {
     "answerAnswer": "Cost depends on pool deck size, roof style (flat, gable, dome or mansard) and screen type — from standard mesh to super-screen or no-see-um mesh. Most Boynton Beach projects fall in the {range} range, with per-square-foot estimates around ${perSqft}/sq ft. Free 3D design and an on-site measurement give you an exact number before you commit.",
-    "answerAnswerEs": "El costo depende del tamaño del deck, el estilo de techo (plano, a dos aguas, domo o mansarda) y el tipo de malla. La mayoría de los proyectos en Boynton Beach caen en el rango {range}, con estimados por pie cuadrado cerca de ${perSqft}. El diseño 3D gratis y una medición en sitio dan un número exacto.",
+    "answerAnswerEs": "El costo depende del tamaño del deck, el estilo de techo (plano, a dos aguas, domo o mansarda) y el tipo de malla. La mayoría de los proyectos en Boynton Beach caen en el rango {range}, con estimados por pie cuadrado cerca de ${perSqft}/pie². El diseño 3D gratis y una medición en sitio dan un número exacto.",
     "answerQuestion": "How much does a pool screen enclosure cost in Boynton Beach?",
     "answerQuestionEs": "¿Cuánto cuesta un cerramiento de piscina en Boynton Beach?",
     "citySlug": "boynton-beach",
@@ -3024,8 +3024,8 @@
     ],
     "permitNote": "A permanent pool enclosure in Boynton Beach requires a permit with sealed structural engineering and Florida Product Approval, submitted through the City of Boynton Beach Building Division under Palm Beach County's Wind-Borne Debris Region wind standards; AB Aluminum & Screens prepares and handles this paperwork for you.",
     "permitNoteEs": "Un cerramiento permanente de piscina en Boynton Beach requiere permiso con ingeniería sellada y Aprobación de Producto de Florida, tramitado ante el Departamento de Construcción de la Ciudad de Boynton Beach bajo los estándares de viento de la Zona de Escombros por Viento del condado Palm Beach; AB Aluminum & Screens prepara y gestiona todo ese papeleo por usted.",
-    "priceRangeNote": "Most Boynton Beach pool screen enclosures run {range}, with detailed per-square-foot pricing at ${perSqft} once we've walked your pool deck and confirmed roof style and screen type.",
-    "priceRangeNoteEs": "La mayoría de los cerramientos de piscina en Boynton Beach cuestan {range}, con precios detallados por pie cuadrado en ${perSqft} una vez que revisemos el deck de su piscina y confirmemos el estilo de techo y el tipo de malla.",
+    "priceRangeNote": "Most Boynton Beach pool screen enclosures run {range}, with detailed per-square-foot pricing at ${perSqft}/sq ft once we've walked your pool deck and confirmed roof style and screen type.",
+    "priceRangeNoteEs": "La mayoría de los cerramientos de piscina en Boynton Beach cuestan {range}, con precios detallados por pie cuadrado en ${perSqft}/pie² una vez que revisemos el deck de su piscina y confirmemos el estilo de techo y el tipo de malla.",
     "seo": {
       "metaTitle": "Pool Screen Enclosures in Boynton Beach, FL | AB Aluminum",
       "metaDescription": "Custom aluminum pool screen enclosures in Boynton Beach, FL. HVHZ-rated aluminum, keeps bugs and UV out, free 3D design, permits handled. Licensed & insured."
