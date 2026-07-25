@@ -33,7 +33,7 @@ const detailsLabel = lang === 'es' ? 'Detalles del proyecto' : 'Project details'
       <div class="vid-player">
         {
           video?.videoUrl ? (
-            <video controls preload="metadata" playsinline poster={video.posterImage ? undefined : '/videos/louvers-poster.jpg'}>
+            <video controls muted preload="metadata" playsinline aria-label={title} aria-describedby={description ? 'vid-desc' : undefined} poster={video.posterImage ? undefined : '/videos/louvers-poster.jpg'}>
               <source src={video.videoUrl} type="video/mp4" />
             </video>
           ) : (
@@ -44,7 +44,7 @@ const detailsLabel = lang === 'es' ? 'Detalles del proyecto' : 'Project details'
 
       <div class="vid-details">
         <h2>{detailsLabel}</h2>
-        {description && <p class="lead">{description}</p>}
+        {description && <p class="lead" id="vid-desc">{description}</p>}
         <ul class="vid-specs">
           {video?.serviceType && <li><strong>{lang === 'es' ? 'Servicio' : 'Service'}:</strong> {video.serviceType}</li>}
           {video?.city && <li><strong>{lang === 'es' ? 'Ciudad' : 'Location'}:</strong> {video.city}</li>}

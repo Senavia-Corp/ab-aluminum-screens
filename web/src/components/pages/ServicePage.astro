@@ -286,17 +286,19 @@ const areaIntro =
         <div class="container svc-eng">
           <div>
             <h2>{engLoc.heading}</h2>
-            <p class="lead">{engLoc.paragraph}</p>
+            <p class="lead" id="svc-eng-desc">{engLoc.paragraph}</p>
             <a class="btn btn--secondary" href={localizedHref('/contact-us', lang)}>{t('cta.getFreeQuote')}</a>
           </div>
           {service?.engineered?.videoUrl && (
             <video
               class="svc-eng__video"
               controls
+              muted
               preload="none"
               playsinline
               poster={videoPoster}
               aria-label={engLoc.heading ? `${meta.label[lang]}: ${engLoc.heading}` : meta.label[lang]}
+              aria-describedby={engLoc.paragraph ? 'svc-eng-desc' : undefined}
               title={meta.label[lang]}
             >
               <source src={service.engineered.videoUrl} type="video/mp4" />
