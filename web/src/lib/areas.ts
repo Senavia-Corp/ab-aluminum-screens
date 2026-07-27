@@ -57,8 +57,20 @@ export const COUNTY_BY_SLUG: Record<string, 'Miami-Dade' | 'Broward' | 'Palm Bea
 // Palm Beach is listed so the index/footer render it in order as soon as it has cities above.
 export const COUNTY_ORDER = ['Miami-Dade', 'Broward', 'Palm Beach'] as const;
 
-export function groupAreasByCounty(areas: { slug: string; title: string }[]) {
-  const groups: Record<string, { slug: string; title: string }[]> = {};
+// Wind-load fact per county, for the "rated to X" chip on any city-scoped page.
+// Miami-Dade and Broward are Florida's only High-Velocity Hurricane Zones. Palm Beach is a
+// wind-borne debris region (~140–170 mph by distance inland) — "HVHZ 175 mph" is simply not its
+// code. Lives here next to COUNTY_BY_SLUG because both ServiceAreaPage and LocalServicePage need
+// it; when it was inlined in each, only one of them ever got corrected.
+export const WIND_BY_COUNTY = {
+  'Miami-Dade': { value: '175 mph', label: { en: 'HVHZ wind-rated', es: 'resistencia HVHZ' } },
+  Broward: { value: '175 mph', label: { en: 'HVHZ wind-rated', es: 'resistencia HVHZ' } },
+  'Palm Beach': { value: '140–170 mph', label: { en: 'wind-borne debris', es: 'escombros por viento' } },
+} as const;
+
+// Generic so callers keep their extra fields (titleEs) instead of having them typed away.
+export function groupAreasByCounty<T extends { slug: string; title: string }>(areas: T[]) {
+  const groups: Record<string, T[]> = {};
   for (const a of areas) {
     const county = COUNTY_BY_SLUG[a.slug] || 'Other';
     (groups[county] ??= []).push(a);

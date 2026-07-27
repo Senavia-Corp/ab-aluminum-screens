@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { useT, localizedHref, loc, type Lang } from '../../lib/i18n';
 import { SERVICES } from '../../lib/nav';
 import { getServiceArea, getServiceAreas, getLocalServiceRoutesForCity } from '../../lib/queries';
-import { COUNTY_BY_SLUG } from '../../lib/areas';
+import { COUNTY_BY_SLUG, WIND_BY_COUNTY } from '../../lib/areas';
 import { BUSINESS_ID, SITE_ORIGIN } from '../../lib/seo';
 import { DEFAULT_PRICING, estimateBreakdown, formatUSD } from '../../lib/pricing';
 import Breadcrumbs from '../Breadcrumbs.astro';
@@ -14,6 +14,7 @@ import GalleryMosaic from '../GalleryMosaic.astro';
 import ProcessSteps from '../ProcessSteps.astro';
 import FinancingTeaser from '../FinancingTeaser.astro';
 import Reviews from '../Reviews.astro';
+import FAQ from '../FAQ.astro';
 import LeadSection from '../LeadSection.astro';
 
 interface Props {
@@ -32,6 +33,13 @@ const heading = loc<string>(area, 'heading', lang) || area?.heading;
 const p1 = loc<string>(area, 'paragraph1', lang) || area?.paragraph1;
 const p2 = loc<string>(area, 'paragraph2', lang) || area?.paragraph2;
 const services = loc<any[]>(area, 'services', lang) || area?.services || [];
+// The CMS stores services[] as [pergola, pool, louvered, screens]; SERVICES (nav.ts) is ordered
+// [pergola, pool, screens, louvered]. Crossing them by loop index swapped cards 3 and 4 on all 94
+// pages — "Patio Screens" described louvered roofs and vice versa. Verified same order on all 47
+// docs, and servicesEs mirrors it, so one constant covers both languages.
+// ponytail: fix the mapping, not the data — reordering 47 CMS documents to match nav.ts would be
+// the same bug pointed the other way. A doc that ever deviates falls back to the static blurb.
+const CMS_SERVICE_ORDER = ['aluminum-pergolas', 'pool-enclosure', 'louvered-roof-system', 'patio-screens'];
 const galleryP = loc<string>(area, 'galleryParagraph', lang) || area?.galleryParagraph;
 const seo = (lang === 'es' && area?.seoEs) || area?.seo || {};
 const processLoc = loc<any>(area, 'process', lang) || area?.process || {};
@@ -58,6 +66,33 @@ const typical = estimateBreakdown({
 const rangeText = `${formatUSD(typical.total.low)}–${formatUSD(typical.total.high)}`;
 const fromSqft = DEFAULT_PRICING.structures.pergola.basePerSqft;
 
+// Per-county permitting + wind-load facts. Miami-Dade and Broward are Florida's only two
+// High-Velocity Hurricane Zones; Palm Beach is a wind-borne debris region at roughly 140–170 mph.
+// The FAQ below has always split on this, but the GEO answer and the wind chip were hard-coded to
+// "Miami-Dade HVHZ / 175 mph", so all 15 Palm Beach pages asserted a code that does not apply to
+// them — in both languages. Everything county-dependent now reads from this one table.
+// ponytail: derived from COUNTY_BY_SLUG, no new CMS field. Add `faqs` to the schema if these
+// ever need to be hand-written per city like the localService pages.
+const PERMIT_BY_COUNTY = {
+  'Miami-Dade': {
+    authority: { en: 'Miami-Dade County RER (or your city building department)', es: 'el RER del Condado de Miami-Dade (o el departamento de construcción de tu ciudad)' },
+    code: { en: 'the Miami-Dade HVHZ wind-load code, rated to 175 mph, using Miami-Dade NOA-approved products', es: 'el código de cargas de viento HVHZ de Miami-Dade, hasta 175 mph, con productos aprobados por NOA de Miami-Dade' },
+    codeShort: { en: 'the Miami-Dade HVHZ wind-load code', es: 'el código de cargas de viento HVHZ de Miami-Dade' },
+  },
+  Broward: {
+    authority: { en: 'your city building department under the Broward County Board of Rules and Appeals', es: 'el departamento de construcción de tu ciudad, bajo la Junta de Reglas y Apelaciones del Condado de Broward' },
+    code: { en: 'the Broward HVHZ wind-load code, rated to 175 mph', es: 'el código de cargas de viento HVHZ de Broward, hasta 175 mph' },
+    codeShort: { en: 'the Broward HVHZ wind-load code', es: 'el código de cargas de viento HVHZ de Broward' },
+  },
+  'Palm Beach': {
+    authority: { en: 'Palm Beach County PZB (or your city building department)', es: 'el PZB del Condado de Palm Beach (o el departamento de construcción de tu ciudad)' },
+    code: { en: "Palm Beach County's wind-borne debris requirements, typically 140–170 mph depending on how far inland you are", es: 'los requisitos contra escombros por viento del Condado de Palm Beach, normalmente 140–170 mph según la distancia a la costa' },
+    codeShort: { en: "Palm Beach County's wind-borne debris requirements", es: 'los requisitos contra escombros por viento del Condado de Palm Beach' },
+  },
+} as const;
+const permit = PERMIT_BY_COUNTY[county] ?? PERMIT_BY_COUNTY['Miami-Dade'];
+const wind = WIND_BY_COUNTY[county] ?? WIND_BY_COUNTY['Miami-Dade'];
+
 // City-named GEO answer — distinct per page (city + county vary), alongside the unique CMS prose.
 const answerQ =
   lang === 'es'
@@ -65,11 +100,11 @@ const answerQ =
     : `Do you install aluminum pergolas and enclosures in ${cityName}?`;
 const answerA =
   lang === 'es'
-    ? `Sí — AB Aluminum & Screens diseña, tramita permisos e instala pérgolas de aluminio, cerramientos de piscina, porches y techos de lamas en ${cityName} y en todo ${countyLabel}. Los proyectos cuestan normalmente ${rangeText}, calculados según el código HVHZ de Miami-Dade, con un diseño 3D gratis antes de decidir.`
-    : `Yes — AB Aluminum & Screens designs, permits and installs aluminum pergolas, pool enclosures, screen rooms and louvered roofs in ${cityName} and across ${countyLabel}. Projects typically run ${rangeText}, engineered to the Miami-Dade HVHZ wind-load code, with a free 3D design before you commit.`;
+    ? `Sí — AB Aluminum & Screens diseña, tramita permisos e instala pérgolas de aluminio, cerramientos de piscina, porches y techos de lamas en ${cityName} y en todo ${countyLabel}. Los proyectos cuestan normalmente ${rangeText}, calculados según ${permit.codeShort.es}, con un diseño 3D gratis antes de decidir.`
+    : `Yes — AB Aluminum & Screens designs, permits and installs aluminum pergolas, pool enclosures, screen rooms and louvered roofs in ${cityName} and across ${countyLabel}. Projects typically run ${rangeText}, engineered to ${permit.codeShort.en}, with a free 3D design before you commit.`;
 const answerChips = [
   { icon: 'ruler', value: `from $${fromSqft}/sq ft`, label: lang === 'es' ? 'instalado' : 'installed' },
-  { icon: 'wind', value: '175 mph', label: lang === 'es' ? 'resistencia HVHZ' : 'HVHZ wind-rated' },
+  { icon: 'wind', value: wind.value, label: wind.label[lang] },
   { icon: 'box', value: lang === 'es' ? 'Gratis' : 'Free', label: lang === 'es' ? 'diseño 3D' : '3D design' },
   { icon: 'award', value: lang === 'es' ? '15+ años' : '15+ yrs', label: lang === 'es' ? 'de experiencia' : 'in business' },
 ];
@@ -86,6 +121,38 @@ const areaJsonLd = {
 };
 
 const nearbyH2 = lang === 'es' ? 'Áreas Cercanas que Atendemos' : 'Nearby Areas We Serve';
+
+// City FAQ — same PERMIT_BY_COUNTY facts declared above the GEO answer.
+const areaFaqs =
+  lang === 'es'
+    ? [
+        {
+          q: `¿Necesito permiso para una pérgola o un cerramiento en ${cityName}?`,
+          a: `Sí. Toda estructura de aluminio anclada en ${cityName} requiere permiso de construcción, tramitado ante ${permit.authority.es}. Nosotros preparamos los planos sellados, presentamos la solicitud y acompañamos las inspecciones — no tienes que gestionar nada.`,
+        },
+        {
+          q: `¿A qué resistencia de viento se calculan las estructuras en ${cityName}?`,
+          a: `Diseñamos según ${permit.code.es}. La ingeniería se sella antes de presentar el permiso, así que la estructura pasa la inspección y queda documentada para tu aseguradora.`,
+        },
+        {
+          q: `¿Cuánto cuesta un proyecto en ${cityName}?`,
+          a: `Una pérgola adosada típica de 200 sq ft en ${countyLabel} cuesta ${rangeText} instalada, desde $${fromSqft} por sq ft. El precio final depende del tamaño, el tipo de techo y los extras. El diseño 3D es gratis y sin compromiso.`,
+        },
+      ]
+    : [
+        {
+          q: `Do I need a permit for a pergola or enclosure in ${cityName}?`,
+          a: `Yes. Any anchored aluminum structure in ${cityName} requires a building permit, pulled through ${permit.authority.en}. We prepare the sealed drawings, file the application and meet the inspector — you don't handle any of it.`,
+        },
+        {
+          q: `What wind rating do structures in ${cityName} have to meet?`,
+          a: `We engineer to ${permit.code.en}. The engineering is sealed before the permit is filed, so the structure passes inspection and is documented for your insurer.`,
+        },
+        {
+          q: `How much does a project in ${cityName} cost?`,
+          a: `A typical 200 sq ft attached pergola in ${countyLabel} runs ${rangeText} installed, from $${fromSqft} per sq ft. Final pricing depends on size, roof type and add-ons. The 3D design is free and carries no obligation.`,
+        },
+      ];
 ---
 
 <BaseLayout
@@ -122,7 +189,7 @@ const nearbyH2 = lang === 'es' ? 'Áreas Cercanas que Atendemos' : 'Nearby Areas
       : `Aluminum louvered pergola beside a pool with tropical plants in ${cityName}, South Florida`}
   />
 
-  {/* {{PENDIENTE: city-specific FAQ from CMS — e.g. "Do I need a permit for a pergola in <city>?"}} */}
+  <FAQ lang={lang} items={areaFaqs} />
 
   <!-- City-specific intro + the services we install here (elevated for local SEO) -->
   <section class="section">
@@ -131,7 +198,7 @@ const nearbyH2 = lang === 'es' ? 'Áreas Cercanas que Atendemos' : 'Nearby Areas
       {p2 && <p class="lead area-intro">{p2}</p>}
       <div class="grid cols-4" style="margin-top:2rem;">
         {
-          SERVICES.map((s, i) => (
+          SERVICES.map((s) => (
             <a
               class="card area-svc"
               href={localizedHref(localRoutes.has(s.route) ? '/' + s.route + '/' + slug : '/' + s.route, lang)}
@@ -139,7 +206,7 @@ const nearbyH2 = lang === 'es' ? 'Áreas Cercanas que Atendemos' : 'Nearby Areas
               <img src={s.thumb} alt={s.label[lang]} width="320" height="200" loading="lazy" />
               <div class="area-svc__body">
                 <h3>{s.label[lang]} {localRoutes.has(s.route) ? (lang === 'es' ? 'en ' + cityName : 'in ' + cityName) : ''}</h3>
-                <p>{services[i]?.paragraph || s.blurb[lang]}</p>
+                <p>{services[CMS_SERVICE_ORDER.indexOf(s.route)]?.paragraph || s.blurb[lang]}</p>
               </div>
             </a>
           ))
@@ -151,7 +218,7 @@ const nearbyH2 = lang === 'es' ? 'Áreas Cercanas que Atendemos' : 'Nearby Areas
   <AboutIntro lang={lang} alt={true} />
 
   <GalleryMosaic lang={lang} sub={galleryP || undefined} />
-  <Reviews lang={lang} limit={3} />
+  <Reviews lang={lang} limit={3} sub={loc<string>(area, 'reviewsParagraph', lang) || undefined} />
   <FinancingTeaser lang={lang} alt={true} />
   <ProcessSteps lang={lang} intro={processLoc?.intro} />
 

@@ -4,7 +4,7 @@ import { useT, localizedHref, loc, type Lang } from '../../lib/i18n';
 import { SERVICE_TO_GALLERY, GALLERY_ROUTE_TO_SLUG, SERVICE_ROUTES, type ServiceRoute } from '../../lib/routes';
 import { SERVICES } from '../../lib/nav';
 import { getLocalService, getLocalServiceKeys, getServiceAreas, getGallery } from '../../lib/queries';
-import { COUNTY_BY_SLUG } from '../../lib/areas';
+import { COUNTY_BY_SLUG, WIND_BY_COUNTY } from '../../lib/areas';
 import { BUSINESS_ID, SITE_ORIGIN } from '../../lib/seo';
 import { urlFor } from '../../lib/sanity';
 import { DEFAULT_PRICING, estimateBreakdown, formatUSD } from '../../lib/pricing';
@@ -74,6 +74,8 @@ if (pool.length >= 8) {
 
 const cityName = loc<string>(doc, 'cityTitle', lang) || doc?.cityTitle || citySlug;
 const county = COUNTY_BY_SLUG[citySlug] || (lang === 'es' ? 'el Sur de Florida' : 'South Florida');
+// Same county split as ServiceAreaPage — the chip claimed HVHZ 175 mph on 60 Palm Beach pages.
+const wind = WIND_BY_COUNTY[COUNTY_BY_SLUG[citySlug]] ?? WIND_BY_COUNTY['Miami-Dade'];
 
 // Region-true pricing from the SAME engine the estimator uses, so copy + calculator never disagree.
 const perSqft = DEFAULT_PRICING.structures[SVC_STRUCT[route]].basePerSqft;
@@ -173,7 +175,7 @@ const otherH2 = lang === 'es' ? `Otros Servicios en ${cityName}` : `Other Servic
     imageAlt={`${meta.label[lang]} ${inWord} ${cityName}, ${county} — AB Aluminum & Screens`}
     chips={[
       { icon: 'ruler', value: lang === 'es' ? `desde $${perSqft}/pie²` : `from $${perSqft}/sq ft`, label: lang === 'es' ? 'instalado' : 'installed' },
-      { icon: 'wind', value: '175 mph', label: lang === 'es' ? 'resistencia HVHZ' : 'HVHZ wind-rated' },
+      { icon: 'wind', value: wind.value, label: wind.label[lang] },
       { icon: 'clock', value: lang === 'es' ? '2–4 sem' : '2–4 wks', label: lang === 'es' ? 'construcción típica' : 'typical build' },
       { icon: 'box', value: lang === 'es' ? 'Gratis' : 'Free', label: lang === 'es' ? 'diseño 3D' : '3D design' },
     ]}
