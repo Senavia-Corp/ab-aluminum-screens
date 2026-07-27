@@ -5,9 +5,16 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
+    "prebuild": "npm run check:placeholders",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check:placeholders": "! grep -rlE '\\{\\{[A-Z_]+\\}\\}' public/ || (echo 'Unfilled {{PLACEHOLDER}} in public/ — fix before deploying' && exit 1)",
+    "seed:local": "node scripts/seed-local-service.mjs",
+    "seed:palm-beach": "node scripts/seed-palm-beach.mjs",
+    "seed:area-es": "node scripts/seed-area-es.mjs",
+    "verify:local": "node scripts/verify-local-service.mjs",
+    "verify:palm-beach": "node scripts/verify-palm-beach.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.2.1",

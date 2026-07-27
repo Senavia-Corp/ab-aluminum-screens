@@ -92,6 +92,7 @@ const valueParagraphs = (loc<{ paragraph: string }[]>(doc, 'valueParagraphs', la
 const neighborhoods: string[] = doc?.neighborhoods || [];
 const permitNote = fill(loc<string>(doc, 'permitNote', lang));
 const localProof = fill(loc<string>(doc, 'localProof', lang));
+const priceRangeNote = fill(loc<string>(doc, 'priceRangeNote', lang));
 const answerQ = loc<string>(doc, 'answerQuestion', lang) || `${meta.label[lang]} ${inWord} ${cityName}?`;
 const answerA = fill(loc<string>(doc, 'answerAnswer', lang));
 const faqs = (loc<{ q: string; a: string }[]>(doc, 'faqs', lang) || []).map((f) => ({ q: f.q, a: fill(f.a) }));
@@ -192,6 +193,7 @@ const otherH2 = lang === 'es' ? `Otros Servicios en ${cityName}` : `Other Servic
         <div class="ls-local__body">
           {valueParagraphs.map((p) => <p>{p}</p>)}
         </div>
+        {priceRangeNote && <p class="ls-local__price">{priceRangeNote}</p>}
         {(permitNote || localProof) && (
           <div class="ls-callouts">
             {permitNote && (
@@ -404,6 +406,11 @@ const otherH2 = lang === 'es' ? `Otros Servicios en ${cityName}` : `Other Servic
     margin-top: 0.75rem;
     color: var(--muted);
     font-size: 0.95rem;
+  }
+  .ls-local__price {
+    margin-top: 1.25rem;
+    font-weight: 600;
+    line-height: 1.6;
   }
   .ls-local__body {
     margin-top: 1.25rem;

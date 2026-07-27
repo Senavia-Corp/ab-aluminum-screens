@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { useT, localizedHref, type Lang } from '../../lib/i18n';
-import { getServiceAreas } from '../../lib/queries';
+import { getServiceAreas, getLocalServiceKeys } from '../../lib/queries';
 import { groupAreasByCounty } from '../../lib/areas';
 import { SERVICES } from '../../lib/nav';
 import PageHero from '../PageHero.astro';
@@ -18,6 +18,11 @@ const { lang } = Astro.props;
 const t = useT(lang);
 const areas = await getServiceAreas();
 const groups = groupAreasByCounty(areas);
+// This hub was the only one that never linked the 188 service×city pages. Link them from the
+// city list that already exists. Filtered against the real localService docs, not SERVICES ×
+// cities: nothing in the repo checks links, so an invented pair would be a silent 404.
+const keySet = new Set((await getLocalServiceKeys()).map((k) => `${k.service}:${k.city}`));
+const inWord = lang === 'es' ? 'en' : 'in';
 
 const copy = {
   en: {
@@ -96,11 +101,29 @@ const c = copy[lang];
             <div class="areas__county card" data-reveal>
               <h3 class="areas__county-h">{g.county}</h3>
               <ul>
-                {g.cities.map((city) => (
-                  <li>
-                    <a href={localizedHref('/service-areas/' + city.slug, lang)}>{city.title}</a>
-                  </li>
-                ))}
+                {g.cities.map((city) => {
+                  const cityName = (lang === 'es' && city.titleEs) || city.title;
+                  const svcs = SERVICES.filter((s) => keySet.has(`${s.route}:${city.slug}`));
+                  return (
+                    <li>
+                      <a class="areas__city" href={localizedHref('/service-areas/' + city.slug, lang)}>
+                        {cityName}
+                      </a>
+                      {svcs.length > 0 && (
+                        <span class="areas__svcs">
+                          {svcs.map((s) => (
+                            <a
+                              href={localizedHref('/' + s.route + '/' + city.slug, lang)}
+                              aria-label={`${s.label[lang]} ${inWord} ${cityName}`}
+                            >
+                              {s.short[lang]}
+                            </a>
+                          ))}
+                        </span>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ))
@@ -164,14 +187,28 @@ const c = copy[lang];
     padding: 0;
     margin: 0;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.75rem;
+    /* 2 up, not 3 — each city now carries a row of service links underneath. */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem 1.25rem;
   }
-  .areas__county a {
+  .areas__city {
     font-weight: 600;
     font-size: 0.9375rem;
   }
-  .areas__county a:hover {
+  .areas__city:hover {
+    color: var(--red);
+  }
+  .areas__svcs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.15rem 0.6rem;
+    margin-top: 0.15rem;
+  }
+  .areas__svcs a {
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+  .areas__svcs a:hover {
     color: var(--red);
   }
   .area-svc {
@@ -201,7 +238,7 @@ const c = copy[lang];
   }
   @media (max-width: 560px) {
     .areas__county ul {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
     }
   }
 </style>

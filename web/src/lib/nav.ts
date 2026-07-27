@@ -6,6 +6,8 @@ export interface ServiceMeta {
   route: ServiceRoute;
   gallery: GalleryRoute;
   label: { en: string; es: string };
+  /** One-word label for dense link lists (the per-city rows on /service-areas). */
+  short: { en: string; es: string };
   blurb: { en: string; es: string };
   icon: string; // /images/Icon-*.svg
   thumb: string; // /images/*.avif
@@ -16,6 +18,7 @@ export const SERVICES: ServiceMeta[] = [
     route: 'aluminum-pergolas',
     gallery: 'pergolas',
     label: { en: 'Aluminum Pergolas', es: 'Pérgolas de Aluminio' },
+    short: { en: 'Pergolas', es: 'Pérgolas' },
     blurb: {
       en: 'Custom aluminum pergolas & patio covers, engineered for South Florida.',
       es: 'Pérgolas y cubiertas de aluminio a medida, diseñadas para el sur de Florida.',
@@ -27,6 +30,7 @@ export const SERVICES: ServiceMeta[] = [
     route: 'pool-enclosure',
     gallery: 'pool-enclosure',
     label: { en: 'Pool Enclosures', es: 'Cerramientos de Piscina' },
+    short: { en: 'Pool Enclosures', es: 'Cerramientos' },
     blurb: {
       en: 'Screened pool enclosures that keep bugs out and the view in.',
       es: 'Cerramientos de piscina con malla que mantienen los insectos afuera.',
@@ -38,6 +42,7 @@ export const SERVICES: ServiceMeta[] = [
     route: 'patio-screens',
     gallery: 'patio-screens',
     label: { en: 'Patio Screens', es: 'Porches con Malla' },
+    short: { en: 'Patio Screens', es: 'Porches' },
     blurb: {
       en: 'Screen rooms and patio enclosures for year-round outdoor living.',
       es: 'Porches con malla para disfrutar el exterior todo el año.',
@@ -49,6 +54,7 @@ export const SERVICES: ServiceMeta[] = [
     route: 'louvered-roof-system',
     gallery: 'louvered-roof-systems',
     label: { en: 'Louvered Roof Systems', es: 'Techos de Lamas' },
+    short: { en: 'Louvered Roofs', es: 'Techos de Lamas' },
     blurb: {
       en: 'Motorized louvered roofs — open for sun, close at the first drop of rain.',
       es: 'Techos de lamas motorizados — abre al sol, cierra con la lluvia.',

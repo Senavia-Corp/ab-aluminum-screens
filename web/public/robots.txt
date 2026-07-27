@@ -1,4 +1,31 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+
+# AI / answer-engine crawlers — explicitly allowed.
+# NOTE: Cloudflare's "Managed robots.txt" prepends its own per-bot Disallow block
+# above this file's content. More-specific user-agent groups win, so these Allow
+# rules do nothing until that feature is turned off in the Cloudflare dashboard
+# (AI Crawl Control → Manage robots.txt).
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
 
 Sitemap: https://www.abaluminumandscreens.com/sitemap-index.xml

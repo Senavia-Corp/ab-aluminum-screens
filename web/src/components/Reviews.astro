@@ -8,8 +8,10 @@ interface Props {
   lang: Lang;
   alt?: boolean;
   limit?: number;
+  /** Optional lead paragraph. No default on purpose — the 7 other call sites must stay unchanged. */
+  sub?: string;
 }
-const { lang, alt = false, limit = 8 } = Astro.props;
+const { lang, alt = false, limit = 8, sub } = Astro.props;
 const t = useT(lang);
 const items = TESTIMONIALS.slice(0, limit);
 const badgeText = lang === 'es' ? 'Basado en reseñas de Google' : 'Based on Google reviews';
@@ -19,7 +21,7 @@ const trackLabel = lang === 'es' ? 'Reseñas de clientes' : 'Customer reviews';
 ---
 <section class:list={['section', { 'section--alt': alt }]}>
   <div class="container">
-    <SectionHeading eyebrow={t('reviews.eyebrow')} heading={t('reviews.heading')} />
+    <SectionHeading eyebrow={t('reviews.eyebrow')} heading={t('reviews.heading')} intro={sub} />
 
     <div class="gbadge" data-reveal>
       <span class="gbadge__g" aria-hidden="true">G</span>
