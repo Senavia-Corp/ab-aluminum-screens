@@ -28,7 +28,7 @@ const overlay = Buffer.from(`
   <rect width="${W}" height="${H}" fill="url(#g)"/>
   <rect x="${PAD}" y="${logoY + logoH + 30}" width="64" height="5" rx="2.5" fill="#ec3c3d"/>
   <text x="${PAD}" y="${logoY + logoH + 74}" font-family="Helvetica, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff">Aluminum Pergolas · Pool Enclosures · Screen Rooms</text>
-  <text x="${PAD}" y="${logoY + logoH + 112}" font-family="Helvetica, Arial, sans-serif" font-size="23" font-weight="400" fill="#ffd2cd">Licensed &amp; Insured · Miami-Dade · Broward · Palm Beach</text>
+  <text x="${PAD}" y="${logoY + logoH + 112}" font-family="Helvetica, Arial, sans-serif" font-size="23" font-weight="400" fill="#ffd2cd">Free 3D Design · Miami-Dade · Broward · Palm Beach</text>
 </svg>`);
 
 const logo = await sharp(readFileSync('public/images/Logo-White.svg'), { density: 300 })

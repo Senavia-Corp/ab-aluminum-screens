@@ -58,8 +58,8 @@ export const TESTIMONIALS: Testimonial[] = [
     city: 'Palmetto Bay, FL',
     rating: 5,
     quote: {
-      en: 'Licensed, insured, and they do their own work — no subcontractors. The whole process was smooth and stress-free.',
-      es: 'Con licencia, asegurados y hacen su propio trabajo, sin subcontratistas. Todo el proceso fue fácil y sin estrés.',
+      en: 'They do their own work — no subcontractors. The whole process was smooth and stress-free.',
+      es: 'Hacen su propio trabajo, sin subcontratistas. Todo el proceso fue fácil y sin estrés.',
     },
   },
 ];

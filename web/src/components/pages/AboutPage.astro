@@ -19,7 +19,7 @@ const t = useT(lang);
 const copy = {
   en: {
     metaT: 'About Us | AB Aluminum & Screens — 15+ Years in South Florida',
-    metaD: 'Licensed and insured South Florida aluminum contractor with 15+ years building hurricane-resistant pergolas, pool enclosures and patio covers with an in-house crew.',
+    metaD: 'South Florida aluminum contractor with 15+ years building hurricane-resistant pergolas, pool enclosures and patio covers with an in-house crew.',
     heroEyebrow: 'About AB Aluminum & Screens',
     heroTitle: 'About Us',
     heroSub:
@@ -33,7 +33,7 @@ const copy = {
     diffs: [
       { icon: 'award', t: 'Expertise', d: '15+ years designing and installing aluminum outdoor structures across South Florida.' },
       { icon: 'badge-check', t: 'Quality Assurance', d: 'Engineered to Florida Building Code and Miami-Dade HVHZ — built to last.' },
-      { icon: 'shield-check', t: 'Licensed & Insured', d: 'Fully licensed and insured, with our own in-house crew on every job.' },
+      { icon: 'shield-check', t: 'Written Warranty', d: 'Every job is backed by a written warranty and our own in-house crew.' },
       { icon: 'thumbs-up', t: 'Customer Satisfaction', d: 'Free 3D design, clear pricing and bilingual service from quote to install.' },
     ],
     missionEyebrow: 'Our Mission',
@@ -45,7 +45,7 @@ const copy = {
   },
   es: {
     metaT: 'Quiénes Somos | AB Aluminum & Screens — 15+ Años en el Sur de Florida',
-    metaD: 'Contratista de aluminio del sur de Florida con licencia y seguro y más de 15 años construyendo pérgolas, cerramientos de piscina y cubiertas resistentes a huracanes con equipo propio.',
+    metaD: 'Contratista de aluminio del sur de Florida con más de 15 años construyendo pérgolas, cerramientos de piscina y cubiertas resistentes a huracanes con equipo propio.',
     heroEyebrow: 'Sobre AB Aluminum & Screens',
     heroTitle: 'Quiénes Somos',
     heroSub:
@@ -59,7 +59,7 @@ const copy = {
     diffs: [
       { icon: 'award', t: 'Experiencia', d: 'Más de 15 años diseñando e instalando estructuras de aluminio en el sur de Florida.' },
       { icon: 'badge-check', t: 'Garantía de Calidad', d: 'Calculado según el código de Florida y HVHZ de Miami-Dade — hecho para durar.' },
-      { icon: 'shield-check', t: 'Con Licencia y Seguro', d: 'Totalmente con licencia y asegurados, con nuestro equipo propio en cada obra.' },
+      { icon: 'shield-check', t: 'Garantía por Escrito', d: 'Cada obra va con garantía por escrito y nuestro equipo propio.' },
       { icon: 'thumbs-up', t: 'Satisfacción del Cliente', d: 'Diseño 3D gratis, precios claros y servicio bilingüe del presupuesto a la instalación.' },
     ],
     missionEyebrow: 'Nuestra Misión',
@@ -94,7 +94,6 @@ const diffItems = c.diffs.map((d) => ({ icon: d.icon, title: d.t, text: d.d }));
         <h2 style="margin-top:0.25rem;">{c.storyH2}</h2>
         <p class="lead" style="margin-top:1rem;">{c.story}</p>
         <ul class="about-checklist">
-          <li><Icon name="check" size={18} /><span>{t('common.licensedInsured')}</span></li>
           <li><Icon name="check" size={18} /><span>{t('common.freeDesign')}</span></li>
           <li><Icon name="check" size={18} /><span>{t('common.yearsExp')}</span></li>
         </ul>
