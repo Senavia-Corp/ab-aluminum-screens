@@ -42,6 +42,7 @@ const en = {
     callUsToday: 'Call us today and schedule a free design visit',
     email: 'Email',
     hours: 'Mon–Fri 8:00 AM – 6:00 PM',
+    inHouseCrew: 'In-House Crew',
     freeDesign: 'Free 3D Design',
     yearsExp: '15+ Years',
     breadcrumbHome: 'Home',

@@ -42,6 +42,7 @@ const es = {
     callUsToday: 'Llámanos hoy y agenda una visita de diseño gratis',
     email: 'Correo',
     hours: 'Lun–Vie 8:00 AM – 6:00 PM',
+    inHouseCrew: 'Equipo Propio',
     freeDesign: 'Diseño 3D Gratis',
     yearsExp: '15+ Años',
     breadcrumbHome: 'Inicio',
